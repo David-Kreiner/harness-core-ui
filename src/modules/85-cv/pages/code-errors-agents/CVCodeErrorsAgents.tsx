@@ -20,8 +20,6 @@ import { useStrings } from 'framework/strings'
 import { HorizontalLayout } from '../health-source/common/StyledComponents'
 import css from './CVCodeErrorsAgents.module.scss'
 
-
-
 export const CVCodeErrorsAgents = (): JSX.Element => {
   const { getString } = useStrings()
   const { accountId, projectIdentifier, orgIdentifier } = useParams<ProjectPathProps>()
@@ -40,7 +38,9 @@ export const CVCodeErrorsAgents = (): JSX.Element => {
           <HorizontalLayout>
             <NGBreadcrumbs />
           </HorizontalLayout>
-          <h3 className={css.pageHeaderTitle}>{getString('cv.codeErrorsAgents', {projectName: '[' + projectIdentifier + ']'})}</h3>
+          <h3 className={css.pageHeaderTitle}>
+            {getString('cv.codeErrorsAgents', { projectName: '[' + projectIdentifier + ']' })}
+          </h3>
           <p className={css.pageHeaderText}>{getString('cv.codeErrorsAgentsHeading')}</p>
         </div>
         <ChildAppMounter<AgentListProps>
