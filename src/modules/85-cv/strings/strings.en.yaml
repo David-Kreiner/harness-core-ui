@@ -967,3 +967,5 @@ metricThresholds:
   customMetricsDeletePromptContent: Deleting the custom metric will also remove the corresponding metric thresholds settings. This action cannot be undone.
 codeErrors: Code Errors
 codeErrorsHeading: Review code errors related to your project
+codeErrorsAgents: '{{projectName}} Code Error Agents'
+codeErrorsAgentsHeading: Agents running on your machines connected to Code Errors.

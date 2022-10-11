@@ -34,7 +34,8 @@ const ProjectSetupMenu: React.FC<ProjectSetupMenuProps> = ({ module }) => {
     NG_SETTINGS,
     USE_OLD_GIT_SYNC,
     CD_ONBOARDING_ENABLED,
-    NG_DEPLOYMENT_FREEZE
+    NG_DEPLOYMENT_FREEZE,
+    SRM_ET_EXPERIMENTAL
   } = useFeatureFlags()
   const { showGetStartedTabInMainMenu } = useSideNavContext()
   const { enabledHostedBuildsForFreeUsers } = useHostedBuilds()
@@ -97,6 +98,10 @@ const ProjectSetupMenu: React.FC<ProjectSetupMenuProps> = ({ module }) => {
         {CD_ONBOARDING_ENABLED && module === 'cd' && !showGetStartedTabInMainMenu && (
           <SidebarLink label={getString('getStarted')} to={routes.toGetStartedWithCD({ ...params, module })} />
         )}
+
+        {SRM_ET_EXPERIMENTAL && module === 'cv' && !showGetStartedTabInMainMenu && (
+        <SidebarLink label={getString('common.codeErrorsAgents')} to={routes.toCVCodeErrorsAgents({ ...params })} />
+        )} 
       </Layout.Vertical>
     </NavExpandable>
   )

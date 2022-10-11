@@ -52,6 +52,8 @@ import CVCreateSLO from './pages/slos/components/CVCreateSLO/CVCreateSLO'
 import { MonitoredServiceProvider } from './pages/monitored-service/MonitoredServiceContext'
 import MonitoredServiceInputSetsTemplate from './pages/monitored-service/MonitoredServiceInputSetsTemplate/MonitoredServiceInputSetsTemplate'
 import { CVCodeErrors } from './pages/code-errors/CVCodeErrors'
+import { CVCodeErrorsAgents } from './pages/code-errors-agents/CVCodeErrorsAgents'
+
 
 // PubSubPipelineActions.subscribe(
 //   PipelineActions.RunPipeline,
@@ -225,6 +227,14 @@ export default (
       path={routes.toCVCodeErrors({ ...accountPathProps, ...projectPathProps, ...cvModuleParams })}
     >
       <CVCodeErrors />
+    </RouteWithLayout>
+
+    <RouteWithLayout
+      exact
+      sidebarProps={CVSideNavProps}
+      path={routes.toCVCodeErrorsAgents({ ...accountPathProps, ...projectPathProps, ...cvModuleParams })}
+    >
+      <CVCodeErrorsAgents />
     </RouteWithLayout>
 
     <RouteWithLayout

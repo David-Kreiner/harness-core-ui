@@ -982,6 +982,7 @@ moduleConfig:
   restoreDefault: Restore Default Settings
 selectModules: Select Modules
 configureModuleList: Configure Module List
+codeErrorsAgents: Code Error Agents
 
 # Chaos Module
 chaosText: Chaos
