@@ -52,7 +52,9 @@ import CVCreateSLO from './pages/slos/components/CVCreateSLO/CVCreateSLO'
 import { MonitoredServiceProvider } from './pages/monitored-service/MonitoredServiceContext'
 import MonitoredServiceInputSetsTemplate from './pages/monitored-service/MonitoredServiceInputSetsTemplate/MonitoredServiceInputSetsTemplate'
 import { CVCodeErrors } from './pages/code-errors/CVCodeErrors'
-import { CVCodeErrorsAgents } from './pages/code-errors-agents/CVCodeErrorsAgents'
+import { CVCodeErrorsAgents } from './pages/code-errors-agent-control/code-errors-agents/CVCodeErrorsAgents'
+import { CVCodeErrorsAgentsTokens } from './pages/code-errors-agent-control/code-errors-agents-tokens/CVCodeErrorsAgentsTokens'
+import CVCodeErrorsAgentsControl from './pages/code-errors-agent-control/CVCodeErrorsAgentsControl'
 
 // PubSubPipelineActions.subscribe(
 //   PipelineActions.RunPipeline,
@@ -174,6 +176,25 @@ const CVSideNavProps: SidebarContext = {
   icon: 'cv-main'
 }
 
+const RedirectToCVCodeErrorsControl = (): React.ReactElement => {
+  const params = useParams<ProjectPathProps>()
+  const { selectedProject } = useAppStore()
+
+  if (selectedProject?.modules?.includes(ModuleName.CV)) {
+    return (
+      <Redirect
+        to={routes.toCVCodeErrorsAgents({
+          accountId: params.accountId,
+          orgIdentifier: selectedProject.orgIdentifier || '',
+          projectIdentifier: selectedProject.identifier
+        })}
+      />
+    )
+  } else {
+    return <Redirect to={routes.toCVHome(params)} />
+  }
+}
+
 export default (
   <>
     <Route
@@ -231,9 +252,29 @@ export default (
     <RouteWithLayout
       exact
       sidebarProps={CVSideNavProps}
-      path={routes.toCVCodeErrorsAgents({ ...accountPathProps, ...projectPathProps, ...cvModuleParams })}
+      path={[routes.toCVCodeErrorsAgentsControl({ ...accountPathProps, ...projectPathProps, ...cvModuleParams })]}
     >
-      <CVCodeErrorsAgents />
+      <RedirectToCVCodeErrorsControl />
+    </RouteWithLayout>
+
+    <RouteWithLayout
+      exact
+      sidebarProps={CVSideNavProps}
+      path={[routes.toCVCodeErrorsAgents({ ...accountPathProps, ...projectPathProps, ...cvModuleParams })]}
+    >
+      <CVCodeErrorsAgentsControl>
+        <CVCodeErrorsAgents />
+      </CVCodeErrorsAgentsControl>
+    </RouteWithLayout>
+
+    <RouteWithLayout
+      exact
+      sidebarProps={CVSideNavProps}
+      path={[routes.toCVCodeErrorsAgentsTokens({ ...accountPathProps, ...projectPathProps, ...cvModuleParams })]}
+    >
+      <CVCodeErrorsAgentsControl>
+        <CVCodeErrorsAgentsTokens />
+      </CVCodeErrorsAgentsControl>
     </RouteWithLayout>
 
     <RouteWithLayout

@@ -30,13 +30,13 @@ const WrapperComponent = (): React.ReactElement => {
   )
 }
 
-describe('Unit tests for CVCodeErrorsAgents', () => {
-  test('Verify CodeErrorsAgents page renders and matches snapshot', async () => {
+describe('Unit tests for CVCodeErrors', () => {
+  test('Verify CodeErrors page renders and matches snapshot', async () => {
     const container = render(<WrapperComponent />)
     expect(container).toMatchSnapshot()
   })
 
-  test('Verify CodeErrorsAgents page enabled is not empty ', async () => {
+  test('Verify CodeErrors page enabled is not empty ', async () => {
     const useFeatureFlags = jest.spyOn(hooks, 'useFeatureFlag')
     useFeatureFlags.mockReturnValue(true)
     const container = render(<WrapperComponent />)

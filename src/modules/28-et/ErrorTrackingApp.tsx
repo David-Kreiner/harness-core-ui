@@ -37,12 +37,6 @@ export interface EventListProps extends ChildAppProps {
 
 /* istanbul ignore next */
 export interface AgentListProps extends ChildAppProps {
-  orgId: string
-  accountId: string
-  projectId: string
-  serviceId: string
-  environmentId: string
-  versionId?: string
   toBaseRouteDefinition?: () => string
   handleBackAction?: () => void
 }

@@ -6852,6 +6852,7 @@ export interface StringsMap {
   'cv.codeErrors': string
   'cv.codeErrorsAgents': string
   'cv.codeErrorsAgentsHeading': string
+  'cv.codeErrorsAgentsTokens': string
   'cv.codeErrorsHeading': string
   'cv.componentValidations.queryType': string
   'cv.componentValidations.queryTypeLabel': string

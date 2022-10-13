@@ -6,31 +6,14 @@
  */
 
 .pageHeaderDiv {
-  padding-top: 11px;
-  padding-left: 24px;
-  padding-bottom: 12px;
-  padding-right: 24px;
+  padding-top: 10px;
+  padding-left: 0px;
+  padding-bottom: 0px;
+  padding-right: 0px;
 }
 
-.pageHeaderTitle {
-  width: 116px;
-  height: 28px;
-
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 28px;
-  color: rgba(34, 34, 42, 1);
-
-  margin-top: 7px;
-  margin-bottom: 0px;
-
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-
-  white-space: nowrap;
+.pageHeaderHead {
+  height: 96px !important;
 }
 
 .pageHeaderText {
@@ -44,11 +27,26 @@
   line-height: 20px;
   color: rgba(79, 81, 98, 1);
 
-  display: flex;
-  align-items: center;
-  text-align: center;
+  // margin-top: 0px;
+  // margin-bottom: 0px;
 
   flex: none;
-  order: 1;
+  order: 0;
   flex-grow: 0;
+  // display: flex;
+  // align-items: center;
+  // text-align: center;
+
+  // flex: none;
+  // order: 1;
+  // flex-grow: 0;
+}
+
+.pageToolTip {
+  white-space: nowrap;
+}
+
+.codeErrorsPageHeader {
+  position: sticky;
+  top: 0px;
 }

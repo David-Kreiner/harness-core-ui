@@ -7,8 +7,10 @@
  **/
 // this is an auto-generated file, do not update this manually
 declare const styles: {
+  readonly codeErrorsPageHeader: string
   readonly pageHeaderDiv: string
+  readonly pageHeaderHead: string
   readonly pageHeaderText: string
-  readonly pageHeaderTitle: string
+  readonly pageToolTip: string
 }
 export default styles

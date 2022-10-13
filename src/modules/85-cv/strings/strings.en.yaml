@@ -969,3 +969,4 @@ codeErrors: Code Errors
 codeErrorsHeading: Review code errors related to your project
 codeErrorsAgents: '{{projectName}} Code Error Agents'
 codeErrorsAgentsHeading: Agents running on your machines connected to Code Errors.
+codeErrorsAgentsTokens: '{{projectName}} Code Error Tokens'
