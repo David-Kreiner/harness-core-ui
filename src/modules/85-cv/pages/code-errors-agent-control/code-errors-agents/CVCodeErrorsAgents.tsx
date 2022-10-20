@@ -6,37 +6,22 @@
  */
 
 import React from 'react'
-import { useParams } from 'react-router-dom'
 import { useDocumentTitle } from '@common/hooks/useDocumentTitle'
 import { AgentListProps, ErrorTracking } from '@et/ErrorTrackingApp'
 import ChildAppMounter from 'microfrontends/ChildAppMounter'
-import type { ProjectPathProps } from '@common/interfaces/RouteInterfaces'
-import routes from '@common/RouteDefinitions'
 import { useStrings } from 'framework/strings'
 
-export const CVCodeErrorsAgents = (): JSX.Element => {
-  const { getString } = useStrings()
-  const { accountId, projectIdentifier, orgIdentifier } = useParams<ProjectPathProps>()
+interface Props {
+  pathComponentLocation: string
+}
 
+export const CVCodeErrorsAgents = (props: Props): JSX.Element => {
+  const { getString } = useStrings()
   const componentLocation = {
-    pathname: '/agents'
+    pathname: props.pathComponentLocation
   }
 
   useDocumentTitle([getString('cv.srmTitle'), getString('cv.codeErrorsAgents')])
 
-  return (
-    <>
-      <ChildAppMounter<AgentListProps>
-        ChildApp={ErrorTracking}
-        componentLocation={componentLocation}
-        toBaseRouteDefinition={() =>
-          routes.toCVCodeErrorsAgents({
-            accountId,
-            orgIdentifier,
-            projectIdentifier
-          })
-        }
-      />
-    </>
-  )
+  return <ChildAppMounter<AgentListProps> ChildApp={ErrorTracking} componentLocation={componentLocation} />
 }

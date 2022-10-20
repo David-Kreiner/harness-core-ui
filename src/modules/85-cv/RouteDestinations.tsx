@@ -53,7 +53,6 @@ import { MonitoredServiceProvider } from './pages/monitored-service/MonitoredSer
 import MonitoredServiceInputSetsTemplate from './pages/monitored-service/MonitoredServiceInputSetsTemplate/MonitoredServiceInputSetsTemplate'
 import { CVCodeErrors } from './pages/code-errors/CVCodeErrors'
 import { CVCodeErrorsAgents } from './pages/code-errors-agent-control/code-errors-agents/CVCodeErrorsAgents'
-import { CVCodeErrorsAgentsTokens } from './pages/code-errors-agent-control/code-errors-agents-tokens/CVCodeErrorsAgentsTokens'
 import CVCodeErrorsAgentsControl from './pages/code-errors-agent-control/CVCodeErrorsAgentsControl'
 
 // PubSubPipelineActions.subscribe(
@@ -263,7 +262,7 @@ export default (
       path={[routes.toCVCodeErrorsAgents({ ...accountPathProps, ...projectPathProps, ...cvModuleParams })]}
     >
       <CVCodeErrorsAgentsControl>
-        <CVCodeErrorsAgents />
+        <CVCodeErrorsAgents pathComponentLocation={'/agents'} />
       </CVCodeErrorsAgentsControl>
     </RouteWithLayout>
 
@@ -273,7 +272,7 @@ export default (
       path={[routes.toCVCodeErrorsAgentsTokens({ ...accountPathProps, ...projectPathProps, ...cvModuleParams })]}
     >
       <CVCodeErrorsAgentsControl>
-        <CVCodeErrorsAgentsTokens />
+        <CVCodeErrorsAgents pathComponentLocation={'/tokens'} />
       </CVCodeErrorsAgentsControl>
     </RouteWithLayout>
 
