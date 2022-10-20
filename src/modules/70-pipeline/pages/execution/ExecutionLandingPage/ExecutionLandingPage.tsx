@@ -361,7 +361,7 @@ export default function ExecutionLandingPage(props: React.PropsWithChildren<unkn
         projectIdentifier={projectIdentifier}
         planExecutionId={executionIdentifier}
       >
-        {reportSummaryLoading || loading ? <PageSpinner /> : null}
+        {(!data && loading) || reportSummaryLoading ? <PageSpinner /> : null}
         {error ? (
           <PageError message={getRBACErrorMessage(error) as string} />
         ) : (

@@ -17,9 +17,10 @@ import {
   Text,
   AllowedTypes,
   SelectOption,
-  DataTooltipInterface
+  DataTooltipInterface,
+  EXPRESSION_INPUT_PLACEHOLDER
 } from '@wings-software/uicore'
-import type { FormikContextType } from 'formik'
+import { useFormikContext } from 'formik'
 import { get, isEmpty, set } from 'lodash-es'
 import { useStrings } from 'framework/strings'
 import { MultiTypeFieldSelector } from '@common/components/MultiTypeFieldSelector/MultiTypeFieldSelector'
@@ -32,14 +33,14 @@ interface SelectedTagsType {
 
 interface MultiTypeTagSelectorProps {
   allowableTypes: AllowedTypes
-  formik: FormikContextType<any>
   tags: SelectOption[]
   isLoadingTags?: boolean
   name: string
   errorMessage?: string
-  initialTags?: object
   className?: string
   tooltipProps?: DataTooltipInterface
+  expressions: string[]
+  initialTags?: object | string
 }
 
 const preventEnter = (e: React.KeyboardEvent) => {
@@ -52,27 +53,44 @@ const preventEnter = (e: React.KeyboardEvent) => {
 
 const MultiTypeTagSelector = ({
   allowableTypes,
-  formik,
   tags,
   isLoadingTags = false,
   name,
-  initialTags,
   errorMessage,
   className,
-  tooltipProps
+  tooltipProps,
+  expressions,
+  initialTags
 }: MultiTypeTagSelectorProps) => {
+  const formik = useFormikContext()
   const { getString } = useStrings()
   const [selectedTags, setSelectedTags] = useState([] as SelectedTagsType[])
+  const [lastInitialTags, setLastInitialTags] = useState(initialTags)
 
   useEffect(() => {
     if (typeof initialTags === 'object') {
-      const initialTagOptions = Object.entries(initialTags || {}).map(entry => ({ key: entry[0], value: entry[1] }))
+      const initialTagOptions = Object.entries(initialTags || {}).map(
+        entry => ({ key: entry[0], value: entry[1] } as SelectedTagsType)
+      )
       initialTagOptions.forEach(tagOption => {
         formik.setFieldValue(`${name}.${tagOption.key}`, tagOption.value)
       })
       setSelectedTags(initialTagOptions)
     }
   }, [])
+
+  useEffect(() => {
+    const formikTags = get(formik.values, name, {})
+    if (
+      ((typeof lastInitialTags === 'object' && Object.keys(lastInitialTags).length > 0) || !lastInitialTags) &&
+      selectedTags.length > 0 &&
+      typeof formikTags === 'object' &&
+      Object.keys(formikTags).length === 0
+    ) {
+      setSelectedTags([])
+    }
+    setLastInitialTags(formikTags)
+  }, [get(formik.values, name, null)])
 
   const usedTagKeys = useMemo(
     () =>
@@ -102,11 +120,9 @@ const MultiTypeTagSelector = ({
       className={className}
       name={name}
       label={getString('tagLabel')}
-      defaultValueToReset={{}}
       skipRenderValueInExpressionLabel
       allowedTypes={allowableTypes}
       supportListOfExpressions={true}
-      disableMultiSelectBtn={false}
       formik={formik}
       style={{ flexGrow: 1, marginBottom: 0 }}
       tooltipProps={tooltipProps}
@@ -116,80 +132,79 @@ const MultiTypeTagSelector = ({
             name={name}
             value={isFixedValueSetted ? '' : get(formik.values, name)}
             onChange={express => formik.setFieldValue(name, express)}
-            inputProps={{
-              placeholder: '<+expression>'
-            }}
+            inputProps={{ placeholder: EXPRESSION_INPUT_PLACEHOLDER }}
+            items={expressions}
           />
         )
       }
     >
-      {isFixedValueSetted &&
-        selectedTags.map((tag, index) => (
-          <Layout.Horizontal spacing="small" key={index} onKeyDown={preventEnter}>
-            <Layout.Vertical spacing="small">
-              <Text className={css.textStyles}>{index === 0 ? getString('keyLabel') : null}</Text>
-              <Select
-                name={`tagslabel${index + 1}`}
-                value={{ label: tag.key, value: tag.key }}
-                items={availableTags}
-                className={css.tagsSelect}
-                allowCreatingNewItems={true}
-                noResults={<Text padding={'small'}>{isLoadingTags ? getString('loading') : errorMessage}</Text>}
-                onChange={
-                  /* istanbul ignore next */ option => {
-                    const newSelTags = [...selectedTags]
-                    newSelTags[index].key = option.value as string
-                    newSelTags[index].value = ''
-                    setSelectedTags(newSelTags)
-                  }
-                }
-              />
-            </Layout.Vertical>
-            <Layout.Vertical spacing="small">
-              <Text className={css.textStyles}>{index === 0 ? 'Value' : null}</Text>
-              <FormInput.Text
-                name={`${name}.${tag.key}`}
-                onChange={
-                  /* istanbul ignore next */ event => {
-                    const newSelTags = [...selectedTags]
-                    newSelTags[index].value = get(event.target, 'value', '')
-                    setSelectedTags(newSelTags)
-                  }
-                }
-              />
-            </Layout.Vertical>
-            <Layout.Horizontal className={css.removeTagBtn}>
-              <Button
-                icon="trash"
-                iconProps={{ size: 12, margin: { right: 8 } }}
-                onClick={() => {
+      {selectedTags.map((tag, index) => (
+        <Layout.Horizontal spacing="small" key={index} onKeyDown={preventEnter}>
+          <Layout.Vertical spacing="small">
+            <Text className={css.textStyles}>{index === 0 ? getString('keyLabel') : null}</Text>
+            <Select
+              name={`tagslabel${index + 1}`}
+              value={{ label: tag.key, value: tag.key }}
+              items={availableTags}
+              inputProps={{
+                placeholder: availableTags.length === 0 ? getString('common.noAvailableTags') : ''
+              }}
+              className={css.tagsSelect}
+              allowCreatingNewItems={true}
+              noResults={<Text padding={'small'}>{isLoadingTags ? getString('loading') : errorMessage}</Text>}
+              onChange={
+                /* istanbul ignore next */ option => {
                   const newSelTags = [...selectedTags]
-                  newSelTags.splice(index, 1)
+                  newSelTags[index].key = option.value as string
+                  newSelTags[index].value = ''
                   setSelectedTags(newSelTags)
-                  formik.setFieldValue(`${name}.${tag.key}`, undefined)
-                }}
-                size={ButtonSize.SMALL}
-                variation={ButtonVariation.LINK}
-              />
-            </Layout.Horizontal>
+                }
+              }
+            />
+          </Layout.Vertical>
+          <Layout.Vertical spacing="small">
+            <Text className={css.textStyles}>{index === 0 ? 'Value' : null}</Text>
+            <FormInput.Text
+              name={`${name}.${tag.key}`}
+              onChange={
+                /* istanbul ignore next */ event => {
+                  const newSelTags = [...selectedTags]
+                  newSelTags[index].value = get(event.target, 'value', '')
+                  setSelectedTags(newSelTags)
+                }
+              }
+            />
+          </Layout.Vertical>
+          <Layout.Horizontal className={css.removeTagBtn}>
+            <Button
+              icon="trash"
+              iconProps={{ size: 12, margin: { right: 8 } }}
+              onClick={() => {
+                const newSelTags = [...selectedTags]
+                newSelTags.splice(index, 1)
+                setSelectedTags(newSelTags)
+                formik.setFieldValue(`${name}.${tag.key}`, undefined)
+              }}
+              size={ButtonSize.SMALL}
+              variation={ButtonVariation.LINK}
+            />
           </Layout.Horizontal>
-        ))}
-      {isFixedValueSetted && (
-        <Button
-          intent="primary"
-          icon="add"
-          iconProps={{ size: 12, margin: { right: 8 } }}
-          className={css.addBtn}
-          onClick={() => {
-            const newTagPair: SelectedTagsType = { key: '', value: '' }
-            setSelectedTags(selTags => [...selTags, newTagPair])
-          }}
-          size={ButtonSize.SMALL}
-          variation={ButtonVariation.LINK}
-        >
-          {getString('tagLabel')}
-        </Button>
-      )}
+        </Layout.Horizontal>
+      ))}
+      <Button
+        intent="primary"
+        icon="add"
+        iconProps={{ size: 12, margin: { right: 8 } }}
+        className={css.addBtn}
+        onClick={() => {
+          const newTagPair: SelectedTagsType = { key: '', value: '' }
+          setSelectedTags(selTags => [...selTags, newTagPair])
+        }}
+        size={ButtonSize.SMALL}
+        variation={ButtonVariation.LINK}
+      >
+        {getString('tagLabel')}
+      </Button>
     </MultiTypeFieldSelector>
   )
 }

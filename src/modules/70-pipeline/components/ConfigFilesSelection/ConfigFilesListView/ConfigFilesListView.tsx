@@ -479,6 +479,7 @@ function ConfigFilesListView({
             id="add-config-file"
             size={ButtonSize.SMALL}
             variation={ButtonVariation.LINK}
+            className={css.addConfig}
             data-test-id="addConfigFile"
             onClick={addNewConfigFile}
             icon="plus"

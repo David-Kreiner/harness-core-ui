@@ -56,6 +56,10 @@ jest.mock('react-monaco-editor', () => ({
 
 jest.mock('@common/components/MonacoEditor/MonacoEditor')
 jest.mock('services/cd-ng', () => ({
+  useShouldDisableDeployment: jest.fn().mockReturnValue({
+    loading: false,
+    data: {}
+  }),
   useGetSourceCodeManagers: () => ({
     data: []
   }),

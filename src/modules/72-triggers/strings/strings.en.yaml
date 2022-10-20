@@ -60,6 +60,7 @@ validation:
   eventConditions: 'Each event condition requires values for Attribute, Operator, and Matches Value.'
   cronExpression: 'Valid cron expression is required.'
   repositoryFormat: 'Repository Format is required.'
+  configureSecret: 'Secret is required'
 toast:
   successfulCreate: 'Successfully created {{name}}.'
   successfulUpdate: 'Successfully updated {{name}}.'
@@ -81,6 +82,8 @@ triggerConfigurationPanel:
   autoAbortIssueComment: 'If a PR is updated with a new comment, Harness will automatically cancel active builds for the same PR.'
   eventPlaceholder: Select Event
   pollingFrequency: Polling Frequency
+  copySecretDialogTitle: Did you copy the value of your secret?
+  copySecretDialogContent: Please be sure to copy the value of the secret you selected for the Github Webhook trigger, you will need to paste this into the secret field of the Webhook in Github
 conditionsPanel:
   subtitle: 'Specify the conditions for running the Pipeline. For example, when an artifact tag, label, filename, or build matches a certain value or pattern.'
   subtitleManifest: '{{$.triggers.conditionsPanel.subtitle}}'

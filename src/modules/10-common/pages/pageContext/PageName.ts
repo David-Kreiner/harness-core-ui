@@ -61,6 +61,7 @@ export enum PAGE_NAME {
   TemplateStudioWrapper = 'TemplateStudioWrapper',
   CDHomePage = 'CDHomePage',
   CDTrialHomePage = 'CDTrialHomePage',
+  ChaosTrialHomePage = 'ChaosTrialHomePage',
   Services = 'Services',
   ServiceDetails = 'ServiceDetails',
   ServiceStudio = 'ServiceStudio',

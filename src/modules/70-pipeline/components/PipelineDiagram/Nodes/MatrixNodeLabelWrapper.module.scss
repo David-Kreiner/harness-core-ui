@@ -31,4 +31,12 @@
     border-top-right-radius: 0;
     background: var(--purple-300);
   }
+
+  &.multiSvcEnv {
+    background: var(--teal-500) !important;
+
+    &:before {
+      border-color: var(--teal-500);
+    }
+  }
 }

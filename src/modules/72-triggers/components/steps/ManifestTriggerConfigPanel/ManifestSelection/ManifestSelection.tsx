@@ -5,7 +5,7 @@
  * https://polyformproject.org/wp-content/uploads/2020/06/PolyForm-Shield-1.0.0.txt.
  */
 
-import React, { useEffect } from 'react'
+import React from 'react'
 import type { FormikProps } from 'formik'
 import { useParams } from 'react-router-dom'
 import { Layout, MultiTypeInputType, shouldShowError, useToaster } from '@harness/uicore'
@@ -13,6 +13,7 @@ import { useGetConnectorListV2, PageConnectorResponse } from 'services/cd-ng'
 import type { PipelineType } from '@common/interfaces/RouteInterfaces'
 import { getIdentifierFromValue } from '@common/components/EntityReference/EntityReference'
 import useRBACError, { RBACError } from '@rbac/utils/useRBACError/useRBACError'
+import { useDeepCompareEffect } from '@common/hooks'
 import { getConnectorPath } from '@pipeline/components/ManifestSelection/ManifestWizardSteps/ManifestUtils'
 import {
   getHelmManifestSpec,
@@ -27,7 +28,7 @@ type ManifestSelectionProps = {
 
 export default function ManifestSelection({ formikProps }: ManifestSelectionProps): JSX.Element | null {
   const { source: triggerSource } = formikProps.values
-  const { spec: triggerSpec } = formikProps.values.source ?? getManifestTriggerInitialSource()
+  const { spec: triggerSpec } = triggerSource ?? getManifestTriggerInitialSource()
   const { spec: manifestSpec } = triggerSpec ?? getHelmManifestSpec()
   const { store } = manifestSpec
 
@@ -55,25 +56,26 @@ export default function ManifestSelection({ formikProps }: ManifestSelectionProp
     queryParams: defaultQueryParams
   })
 
-  useEffect(() => {
-    const refetchConnectorList = async (): Promise<void> => {
-      try {
-        const connectorIdentifiers = [getIdentifierFromValue(getConnectorPath(store?.type as string, triggerSource))]
-        const response = await fetchConnectors({ filterType: 'Connector', connectorIdentifiers })
-        /* istanbul ignore else */
-        if (response.data) {
-          const { data: connectorResponse } = response
-          setFetchedConnectorResponse(connectorResponse)
-        }
-      } catch (e) {
-        /* istanbul ignore else */
-        if (shouldShowError(e)) {
-          showError(getRBACErrorMessage(e as RBACError))
-        }
+  const refetchConnectorList = async (): Promise<void> => {
+    try {
+      const connectorIdentifiers = [getIdentifierFromValue(getConnectorPath(store?.type as string, triggerSpec))]
+      const response = await fetchConnectors({ filterType: 'Connector', connectorIdentifiers })
+      /* istanbul ignore else */
+      if (response.data) {
+        const { data: connectorResponse } = response
+        setFetchedConnectorResponse(connectorResponse)
+      }
+    } catch (e) {
+      /* istanbul ignore else */
+      if (shouldShowError(e)) {
+        showError(getRBACErrorMessage(e as RBACError))
       }
     }
+  }
+
+  useDeepCompareEffect(() => {
     refetchConnectorList()
-  }, [])
+  }, [triggerSource])
 
   return (
     <Layout.Vertical>

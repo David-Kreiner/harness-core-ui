@@ -40,7 +40,6 @@ import { clearRuntimeInput, mergeTemplateWithInputSetData } from '@pipeline/util
 import { memoizedParse } from '@common/utils/YamlHelperMethods'
 import type { InputSetDTO, Pipeline } from '@pipeline/utils/types'
 import NewInputSetModal from '@pipeline/components/InputSetForm/NewInputSetModal'
-import { useAppStore } from 'framework/AppStore/AppStoreContext'
 import {
   ciCodebaseBuild,
   ciCodebaseBuildPullRequest,
@@ -51,6 +50,7 @@ import {
   ciCodebaseBuildIssueComment
 } from '@triggers/components/Triggers/utils'
 import { eventTypes } from '@triggers/components/Triggers/WebhookTrigger/utils'
+import useGitAwareForTriggerEnabled from '@triggers/components/Triggers/useGitAwareForTriggerEnabled'
 import css from './WebhookPipelineInputPanel.module.scss'
 
 interface WebhookPipelineInputPanelPropsInterface {
@@ -119,12 +119,7 @@ function WebhookPipelineInputPanelForm({
     values
   } = formikProps
 
-  const { isGitSimplificationEnabled, isGitSyncEnabled } = useAppStore()
-
-  const gitAwareForTriggerEnabled = useMemo(
-    () => isGitSyncEnabled && isGitSimplificationEnabled,
-    [isGitSyncEnabled, isGitSimplificationEnabled]
-  )
+  const gitAwareForTriggerEnabled = useGitAwareForTriggerEnabled()
 
   const { getString } = useStrings()
   const ciCodebaseBuildValue = formikProps.values?.pipeline?.properties?.ci?.codebase?.build

@@ -5,7 +5,7 @@
  * https://polyformproject.org/wp-content/uploads/2020/06/PolyForm-Shield-1.0.0.txt.
  */
 
-import { isObject, memoize, reduce } from 'lodash-es'
+import { isObject, memoize, omitBy, reduce } from 'lodash-es'
 
 const getErrorsFlatten = memoize((errors: any): string[] => {
   return reduce(
@@ -24,7 +24,8 @@ const getErrorsFlatten = memoize((errors: any): string[] => {
 })
 
 export const getErrorsList = memoize((errors: any): { errorStrings: string[]; errorCount: number } => {
-  const errorList = getErrorsFlatten(errors)
+  // This is used to not show the count of pseudo field error
+  const errorList = getErrorsFlatten(omitBy(errors, (_val, key) => key.startsWith('_')))
   const errorCountMap: { [key: string]: number } = {}
   errorList.forEach(error => {
     if (errorCountMap[error]) {

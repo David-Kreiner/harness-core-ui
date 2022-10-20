@@ -1,7 +1,7 @@
 {
   "name": "nextgenui",
   "description": "Harness Inc",
-  "version": "0.323.0",
+  "version": "0.324.0",
   "author": "Harness Inc",
   "license": "Harness Inc",
   "homepage": "http://app.harness.io/",
@@ -48,7 +48,7 @@
     "generate-eslint": "node scripts/generate-eslint-config-for-imports.mjs",
     "build-docker": "sh scripts/docker-build.sh",
     "lighthouse": "node scripts/lighthouse/lighthouse.js",
-    "custom-coverage": "npx new-files-coverage-check --e !**/*.test.tsx !**/*.test.ts !**/*.snap !**/*.js !**/*.scss !**/*.mock.ts !**/*.spec.ts !**/*.d.ts !**/*.json !**/*.types.ts !**/types.ts !**/*.yml !**/*.yaml !**cypress/** !**/cypress/** !**/__test*/** !**/*.png !**/*.svg !**/src/services/** !**/src/queries/** !**/src/**/__mocks__/** !**/src/**/RouteDestinations.tsx !**/*.sh !**/*.md !**/index.ts"
+    "custom-coverage": "npx new-files-coverage-check --e !**/*.test.tsx !**/*.test.ts !**/*.snap !**/*.js !**/*.scss !**/*.mock.ts !**/*.spec.ts !**/*.d.ts !**/*.json !**/*.types.ts !**/types.ts !**/*.yml !**/*.yaml !**cypress/** !**/cypress/** !**/__test*/** !**/*.png !**/*.svg !**/src/services/** !**/src/queries/** !**/src/**/__mocks__/** !**/src/**/RouteDestinations.tsx !**/*.sh !**/*.md !**/index.ts !**/src/modules/75-chaos/**"
   },
   "dependencies": {
     "@blueprintjs/core": "3.26.1",

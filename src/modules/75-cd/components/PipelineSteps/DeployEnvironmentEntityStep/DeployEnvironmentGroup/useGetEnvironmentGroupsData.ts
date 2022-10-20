@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { defaultTo } from 'lodash-es'
 
@@ -18,6 +18,8 @@ export interface UseGetEnvironmentGroupsDataReturn {
   loadingEnvironmentGroupsList: boolean
   updatingEnvironmentGroupsList: boolean
   refetchEnvironmentGroupsList(): void
+  /** Used to prepend data to `environmentGroupsList` */
+  prependEnvironmentGroupToEnvironmentGroupsList(newEnvironmentGroupInfo: EnvironmentGroupData): void
 }
 
 export function useGetEnvironmentGroupsData(): UseGetEnvironmentGroupsDataReturn {
@@ -75,10 +77,21 @@ export function useGetEnvironmentGroupsData(): UseGetEnvironmentGroupsDataReturn
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [environmentGroupsListError])
 
+  const prependEnvironmentGroupToEnvironmentGroupsList = useCallback(
+    (newEnvironmentGroupInfo: EnvironmentGroupData) => {
+      setEnvironmentGroupsList(previousEnvironmentGroupsList => [
+        newEnvironmentGroupInfo,
+        ...(previousEnvironmentGroupsList || [])
+      ])
+    },
+    []
+  )
+
   return {
     environmentGroupsList,
     loadingEnvironmentGroupsList,
     updatingEnvironmentGroupsList,
-    refetchEnvironmentGroupsList
+    refetchEnvironmentGroupsList,
+    prependEnvironmentGroupToEnvironmentGroupsList
   }
 }

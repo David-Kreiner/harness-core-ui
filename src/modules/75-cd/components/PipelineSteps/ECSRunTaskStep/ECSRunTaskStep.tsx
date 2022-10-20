@@ -42,8 +42,8 @@ export class ECSRunTaskStep extends PipelineStep<ECSRunTaskStepInitialValues> {
   protected type = StepType.EcsRunTask
   protected stepName = 'Configure ECS Run Task'
   protected stepIcon: IconName = 'command-shell-script'
-  protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.ECSRollingDeploy'
-  protected isHarnessSpecific = true
+  protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.ECSRunTask'
+  protected isHarnessSpecific = false
   protected defaultValues: ECSRunTaskStepInitialValues = {
     identifier: '',
     name: '',

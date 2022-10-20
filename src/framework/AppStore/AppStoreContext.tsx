@@ -216,7 +216,8 @@ export function AppStoreProvider(props: React.PropsWithChildren<unknown>): React
   useEffect(() => {
     // For gitSync, using path params instead of project/org from PreferenceFramework
     // Need to check oldGitSync is enabled or not irrespective of USE_OLD_GIT_SYNC FF
-    if (projectIdentifierFromPath) {
+    // Should wait for featureFlags API response to avoid duplicate calls again
+    if (projectIdentifierFromPath && Object.keys(state.featureFlags)?.length) {
       isGitSyncEnabledPromise({
         queryParams: {
           accountIdentifier: accountId,

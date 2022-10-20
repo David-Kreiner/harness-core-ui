@@ -6,8 +6,8 @@
  */
 
 import React, { useState, useEffect } from 'react'
-import { Container, Heading, Layout, Text } from '@wings-software/uicore'
-import { useStrings } from 'framework/strings'
+import { Container, Heading, Layout, Text, RadioButtonGroup } from '@harness/uicore'
+import { StringKeys, useStrings } from 'framework/strings'
 import type { ApiKey, Feature } from 'services/cf'
 import { LanguageSelection, PlatformEntry } from '@cf/components/LanguageSelection/LanguageSelection'
 import { useTelemetry } from '@common/hooks/useTelemetry'
@@ -33,6 +33,8 @@ export const SetUpYourApplicationView: React.FC<SetUpYourApplicationViewProps> =
   const [language, setLanguage] = useState<PlatformEntry | undefined>(props.language)
   const [apiKey, setApiKey] = useState<ApiKey | undefined>(props.apiKey)
   const { trackEvent } = useTelemetry()
+  const [currentOption, setCurrentOption] = useState<StringKeys>('cf.onboarding.android')
+  const [currentReadme, setcurrentReadme] = useState<StringKeys>('cf.onboarding.readme.xamarinAndroid')
 
   useEffect(() => {
     trackEvent(FeatureActions.SetUpYourApplicationView, {
@@ -88,7 +90,39 @@ export const SetUpYourApplicationView: React.FC<SetUpYourApplicationViewProps> =
             <Layout.Vertical spacing="xsmall">
               <Text className={css.setUpYourCode}>{getString('cf.onboarding.setUpYourCode')}</Text>
               <Container className={css.setUpYourCodeContainer}>
-                <SetUpYourCodeView apiKey={apiKey} language={language} />
+                {language.name === getString('cf.onboarding.android') ||
+                  (getString('cf.onboarding.ios') && (
+                    <RadioButtonGroup
+                      padding={{ top: 'small' }}
+                      asPills
+                      selectedValue={currentOption}
+                      onChange={() => {
+                        if (currentOption === 'cf.onboarding.android') {
+                          setCurrentOption('cf.onboarding.ios')
+                          setcurrentReadme('cf.onboarding.readme.xamarinIOS')
+                        } else {
+                          setCurrentOption('cf.onboarding.android')
+                          setcurrentReadme('cf.onboarding.readme.xamarinAndroid')
+                        }
+                      }}
+                      options={[
+                        {
+                          label: getString('cf.onboarding.android'),
+                          value: 'cf.onboarding.android'
+                        },
+                        {
+                          label: getString('cf.onboarding.ios'),
+                          value: 'cf.onboarding.ios'
+                        }
+                      ]}
+                    />
+                  ))}
+                <SetUpYourCodeView
+                  apiKey={apiKey}
+                  language={language}
+                  flagName={flagInfo.name}
+                  readmeOverrideString={currentReadme}
+                />
               </Container>
             </Layout.Vertical>
           </Container>

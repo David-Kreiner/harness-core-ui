@@ -281,7 +281,8 @@ export function PipelineListFilter({
     filters,
     module,
     environmentsResponse?.data?.content,
-    servicesResponse?.data?.content
+    servicesResponse?.data?.content,
+    deploymentTypeSelectOptions
   ])
 
   const onFilterSelect = (option: SelectOption) => {

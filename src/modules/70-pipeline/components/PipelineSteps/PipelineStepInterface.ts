@@ -33,6 +33,7 @@ export enum StepType {
   DeployEnvironmentEntity = 'DeployEnvironmentEntity',
   DeployInfrastructure = 'DeployInfrastructure',
   DeployInfrastructureEntity = 'DeployInfrastructureEntity',
+  DeployClusterEntity = 'DeployClusterEntity',
   KubernetesDirect = 'KubernetesDirect',
   K8sServiceSpec = 'K8sServiceSpec',
   K8sRollingDeploy = 'K8sRollingDeploy',
@@ -117,7 +118,8 @@ export enum StepType {
   CustomDeployment = 'CustomDeployment',
   FetchInstanceScript = 'FetchInstanceScript',
   Wait = 'Wait',
-  ShellScriptProvision = 'ShellScriptProvision'
+  ShellScriptProvision = 'ShellScriptProvision',
+  ChaosExperiment = 'Chaos' //todoChaos
 }
 
 export interface PipelineInfrastructureV2 extends PipelineInfrastructure {

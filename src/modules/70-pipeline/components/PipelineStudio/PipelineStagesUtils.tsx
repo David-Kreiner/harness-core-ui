@@ -15,7 +15,7 @@ import type { Module } from '@common/interfaces/RouteInterfaces'
 interface GetPipelineStagesArgs {
   args: Omit<PipelineStagesProps, 'children'>
   getString: UseStringsReturn['getString']
-  module: Module
+  module?: Module
   isCIEnabled?: boolean
   isCDEnabled?: boolean
   isCFEnabled?: boolean

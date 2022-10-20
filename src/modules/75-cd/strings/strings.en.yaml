@@ -168,6 +168,7 @@ pipelineSteps:
     specifyYourInfrastructure: Specify Infrastructure
     specifyYourInfrastructures: Specify Infrastructures
     specifyEnvironmentOrGroup: Specify environment or environment group
+    specifyGitOpsCluster: Specify GitOps Cluster
     specifyGitOpsClusters: Specify GitOps Clusters
     selectEnvironment: '- Select Environment -'
     selectEnvironments: '- Select Environments -'
@@ -189,7 +190,7 @@ pipelineSteps:
     environmentInEnvGroupIsRequired: 'Environment in Environment Group is required'
     environmentGroupIsRequired: 'Environment Group is required'
     clusterIsRequired: 'Clusters are required'
-    multiEnvInfraToggleText: 'Deploy to multiple Environments or Infrastructures'
+    multiEnvToggleText: 'Deploy to multiple Environments or {{name}}'
     viewEnvironmentInputs: View environment inputs
     hideEnvironmentInputs: Hide environment inputs
     viewInfrastructureInputs: View infrastructure inputs
@@ -201,10 +202,14 @@ pipelineSteps:
     multiEnvironmentsConfirmationText: Are you sure you want to switch to deploying multiple environments or infrastructures?. If you choose to proceed, your existing environment will be migrated automatically.
     singleEnvironmentDialogTitleText: Deploy to single environment?
     singleEnvironmentConfirmationText: Are you sure you want to switch to deploying to a single environment?. If you choose to proceed, your existing environments will be lost.
-    deleteEnvironmentFromListDialogTitleText: Remove environment from list?
-    deleteEnvironmentFromListConfirmationText: Are you sure you want to remove {{name}} environment from the list?
-    deleteInfrastructureFromListDialogTitleText: Remove infrastructure from list?
-    deleteInfrastructureFromListConfirmationText: Are you sure you want to remove {{name}} infrastructure from the list?
+    deleteEnvironmentFromListDialogTitleText: Remove Environment from list?
+    deleteEnvironmentFromListConfirmationText: Are you sure you want to remove Environment - {{name}} from the list?
+    deleteInfrastructureFromListDialogTitleText: Remove Infrastructure from list?
+    deleteInfrastructureFromListConfirmationText: Are you sure you want to remove Infrastructure - {{name}} from the list?
+    deleteClusterFromListDialogTitleText: Remove Cluster from list?
+    deleteClusterFromListConfirmationText: Are you sure you want to remove Cluster - {{name}} from the list?
+    deleteEnvironmentGroupFromListDialogTitleText: Remove Environment Group from list?
+    deleteEnvironmentGroupFromListConfirmationText: Are you sure you want to remove Environment Group - {{name}} from the list?
   serviceTab:
     stageOverrides: Stage Overrides
     overrideChanges: Override artifacts, manifests, service variables for this stage

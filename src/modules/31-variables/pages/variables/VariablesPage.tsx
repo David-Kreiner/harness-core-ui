@@ -73,32 +73,34 @@ const VariablesPage: React.FC = () => {
         }
       />
 
-      <Layout.Horizontal flex className={css.header}>
-        <Layout.Horizontal spacing="small">
-          <RbacButton
-            variation={ButtonVariation.PRIMARY}
-            text={getString('variables.newVariable')}
-            icon="plus"
-            id="newVariableBtn"
-            data-test="newVariableButton"
-            onClick={() => openCreateUpdateVariableModal()}
-            permission={{
-              permission: PermissionIdentifier.EDIT_VARIABLE,
-              resource: {
-                resourceType: ResourceType.VARIABLE
-              }
+      {variableResponse?.data?.content?.length || searchTerm || loading || error ? (
+        <Layout.Horizontal flex className={css.header}>
+          <Layout.Horizontal spacing="small">
+            <RbacButton
+              variation={ButtonVariation.PRIMARY}
+              text={getString('variables.newVariable')}
+              icon="plus"
+              id="newVariableBtn"
+              data-test="newVariableButton"
+              onClick={() => openCreateUpdateVariableModal()}
+              permission={{
+                permission: PermissionIdentifier.EDIT_VARIABLE,
+                resource: {
+                  resourceType: ResourceType.VARIABLE
+                }
+              }}
+            />
+          </Layout.Horizontal>
+          <ExpandingSearchInput
+            alwaysExpanded
+            onChange={text => {
+              setSearchTerm(text.trim())
+              setPage(0)
             }}
+            width={250}
           />
         </Layout.Horizontal>
-        <ExpandingSearchInput
-          alwaysExpanded
-          onChange={text => {
-            setSearchTerm(text.trim())
-            setPage(0)
-          }}
-          width={250}
-        />
-      </Layout.Horizontal>
+      ) : null}
 
       <Page.Body
         className={css.listBody}

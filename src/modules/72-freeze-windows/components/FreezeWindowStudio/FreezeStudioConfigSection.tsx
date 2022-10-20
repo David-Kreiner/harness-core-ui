@@ -57,6 +57,7 @@ interface ConfigViewModeRendererProps {
   fieldsVisibility: FieldVisibility
   resources: ResourcesInterface
   isReadOnly: boolean
+  index: number
 }
 
 const ConfigViewModeRenderer: React.FC<ConfigViewModeRendererProps> = ({
@@ -66,7 +67,8 @@ const ConfigViewModeRenderer: React.FC<ConfigViewModeRendererProps> = ({
   deleteConfig,
   fieldsVisibility,
   resources,
-  isReadOnly
+  isReadOnly,
+  index
 }) => {
   const { name, entities } = config || {}
   const entitiesMap: Record<FIELD_KEYS, EntityType> =
@@ -77,7 +79,10 @@ const ConfigViewModeRenderer: React.FC<ConfigViewModeRendererProps> = ({
       return accum
     }, {}) || {}
   return (
-    <Layout.Horizontal flex={{ justifyContent: 'space-between', alignItems: 'start' }}>
+    <Layout.Horizontal
+      flex={{ justifyContent: 'space-between', alignItems: 'start' }}
+      data-testid={`config-view-mode_${index}`}
+    >
       <Layout.Vertical>
         <Heading
           color={Color.GREY_800}
@@ -127,7 +132,7 @@ const ConfigEditModeRenderer: React.FC<ConfigEditModeRendererProps> = ({
 }) => {
   return (
     <FormikForm>
-      <Layout.Vertical>
+      <Layout.Vertical data-testid={`config-edit-mode_${index}`}>
         <Layout.Horizontal flex={{ justifyContent: 'space-between', alignItems: 'start' }}>
           <Layout.Vertical width={'400px'}>
             <FormInput.Text name={`entity[${index}].name`} label={getString('name')} inputGroup={{ autoFocus: true }} />
@@ -252,6 +257,7 @@ const ConfigRenderer = ({
         />
       ) : (
         <ConfigViewModeRenderer
+          index={index}
           config={config}
           getString={getString}
           setEditView={setEditViewMode}

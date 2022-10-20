@@ -523,16 +523,17 @@ describe('AmazonS3 tests', () => {
       </TestWrapper>
     )
 
+    await waitFor(() => expect(fetchBuckets).toHaveBeenCalledTimes(1))
     const portalDivs = document.getElementsByClassName('bp3-portal')
     expect(portalDivs.length).toBe(0)
     const bucketNameDropDownButton = container.querySelectorAll('[data-icon="chevron-down"]')[1]
-    fireEvent.click(bucketNameDropDownButton!)
+    userEvent.click(bucketNameDropDownButton!)
     expect(portalDivs.length).toBe(1)
     const dropdownPortalDiv = portalDivs[0]
     const selectListMenu = dropdownPortalDiv.querySelector('.bp3-menu')
     const loadingBucketsOption = await findByText(selectListMenu as HTMLElement, 'Loading Buckets...')
     expect(loadingBucketsOption).toBeDefined()
-    await waitFor(() => expect(fetchBuckets).not.toHaveBeenCalled())
+    await waitFor(() => expect(fetchBuckets).toHaveBeenCalledTimes(1))
   })
 
   test(`region field placeholder should be loading when region data is being fetched`, async () => {
@@ -598,12 +599,13 @@ describe('AmazonS3 tests', () => {
       </TestWrapper>
     )
 
+    await waitFor(() => expect(fetchBuckets).toHaveBeenCalledTimes(1))
     const queryByNameAttribute = (name: string): HTMLElement | null => queryByAttribute('name', container, name)
     const bucketNameInput = queryByNameAttribute('bucketName') as HTMLInputElement
     const bucketNameDropDownButtons = container.querySelectorAll('[data-icon="chevron-down"]')
     expect(bucketNameDropDownButtons.length).toBe(0)
     userEvent.click(bucketNameInput)
-    await waitFor(() => expect(fetchBuckets).not.toHaveBeenCalled())
+    await waitFor(() => expect(fetchBuckets).toHaveBeenCalledTimes(1))
     expect(bucketNameInput.value).toBe('cdng-terraform-state')
     userEvent.clear(bucketNameInput)
     userEvent.type(bucketNameInput, 'abc')

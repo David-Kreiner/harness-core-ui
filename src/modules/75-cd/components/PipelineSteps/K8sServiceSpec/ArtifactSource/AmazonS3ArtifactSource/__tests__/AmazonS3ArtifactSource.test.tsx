@@ -244,8 +244,8 @@ describe('AmazonS3ArtifactSource tests', () => {
     expect(portalDivs.length).toBe(0)
 
     const bucketNameDropDownButton = container.querySelectorAll('[data-icon="chevron-down"]')[1]
-    fireEvent.click(bucketNameDropDownButton!)
-    expect(portalDivs.length).toBe(0)
+    userEvent.click(bucketNameDropDownButton!)
+    expect(portalDivs.length).toBe(1)
     await waitFor(() => expect(fetchBuckets).not.toHaveBeenCalled())
   })
 
@@ -324,8 +324,8 @@ describe('AmazonS3ArtifactSource tests', () => {
 
     // Choose second option for bucketName from dropdown
     expect(portalDivs.length).toBe(2)
-    fireEvent.click(bucketNameDropDownIcon!)
-    expect(fetchBuckets).toHaveBeenCalledTimes(2)
+    userEvent.click(bucketNameDropDownIcon!)
+    expect(fetchBuckets).toHaveBeenCalledTimes(1)
     expect(portalDivs.length).toBe(2)
     const bucketNameDropdownPortalDiv = portalDivs[0]
     const dropdownOptionList = bucketNameDropdownPortalDiv.querySelector('.bp3-menu')

@@ -57,6 +57,7 @@ import {
   subscriptionLabel,
   resourceGroupLabel
 } from './SshWinRmAzureInfrastructureInterface'
+import stepCss from '@pipeline/components/PipelineSteps/Steps/Steps.module.scss'
 import css from './SshWinRmAzureInfrastructureSpec.module.scss'
 const errorMessage = 'data.message'
 
@@ -89,6 +90,11 @@ export const AzureInfrastructureSpecForm: React.FC<AzureInfrastructureSpecEditab
   const { expressions } = useVariablesExpression()
 
   const [azureTags, setAzureTags] = useState([])
+
+  const [canTagsHaveFixedValue, setCanTagsHaveFixedValue] = useState(
+    getMultiTypeFromValue(initialValues.subscriptionId) === MultiTypeInputType.FIXED &&
+      getMultiTypeFromValue(initialValues.connectorRef) === MultiTypeInputType.FIXED
+  )
 
   const delayedOnUpdate = useRef(debounce(onUpdate || noop, 300)).current
   const { getString } = useStrings()
@@ -301,14 +307,26 @@ export const AzureInfrastructureSpecForm: React.FC<AzureInfrastructureSpecEditab
                 <Text font={{ variation: FontVariation.H6 }}>{isSvcEnvEnabled ? 'Cluster Details' : ''}</Text>
               </Layout.Vertical>
               <Layout.Vertical spacing="medium">
-                <Layout.Horizontal className={css.formRow} spacing="medium">
+                <Layout.Horizontal className={cx(stepCss.formGroup, stepCss.md, css.inputWrapper)}>
                   <FormMultiTypeConnectorField
                     name="connectorRef"
                     label={getString('connector')}
                     placeholder={getString('connectors.selectConnector')}
                     disabled={readonly}
                     accountIdentifier={accountId}
-                    multiTypeProps={{ expressions, allowableTypes }}
+                    multiTypeProps={{
+                      expressions,
+                      allowableTypes,
+                      onTypeChange: type => {
+                        setCanTagsHaveFixedValue(
+                          type === MultiTypeInputType.FIXED &&
+                            getMultiTypeFromValue(getValue(formik.values.subscriptionId)) === MultiTypeInputType.FIXED
+                        )
+                        if (type !== MultiTypeInputType.FIXED) {
+                          formik.setFieldValue('tags', '')
+                        }
+                      }
+                    }}
                     projectIdentifier={projectIdentifier}
                     orgIdentifier={orgIdentifier}
                     width={400}
@@ -366,7 +384,7 @@ export const AzureInfrastructureSpecForm: React.FC<AzureInfrastructureSpecEditab
                     />
                   )}
                 </Layout.Horizontal>
-                <Layout.Horizontal className={css.formRow} spacing="medium">
+                <Layout.Horizontal className={cx(stepCss.formGroup, stepCss.md, css.inputWrapper)}>
                   <FormInput.MultiTypeInput
                     name="subscriptionId"
                     className={css.inputWidth}
@@ -382,12 +400,17 @@ export const AzureInfrastructureSpecForm: React.FC<AzureInfrastructureSpecEditab
                         getMultiTypeFromValue(formik.values?.resourceGroup) === MultiTypeInputType.FIXED &&
                           formik.values?.resourceGroup?.value &&
                           formik.setFieldValue('resourceGroup', '')
-                        typeof formik.values?.tags !== 'string' &&
-                          !isEmpty(formik.values?.tags) &&
-                          formik.setFieldValue('tags', {})
+                        getMultiTypeFromValue(formik.values?.tags) === MultiTypeInputType.FIXED &&
+                          formik.setFieldValue('tags', undefined)
 
                         setResourceGroups([])
                         setAzureTags([])
+                      },
+                      onTypeChange: type => {
+                        setCanTagsHaveFixedValue(
+                          type === MultiTypeInputType.FIXED &&
+                            getMultiTypeFromValue(getValue(formik.values.connectorRef)) === MultiTypeInputType.FIXED
+                        )
                       },
                       expressions,
                       disabled: readonly,
@@ -445,7 +468,7 @@ export const AzureInfrastructureSpecForm: React.FC<AzureInfrastructureSpecEditab
                       />
                     )}
                 </Layout.Horizontal>
-                <Layout.Horizontal className={css.formRow} spacing="medium">
+                <Layout.Horizontal className={cx(stepCss.formGroup, stepCss.md, css.inputWrapper)}>
                   <FormInput.MultiTypeInput
                     name="resourceGroup"
                     className={css.inputWidth}
@@ -529,15 +552,19 @@ export const AzureInfrastructureSpecForm: React.FC<AzureInfrastructureSpecEditab
                       />
                     )}
                 </Layout.Horizontal>
-                <Layout.Vertical className={css.inputWidth}>
+                <Layout.Vertical className={css.inputWidth} spacing="small">
                   <MultiTypeTagSelector
                     name={'tags'}
-                    formik={formik}
-                    allowableTypes={allowableTypes}
+                    allowableTypes={
+                      canTagsHaveFixedValue
+                        ? [MultiTypeInputType.FIXED, MultiTypeInputType.RUNTIME, MultiTypeInputType.EXPRESSION]
+                        : [MultiTypeInputType.RUNTIME, MultiTypeInputType.EXPRESSION]
+                    }
                     tags={azureTags}
                     isLoadingTags={loadingSubscriptionTags}
                     initialTags={initialValues?.tags}
                     className="tags-select"
+                    expressions={expressions}
                     errorMessage={
                       get(subscriptionTagsError, errorMessage, '') ||
                       getString('cd.infrastructure.sshWinRmAzure.noTagsAzure')

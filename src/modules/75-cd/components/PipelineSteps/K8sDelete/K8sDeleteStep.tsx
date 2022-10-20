@@ -864,7 +864,7 @@ export class K8sDeleteStep extends PipelineStep<K8sDeleteFormData> {
   protected stepName = 'K8s Delete'
   protected stepIcon: IconName = 'delete'
   protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.K8sDelete'
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
   protected referenceId = 'k8sDeleteStep'
 
   protected defaultValues: K8sDeleteFormData = {

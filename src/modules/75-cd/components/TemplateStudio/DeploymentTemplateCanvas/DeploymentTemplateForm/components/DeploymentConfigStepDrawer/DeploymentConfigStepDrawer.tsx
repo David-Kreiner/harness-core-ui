@@ -7,7 +7,7 @@
 
 import React, { SyntheticEvent } from 'react'
 import { Button, Container } from '@wings-software/uicore'
-import { noop, isEmpty } from 'lodash-es'
+import { isEmpty, merge, defaultTo } from 'lodash-es'
 import { Drawer, Position } from '@blueprintjs/core'
 import type { StepElementConfig } from 'services/cd-ng'
 import type { StepData } from 'services/pipeline-ng'
@@ -111,6 +111,24 @@ export function DeploymentConfigStepDrawer() {
     [setDrawerData]
   )
 
+  const handleStepDataUpdate = React.useCallback(
+    async (stepFormData: Partial<Values>) => {
+      const stepConfigNode = defaultTo(drawerData?.data?.stepConfig?.node, {})
+      const updatedStepConfigNode = merge({}, stepConfigNode, stepFormData) as StepElementConfig
+
+      setDrawerData({
+        type: DrawerTypes.StepConfig,
+        data: {
+          stepConfig: {
+            node: updatedStepConfigNode
+          },
+          isDrawerOpen: true
+        }
+      })
+    },
+    [setDrawerData, drawerData?.data?.stepConfig?.node]
+  )
+
   const closeDrawer = React.useCallback(
     (e?: SyntheticEvent<HTMLElement, Event> | undefined): void => {
       e?.persist()
@@ -148,7 +166,7 @@ export function DeploymentConfigStepDrawer() {
             step={drawerData?.data?.stepConfig?.node as StepOrStepGroupOrTemplateStepData}
             ref={formikRef}
             stepsFactory={stepsFactory}
-            onUpdate={noop}
+            onUpdate={handleStepDataUpdate}
             viewType={StepCommandsViews.Pipeline}
             isStepGroup={false}
             isReadonly={isReadOnly}

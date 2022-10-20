@@ -209,17 +209,15 @@ describe('Test Azure Infrastructure Spec behavior', () => {
     fireEvent.click(addTags!)
     expect(getByText(container, 'keyLabel')).toBeTruthy()
     expect(container).toMatchSnapshot()
-    const tagEl = getByPlaceholderText('- Select -') as HTMLElement
+    const tagEl = container.querySelector('[name="tagslabel1"]') as HTMLElement
     fireEvent.change(tagEl!, { target: { value: 'newKey' } })
     const tagValEl = container.querySelector('[name=".tags."]') as HTMLElement
     fireEvent.change(tagValEl!, { target: { value: 'newValue' } })
     const deleteTag = container.querySelector('[data-icon="trash"]') as HTMLElement
     fireEvent.click(deleteTag!)
     expect(queryByText(container, 'keyLabel')).toBeNull()
-    await waitFor(() => expect(onUpdateHandler).toHaveBeenCalled())
     expect(subscriptionInput).not.toBeDisabled()
-    fireEvent.change(subscriptionInput!, { target: { label: 's2', value: 'subscription2' } })
-    await waitFor(() => expect(onUpdateHandler).toHaveBeenCalled())
+    await waitFor(() => expect(container.querySelector('[value="newValue"]')).toBeDefined())
   })
   test('Should call onUpdate if valid values entered - edit view', async () => {
     const onUpdateHandler = jest.fn()

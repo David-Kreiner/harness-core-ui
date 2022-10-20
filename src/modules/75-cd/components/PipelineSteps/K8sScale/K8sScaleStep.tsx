@@ -369,7 +369,7 @@ export class K8sScaleStep extends PipelineStep<K8sScaleData> {
   protected referenceId = 'K8sScaleStep'
   protected stepIcon: IconName = 'swap-vertical'
   protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.K8sScale'
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
 
   processFormData(values: K8sScaleData): K8sScaleData {
     if (

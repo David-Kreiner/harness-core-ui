@@ -29,7 +29,7 @@ export class FlagConfigurationStep extends PipelineStep<FlagConfigurationStepDat
   protected stepName = 'Flag Configuration'
   protected stepIcon: IconName = 'flag'
   protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.FlagConfiguration'
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
 
   renderStep(props: StepProps<FlagConfigurationStepData>): ReactElement {
     switch (props.stepViewType) {

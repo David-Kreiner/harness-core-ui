@@ -220,7 +220,7 @@ export class CustomApproval extends PipelineStep<CustomApprovalData> {
   protected stepIcon: IconName = 'custom-approval'
   protected stepIconColor = Color.GREY_700
   protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.CustomApproval'
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
   protected invocationMap: Map<
     RegExp,
     (path: string, yaml: string, params: Record<string, unknown>) => Promise<CompletionItemInterface[]>

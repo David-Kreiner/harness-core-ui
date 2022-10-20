@@ -12,6 +12,5 @@ declare const styles: {
   readonly inputWidth: string
   readonly radioGroup: string
   readonly toggle: string
-  readonly toggleMargin: string
 }
 export default styles

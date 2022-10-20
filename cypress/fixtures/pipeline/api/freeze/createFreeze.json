@@ -1,0 +1,19 @@
+{
+  "status": "SUCCESS",
+  "data": {
+    "accountId": "px7xd_BFRCi-pfWPYXVjvw",
+    "type": "MANUAL",
+    "status": "Enabled",
+    "name": "project level freeze",
+    "tags": {},
+    "orgIdentifier": "Archit",
+    "projectIdentifier": "ishant",
+    "identifier": "project_level_freeze",
+    "yaml": "freeze:\n  name: project level freeze\n  identifier: project_level_freeze\n  entityConfigs:\n    - name: Rule Number 1\n      entities:\n        - type: Service\n          filterType: Equals\n          entityRefs:\n            - testService\n        - type: EnvType\n          filterType: Equals\n          entityRefs:\n            - PROD\n    - name: Rule Number 2\n      entities:\n        - type: Service\n          filterType: All\n        - type: EnvType\n          filterType: All\n  status: Enabled\n",
+    "createdAt": 1665683703406,
+    "lastUpdatedAt": 1665683703406,
+    "freezeScope": "project"
+  },
+  "metaData": null,
+  "correlationId": "a7164835-ed7a-47fb-b52c-e5f60e9b0e86"
+}

@@ -217,10 +217,8 @@ export interface InfrastructureGroup {
 export const getInfraGroups = (
   deploymentType: ServiceDefinition['type'],
   getString: UseStringsReturn['getString'],
-  featureFlags: Record<string, boolean>
+  isSvcEnvEntityEnabled: boolean
 ): InfrastructureGroup[] => {
-  const { NG_DEPLOYMENT_TEMPLATE } = featureFlags
-
   const serverlessInfraGroups: InfrastructureGroup[] = [
     {
       groupLabel: '',
@@ -245,7 +243,7 @@ export const getInfraGroups = (
   const customDeploymentInfraGroups: InfrastructureGroup[] = [
     {
       groupLabel: '',
-      items: NG_DEPLOYMENT_TEMPLATE ? getInfraGroupItems([InfraDeploymentType.CustomDeployment], getString) : []
+      items: isSvcEnvEntityEnabled ? getInfraGroupItems([InfraDeploymentType.CustomDeployment], getString) : []
     }
   ]
 

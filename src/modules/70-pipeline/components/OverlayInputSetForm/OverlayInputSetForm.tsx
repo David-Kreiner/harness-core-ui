@@ -6,7 +6,7 @@
  */
 
 import React, { useMemo } from 'react'
-import { defaultTo, get, isNull, isUndefined, omit, omitBy, remove } from 'lodash-es'
+import { defaultTo, get, isNull, isUndefined, omit, omitBy, remove, set } from 'lodash-es'
 import type { MutateRequestOptions } from 'restful-react/dist/Mutate'
 import { Classes, Dialog, IDialogProps } from '@blueprintjs/core'
 import * as Yup from 'yup'
@@ -522,6 +522,14 @@ export function OverlayInputSetForm({
         'filePath',
         'storeType'
       )
+
+      // This removes the pseudo fields set for handling multiple fields in the form at once
+      set(
+        inputSetObj,
+        'pipeline',
+        omitBy(inputSetObjWithGitInfo.pipeline, (_val, key) => key.startsWith('_'))
+      )
+
       setSavedInputSetObj(inputSetObj)
       setInitialGitDetails(defaultTo(isEdit ? overlayInputSetResponse?.data?.gitDetails : gitDetails, {}))
       setInitialStoreMetadata(defaultTo(storeMetadata, {}))

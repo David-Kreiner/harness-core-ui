@@ -8,6 +8,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Dialog, Classes } from '@blueprintjs/core'
 import {
+  Text,
   Button,
   Formik,
   Layout,
@@ -18,10 +19,10 @@ import {
   SelectOption,
   OverlaySpinner
 } from '@harness/uicore'
-import { Color } from '@harness/design-system'
+import { Color, FontVariation } from '@harness/design-system'
 import { useModalHook } from '@harness/use-modal'
 import cx from 'classnames'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { isEmpty, defaultTo, keyBy, omitBy } from 'lodash-es'
 import type { FormikErrors, FormikProps } from 'formik'
 import useRBACError from '@rbac/utils/useRBACError/useRBACError'
@@ -78,6 +79,7 @@ import { StoreMetadata, StoreType } from '@common/constants/GitSyncTypes'
 import { YamlBuilderMemo } from '@common/components/YAMLBuilder/YamlBuilder'
 import { PipelineErrorView } from '@pipeline/components/RunPipelineModal/PipelineErrorView'
 import { getErrorsList } from '@pipeline/utils/errorUtils'
+import { useShouldDisableDeployment } from 'services/cd-ng'
 import { validatePipeline } from '../PipelineStudio/StepUtil'
 import { PreFlightCheckModal } from '../PreFlightCheckModal/PreFlightCheckModal'
 
@@ -97,7 +99,6 @@ import RunModalHeader from './RunModalHeader'
 import CheckBoxActions from './CheckBoxActions'
 import VisualView from './VisualView'
 import { useInputSets } from './useInputSets'
-
 import css from './RunPipelineForm.module.scss'
 
 export interface RunPipelineFormProps extends PipelineType<PipelinePathProps & GitQueryParams> {
@@ -200,6 +201,14 @@ function RunPipelineFormBasic({
     return stageIds
   }, [stagesExecuted, selectedStageData])
 
+  const { data: shouldDisableDeploymentData, loading: loadingShouldDisableDeployment } = useShouldDisableDeployment({
+    queryParams: {
+      accountIdentifier: accountId,
+      orgIdentifier,
+      projectIdentifier
+    }
+  })
+
   const { data: pipelineResponse, loading: loadingPipeline } = useGetPipeline({
     pipelineIdentifier,
     queryParams: {
@@ -271,7 +280,7 @@ function RunPipelineFormBasic({
       accountIdentifier: accountId,
       projectIdentifier,
       orgIdentifier,
-      moduleType: module,
+      moduleType: module || '',
       repoIdentifier,
       branch,
       notifyOnlyUser: notifyOnlyMe,
@@ -291,7 +300,7 @@ function RunPipelineFormBasic({
       accountIdentifier: accountId,
       projectIdentifier,
       orgIdentifier,
-      moduleType: module,
+      moduleType: module || '',
       repoIdentifier,
       branch,
       parentEntityConnectorRef: connectorRef,
@@ -306,7 +315,7 @@ function RunPipelineFormBasic({
       accountIdentifier: accountId,
       projectIdentifier,
       orgIdentifier,
-      moduleType: module,
+      moduleType: module || '',
       repoIdentifier,
       branch,
       parentEntityConnectorRef: connectorRef,
@@ -325,7 +334,7 @@ function RunPipelineFormBasic({
       accountIdentifier: accountId,
       projectIdentifier,
       orgIdentifier,
-      moduleType: module,
+      moduleType: module || '',
       repoIdentifier,
       branch,
       parentEntityConnectorRef: connectorRef,
@@ -880,7 +889,33 @@ function RunPipelineFormBasic({
                             },
                             permission: PermissionIdentifier.EXECUTE_PIPELINE
                           }}
-                          disabled={blockedStagesSelected || (getErrorsList(formErrors).errorCount > 0 && runClicked)}
+                          disabled={
+                            blockedStagesSelected ||
+                            (getErrorsList(formErrors).errorCount > 0 && runClicked) ||
+                            loadingShouldDisableDeployment ||
+                            shouldDisableDeploymentData?.data
+                          }
+                          tooltip={
+                            shouldDisableDeploymentData?.data ? (
+                              <Layout.Horizontal spacing="small" padding="small">
+                                <Text font={{ variation: FontVariation.SMALL }} color={Color.GREY_800}>
+                                  {getString('pipeline.runDisabledOnFreeze')}
+                                </Text>
+                                <Link
+                                  to={routes.toFreezeWindows({
+                                    projectIdentifier,
+                                    orgIdentifier,
+                                    accountId,
+                                    module
+                                  })}
+                                >
+                                  <Text font={{ variation: FontVariation.SMALL }} color={Color.PRIMARY_7}>
+                                    {getString('pipeline.viewFreeze')}
+                                  </Text>
+                                </Link>
+                              </Layout.Horizontal>
+                            ) : undefined
+                          }
                         />
                         <div className={css.secondaryButton}>
                           <Button

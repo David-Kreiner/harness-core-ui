@@ -1,0 +1,29 @@
+{
+  "status": "SUCCESS",
+  "data": {
+    "organizationResponse": {
+      "organization": { "identifier": "default", "name": "default", "description": "", "tags": {} },
+      "createdAt": null,
+      "lastModifiedAt": 1662459901548,
+      "harnessManaged": false
+    },
+    "projectsCount": 0,
+    "connectorsCount": 1,
+    "secretsCount": 0,
+    "delegatesCount": 0,
+    "templatesCount": 0,
+    "admins": [
+      {
+        "name": "ishantharness.io",
+        "email": "ishant@harness.io",
+        "uuid": "orgUUID",
+        "locked": false,
+        "disabled": false,
+        "externallyManaged": false
+      }
+    ],
+    "collaborators": []
+  },
+  "metaData": null,
+  "correlationId": "xyz"
+}

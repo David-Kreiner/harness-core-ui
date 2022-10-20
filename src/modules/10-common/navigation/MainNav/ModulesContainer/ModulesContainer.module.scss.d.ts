@@ -7,10 +7,9 @@
  **/
 // this is an auto-generated file, do not update this manually
 declare const styles: {
+  readonly border: string
   readonly chevron: string
   readonly container: string
   readonly disabled: string
-  readonly down: string
-  readonly up: string
 }
 export default styles

@@ -24,7 +24,7 @@ exports[`ResourceConstraintTooltip matches snapshot 1`] = `
         class="StyledProps--font StyledProps--main"
       >
         <a
-          href="/account/undefined/undefined/orgs/undefined/projects/undefined/pipelines/Some Identifier/undefined/Some Plan Execution Id/pipeline"
+          href="/account/undefined/home/orgs/undefined/projects/undefined/pipelines/Some Identifier/undefined/Some Plan Execution Id/pipeline"
         >
           <div
             class="Layout--horizontal StyledProps--main"

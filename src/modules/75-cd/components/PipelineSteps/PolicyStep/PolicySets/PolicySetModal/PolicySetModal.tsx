@@ -29,7 +29,7 @@ import { Dialog, IDialogProps, Tab } from '@blueprintjs/core'
 import { useStrings, StringKeys } from 'framework/strings'
 import { GetPolicySetQueryParams, PolicySet, useGetPolicySetList } from 'services/pm'
 
-import type { ProjectPathProps } from '@common/interfaces/RouteInterfaces'
+import type { ModulePathParams, ProjectPathProps } from '@common/interfaces/RouteInterfaces'
 
 import { PolicySetWizard } from '@governance/PolicySetWizard'
 
@@ -44,7 +44,7 @@ export interface PolicySetModalProps {
   name: string
   formikProps?: FormikProps<PolicyStepFormData>
   policySetIds: string[]
-  closeModal: () => void
+  closeModal: (action?: string) => void
 }
 
 const modalProps: IDialogProps = {
@@ -76,11 +76,16 @@ export function PolicySetModal({ name, formikProps, policySetIds, closeModal }: 
   })
   const [searchTerm, setsearchTerm] = useState<string>('')
 
-  const { accountId: accountIdentifier, projectIdentifier, orgIdentifier } = useParams<ProjectPathProps>()
+  const {
+    accountId: accountIdentifier,
+    projectIdentifier,
+    orgIdentifier,
+    module
+  } = useParams<ProjectPathProps & ModulePathParams>()
   const [queryParams, setQueryParams] = useState<GetPolicySetQueryParams>({
     accountIdentifier,
     ...((selectedTabId === PolicySetType.ORG || selectedTabId === PolicySetType.PROJECT) && { orgIdentifier }),
-    ...(selectedTabId === PolicySetType.PROJECT && { projectIdentifier })
+    ...(selectedTabId === PolicySetType.PROJECT && { projectIdentifier, module })
   })
 
   useEffect(() => {
@@ -103,7 +108,7 @@ export function PolicySetModal({ name, formikProps, policySetIds, closeModal }: 
     setQueryParams({
       accountIdentifier,
       ...((selectedTabId === PolicySetType.ORG || selectedTabId === PolicySetType.PROJECT) && { orgIdentifier }),
-      ...(selectedTabId === PolicySetType.PROJECT && { projectIdentifier })
+      ...(selectedTabId === PolicySetType.PROJECT && { projectIdentifier, module })
     })
   }, [selectedTabId])
 
@@ -261,10 +266,10 @@ export function PolicySetModal({ name, formikProps, policySetIds, closeModal }: 
             intent="primary"
             onClick={() => {
               formikProps?.setFieldValue(name, newPolicySetIds)
-              closeModal()
+              closeModal(getString('common.apply'))
             }}
           />
-          <Button text="Cancel" onClick={closeModal} />
+          <Button text="Cancel" onClick={() => closeModal()} />
         </Layout.Horizontal>
       </Container>
     </>
@@ -277,7 +282,7 @@ export function PolicySetModal({ name, formikProps, policySetIds, closeModal }: 
         enforceFocus={false}
         canEscapeKeyClose
         canOutsideClickClose
-        onClose={closeModal}
+        onClose={() => closeModal()}
         className={css.policySetModal}
         title={
           <Layout.Horizontal

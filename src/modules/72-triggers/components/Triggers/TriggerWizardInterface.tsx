@@ -5,6 +5,7 @@
  * https://polyformproject.org/wp-content/uploads/2020/06/PolyForm-Shield-1.0.0.txt.
  */
 
+import type { SecretReference } from '@secrets/components/CreateOrSelectSecret/CreateOrSelectSecret'
 import type { ConnectorInfoDTO } from 'services/cd-ng'
 import type { NGTriggerConfigV2, NGTriggerSourceV2, PipelineInfoConfig } from 'services/pipeline-ng'
 import type { AddConditionInterface } from '../AddConditionsSection/AddConditionsSection'
@@ -49,6 +50,7 @@ export interface FlatValidWebhookFormikValuesInterface {
   jexlCondition?: string
   pipelineBranchName?: string
   inputSetRefs?: string[]
+  encryptedWebhookSecretIdentifier?: SecretReference
 }
 export interface TriggerTypeSourceInterface {
   triggerType: NGTriggerSourceV2['type']

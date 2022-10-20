@@ -18,15 +18,17 @@ import { usePermission } from '@rbac/hooks/usePermission'
 import { ResourceType } from '@rbac/interfaces/ResourceType'
 import { PermissionIdentifier } from '@rbac/interfaces/PermissionIdentifier'
 import { useFreezeWindowListContext } from '@freeze-windows/context/FreezeWindowListContext'
+import type { FreezeStatus } from '@freeze-windows/utils/freezeWindowUtils'
 import type { FreezeWindowListColumnActions } from './FreezeWindowListCells'
 
 export interface FreezeWindowList {
   data: PageFreezeSummaryResponse
   onDeleteRow: FreezeWindowListColumnActions['onDeleteRow']
   onToggleFreezeRow: FreezeWindowListColumnActions['onToggleFreezeRow']
+  freezeStatusMap: Record<string, FreezeStatus>
 }
 
-export const FreezeWindowList: FC<FreezeWindowList> = ({ data, onToggleFreezeRow, onDeleteRow }) => {
+export const FreezeWindowList: FC<FreezeWindowList> = ({ data, onToggleFreezeRow, onDeleteRow, freezeStatusMap }) => {
   const history = useHistory()
   const { toggleRowSelect, selectedItems } = useFreezeWindowListContext()
 
@@ -75,6 +77,7 @@ export const FreezeWindowList: FC<FreezeWindowList> = ({ data, onToggleFreezeRow
       setSortBy={appliedSort => updateQueryParams({ sort: appliedSort })}
       sortBy={sort}
       disabled={!canEdit}
+      freezeStatusMap={freezeStatusMap}
     />
   )
 }

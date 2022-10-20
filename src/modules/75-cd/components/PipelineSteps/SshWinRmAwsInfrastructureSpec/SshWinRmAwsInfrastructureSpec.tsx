@@ -188,8 +188,7 @@ const SshWinRmAwsInfrastructureSpecEditable: React.FC<SshWinRmAwsInfrastructureS
       values.region &&
       getMultiTypeFromValue(values.region) === MultiTypeInputType.FIXED &&
       values.connectorRef &&
-      getMultiTypeFromValue(getValue(values.connectorRef)) === MultiTypeInputType.FIXED &&
-      getMultiTypeFromValue(get(values, 'awsInstanceFilter.tags', '')) === MultiTypeInputType.FIXED
+      getMultiTypeFromValue(getValue(values.connectorRef)) === MultiTypeInputType.FIXED
     ) {
       refetchTags({
         queryParams: {
@@ -299,6 +298,7 @@ const SshWinRmAwsInfrastructureSpecEditable: React.FC<SshWinRmAwsInfrastructureS
                           if (value) {
                             formik.setFieldValue('region', option)
                           }
+                          formik.setFieldValue('awsInstanceFilter.tags', undefined)
                         },
                         selectProps: {
                           items: regions,
@@ -317,7 +317,7 @@ const SshWinRmAwsInfrastructureSpecEditable: React.FC<SshWinRmAwsInfrastructureS
                     <MultiTypeTagSelector
                       name="awsInstanceFilter.tags"
                       className="tags-select"
-                      formik={formik}
+                      expressions={expressions}
                       allowableTypes={
                         canTagsHaveFixedValue
                           ? [MultiTypeInputType.FIXED, MultiTypeInputType.RUNTIME, MultiTypeInputType.EXPRESSION]
@@ -542,8 +542,7 @@ export class SshWinRmAwsInfrastructureSpec extends PipelineStep<SshWinRmAwsInfra
         <SshWimRmAwsInfrastructureSpecInputForm
           {...(customStepProps as SshWinRmAwsInfrastructureSpecEditableProps)}
           initialValues={initialValues}
-          onUpdate={onUpdate}
-          stepViewType={stepViewType}
+          path={inputSetData?.path || ''}
           readonly={get(inputSetData, 'readonly', undefined)}
           template={get(inputSetData, 'template', undefined) as SshWinRmAwsInfrastructureTemplate}
           allValues={get(inputSetData, 'allValues', undefined)}

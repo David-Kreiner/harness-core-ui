@@ -34,8 +34,8 @@ export class ECSCanaryDeleteStep extends PipelineStep<StepElementConfig> {
   protected type = StepType.EcsCanaryDelete
   protected stepName = 'ECS Canary Delete'
   protected stepIcon: IconName = 'canary-delete'
-  protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.K8sCanaryDelete'
-  protected isHarnessSpecific = true
+  protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.ECSCanaryDelete'
+  protected isHarnessSpecific = false
   protected defaultValues: StepElementConfig = {
     identifier: '',
     name: '',

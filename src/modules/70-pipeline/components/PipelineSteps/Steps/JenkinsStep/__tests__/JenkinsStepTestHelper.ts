@@ -28,7 +28,7 @@ export const getJenkinsStepEditModeProps = (): JenkinsStepStepModeProps => ({
       jobParameter: [],
       delegateSelectors: [],
       unstableStatusAsSuccess: false,
-      captureEnvironmentVariable: false
+      useConnectorUrlForJobExecution: false
     }
   },
   onUpdate: jest.fn(),
@@ -48,7 +48,7 @@ export const getJenkinsStepEditModePropsWithConnectorId = (): JenkinsStepStepMod
       jobParameter: [],
       delegateSelectors: [],
       unstableStatusAsSuccess: false,
-      captureEnvironmentVariable: false
+      useConnectorUrlForJobExecution: false
     }
   },
   onUpdate: jest.fn(),
@@ -73,7 +73,7 @@ export const getJenkinsSteplEditModePropsWithValues = (): JenkinsStepStepModePro
       ],
       delegateSelectors: [],
       unstableStatusAsSuccess: false,
-      captureEnvironmentVariable: false,
+      useConnectorUrlForJobExecution: false,
       jobName: '<+input>'
     },
     timeout: '10m'
@@ -123,7 +123,7 @@ export const getJenkinsStepDeploymentModeProps = (): JenkinsStepDeploymentModePr
         ],
         delegateSelectors: [],
         unstableStatusAsSuccess: false,
-        captureEnvironmentVariable: false,
+        useConnectorUrlForJobExecution: false,
         jobName: RUNTIME_INPUT_VALUE
       },
       timeout: '10m'
@@ -154,7 +154,7 @@ export const getJenkinsStepInputVariableModeProps = () => ({
           }
         ],
         unstableStatusAsSuccess: false,
-        captureEnvironmentVariable: false,
+        useConnectorUrlForJobExecution: false,
         delegateSelectors: []
       }
     },
@@ -176,7 +176,7 @@ export const getJenkinsStepInputVariableModeProps = () => ({
       ],
       delegateSelectors: [],
       unstableStatusAsSuccess: false,
-      captureEnvironmentVariable: false,
+      useConnectorUrlForJobExecution: false,
       jobName: '<+input>'
     },
     timeout: '10m'

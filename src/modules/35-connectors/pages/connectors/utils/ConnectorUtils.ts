@@ -2012,7 +2012,7 @@ export const setupVaultFormData = async (connectorInfo: ConnectorInfoDTO, accoun
     secretId: secretId || undefined,
     authToken: authToken || undefined,
     sinkPath: connectorInfoSpec?.sinkPath || '',
-    renewalIntervalMinutes: connectorInfoSpec?.renewalIntervalMinutes || 10,
+    renewalIntervalMinutes: connectorInfoSpec?.renewalIntervalMinutes,
     vaultAwsIamRole: connectorInfoSpec.vaultAwsIamRole,
     xvaultAwsIamServerId,
     useAwsIam: connectorInfoSpec.useAwsIam,
@@ -2197,6 +2197,8 @@ export const getConnectorDisplayName = (type: string): string => {
       return 'Custom Secrets Manager'
     case Connectors.GcpSecretManager:
       return 'GCP Secrets Manager'
+    case Connectors.SPOT:
+      return 'Spot'
     default:
       return ''
   }

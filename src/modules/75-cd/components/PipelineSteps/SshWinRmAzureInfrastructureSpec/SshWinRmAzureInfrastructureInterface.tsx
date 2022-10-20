@@ -73,4 +73,5 @@ export interface AzureInfrastructureSpecEditableProps {
   metadataMap: Required<VariableMergeServiceResponse>['metadataMap']
   variablesData: SshWinRmAzureInfrastructure
   allowableTypes: AllowedTypes
+  path: string
 }

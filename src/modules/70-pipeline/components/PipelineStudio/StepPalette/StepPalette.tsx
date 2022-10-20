@@ -13,6 +13,7 @@ import cx from 'classnames'
 import { useParams } from 'react-router-dom'
 import { StepCategory, StepData, StepPalleteModuleInfo, useGetStepsV2 } from 'services/pipeline-ng'
 import { useMutateAsGet } from '@common/hooks'
+import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
 import { useStrings } from 'framework/strings'
 import { useTelemetry } from '@common/hooks/useTelemetry'
 import { StepActions } from '@common/constants/TrackingConstants'
@@ -69,6 +70,7 @@ export function StepPalette({ onSelect, stepsFactory, stepPaletteModuleInfos }: 
   // Need this when we have same names for category and sub category
   const [selectedLevel, setSelectedLevel] = useState<string | null>(null)
   const { accountId } = useParams<{ module: string; accountId: string }>()
+  const { CHAOS_ENABLED } = useFeatureFlags()
 
   function Message({ stepsDataLoading }: { stepsDataLoading: boolean }): React.ReactElement | null {
     const message = stepsDataLoading
@@ -100,7 +102,13 @@ export function StepPalette({ onSelect, stepsFactory, stepPaletteModuleInfos }: 
     })
 
     if (toShow) {
-      setStepsCategories(toShow)
+      // Hide Chaos step when CHAOS_ENABLED is false
+      if (!CHAOS_ENABLED) {
+        const filterSteps = toShow.filter(step => step.name !== 'Chaos')
+        setStepsCategories(filterSteps)
+      } else {
+        setStepsCategories(toShow)
+      }
       setOriginalCategories(toShow)
     }
   }, [stepsData?.data?.stepCategories])

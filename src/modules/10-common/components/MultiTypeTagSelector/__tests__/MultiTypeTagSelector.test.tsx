@@ -6,6 +6,7 @@
  */
 
 import React from 'react'
+import { Formik } from 'formik'
 import { queryAllByAttribute, render } from '@testing-library/react'
 import { TestWrapper } from '@common/utils/testUtils'
 import MultiTypeTagSelector from '../MultiTypeTagSelector'
@@ -13,16 +14,6 @@ import MultiTypeTagSelector from '../MultiTypeTagSelector'
 jest.mock('@common/components/YAMLBuilder/YamlBuilder')
 
 const tagsFieldName = 'tags'
-
-const formik = {
-  setErrors: jest.fn(),
-  errors: {},
-  setFieldTouched: jest.fn(),
-  setFieldValue: jest.fn(),
-  values: {
-    [tagsFieldName]: {}
-  }
-}
 
 const initialTagsMock = {
   tag1: 'tag1Value'
@@ -32,14 +23,16 @@ describe('Test MultiTypeTagSelector component render', () => {
   test('test empty component render and click add', async () => {
     const { container } = render(
       <TestWrapper>
-        <MultiTypeTagSelector
-          allowableTypes={[]}
-          formik={formik as any}
-          tags={[]}
-          isLoadingTags={false}
-          name={tagsFieldName}
-          initialTags={{}}
-        />
+        <Formik initialValues={{}} onSubmit={jest.fn()}>
+          <MultiTypeTagSelector
+            allowableTypes={[]}
+            tags={[]}
+            isLoadingTags={false}
+            name={tagsFieldName}
+            initialTags={{}}
+            expressions={[]}
+          />
+        </Formik>
       </TestWrapper>
     )
 
@@ -51,14 +44,16 @@ describe('Test MultiTypeTagSelector component render', () => {
   test('test component with predefined tags', async () => {
     const { container } = render(
       <TestWrapper>
-        <MultiTypeTagSelector
-          allowableTypes={[]}
-          formik={formik as any}
-          tags={[]}
-          isLoadingTags={false}
-          name={tagsFieldName}
-          initialTags={initialTagsMock}
-        />
+        <Formik initialValues={{}} onSubmit={jest.fn()}>
+          <MultiTypeTagSelector
+            allowableTypes={[]}
+            tags={[]}
+            isLoadingTags={false}
+            name={tagsFieldName}
+            initialTags={initialTagsMock}
+            expressions={[]}
+          />
+        </Formik>
       </TestWrapper>
     )
 
@@ -69,14 +64,16 @@ describe('Test MultiTypeTagSelector component render', () => {
   test('test component with predefined tags and remove it', async () => {
     const { container } = render(
       <TestWrapper>
-        <MultiTypeTagSelector
-          allowableTypes={[]}
-          formik={formik as any}
-          tags={[]}
-          isLoadingTags={false}
-          name={tagsFieldName}
-          initialTags={initialTagsMock}
-        />
+        <Formik initialValues={{}} onSubmit={jest.fn()}>
+          <MultiTypeTagSelector
+            allowableTypes={[]}
+            tags={[]}
+            isLoadingTags={false}
+            name={tagsFieldName}
+            initialTags={initialTagsMock}
+            expressions={[]}
+          />
+        </Formik>
       </TestWrapper>
     )
 
@@ -89,18 +86,20 @@ describe('Test MultiTypeTagSelector component render', () => {
   test('test component with multiple predefined tags', async () => {
     const { container } = render(
       <TestWrapper>
-        <MultiTypeTagSelector
-          allowableTypes={[]}
-          formik={formik as any}
-          tags={[]}
-          isLoadingTags={false}
-          name={tagsFieldName}
-          initialTags={{
-            tag1: 'tag1',
-            tag2: 'tag2',
-            tag3: 'tag3'
-          }}
-        />
+        <Formik initialValues={{}} onSubmit={jest.fn()}>
+          <MultiTypeTagSelector
+            allowableTypes={[]}
+            tags={[]}
+            isLoadingTags={false}
+            name={tagsFieldName}
+            initialTags={{
+              tag1: 'tag1',
+              tag2: 'tag2',
+              tag3: 'tag3'
+            }}
+            expressions={[]}
+          />
+        </Formik>
       </TestWrapper>
     )
 
@@ -111,14 +110,16 @@ describe('Test MultiTypeTagSelector component render', () => {
   test('test component with loading tags', async () => {
     const { container } = render(
       <TestWrapper>
-        <MultiTypeTagSelector
-          allowableTypes={[]}
-          formik={formik as any}
-          tags={[]}
-          isLoadingTags={true}
-          name={tagsFieldName}
-          initialTags={initialTagsMock}
-        />
+        <Formik initialValues={{}} onSubmit={jest.fn()}>
+          <MultiTypeTagSelector
+            allowableTypes={[]}
+            tags={[]}
+            isLoadingTags={true}
+            name={tagsFieldName}
+            initialTags={initialTagsMock}
+            expressions={[]}
+          />
+        </Formik>
       </TestWrapper>
     )
 

@@ -257,22 +257,31 @@ exports[`<ExecutionLandingPage /> tests for CI loading state - snapshot test for
               >
                 <span
                   class="bp3-icon StyledProps--main"
-                  data-icon="main-view"
+                  data-icon="Edit"
                 >
                   <svg
-                    height="16"
-                    viewBox="0 0 14 9"
-                    width="16"
+                    height="12"
+                    viewBox="0 0 16 16"
+                    width="12"
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="M7 3.5c-.5 0-.9.4-.9.9s.4.9.9.9.9-.4.9-.9-.4-.9-.9-.9zm7 .9c0-.1 0-.1 0 0 0-.2-.1-.3-.1-.4-.4-.6-1-1.1-1.5-1.6-1.2-1-2.5-1.9-4-2.2C7.5 0 6.7-.1 5.8.1 5 .3 4.3.6 3.6 1c-1.1.6-2.1 1.5-3 2.4-.2.2-.3.4-.5.6-.1.2-.1.5 0 .8.4.6 1 1.1 1.5 1.6 1.2 1 2.5 1.9 4 2.2.8.2 1.7.2 2.6 0 .8-.1 1.5-.4 2.2-.8 1.1-.6 2.1-1.5 3-2.4.2-.2.3-.4.5-.6 0-.1.1-.2.1-.3v-.1zM7 7C5.6 7 4.4 5.8 4.4 4.4S5.6 1.7 7 1.7s2.6 1.2 2.6 2.6S8.5 7 7 7z"
-                      fill="#4d5969"
+                      clip-rule="evenodd"
+                      d="M11.207.485a.5.5 0 01.354-.146 3.5 3.5 0 013.5 3.5.5.5 0 01-.146.353l-11 11a.5.5 0 01-.354.147h-3a.5.5 0 01-.5-.5v-3a.5.5 0 01.146-.354l11-11zm.553.862L1.061 12.046v2.293h2.293l10.7-10.7a2.5 2.5 0 00-2.294-2.292z"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M11.89 2.646a.5.5 0 010 .708L8.353 6.889a.5.5 0 01-.708-.707l3.536-3.536a.5.5 0 01.707 0z"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                      opacity="0.3"
                     />
                   </svg>
                 </span>
                 <span>
-                  common.viewText
+                  edit
                 </span>
               </a>
               <div
@@ -865,22 +874,31 @@ exports[`<ExecutionLandingPage /> tests loading state - snapshot test 1`] = `
               >
                 <span
                   class="bp3-icon StyledProps--main"
-                  data-icon="main-view"
+                  data-icon="Edit"
                 >
                   <svg
-                    height="16"
-                    viewBox="0 0 14 9"
-                    width="16"
+                    height="12"
+                    viewBox="0 0 16 16"
+                    width="12"
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="M7 3.5c-.5 0-.9.4-.9.9s.4.9.9.9.9-.4.9-.9-.4-.9-.9-.9zm7 .9c0-.1 0-.1 0 0 0-.2-.1-.3-.1-.4-.4-.6-1-1.1-1.5-1.6-1.2-1-2.5-1.9-4-2.2C7.5 0 6.7-.1 5.8.1 5 .3 4.3.6 3.6 1c-1.1.6-2.1 1.5-3 2.4-.2.2-.3.4-.5.6-.1.2-.1.5 0 .8.4.6 1 1.1 1.5 1.6 1.2 1 2.5 1.9 4 2.2.8.2 1.7.2 2.6 0 .8-.1 1.5-.4 2.2-.8 1.1-.6 2.1-1.5 3-2.4.2-.2.3-.4.5-.6 0-.1.1-.2.1-.3v-.1zM7 7C5.6 7 4.4 5.8 4.4 4.4S5.6 1.7 7 1.7s2.6 1.2 2.6 2.6S8.5 7 7 7z"
-                      fill="#4d5969"
+                      clip-rule="evenodd"
+                      d="M11.207.485a.5.5 0 01.354-.146 3.5 3.5 0 013.5 3.5.5.5 0 01-.146.353l-11 11a.5.5 0 01-.354.147h-3a.5.5 0 01-.5-.5v-3a.5.5 0 01.146-.354l11-11zm.553.862L1.061 12.046v2.293h2.293l10.7-10.7a2.5 2.5 0 00-2.294-2.292z"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M11.89 2.646a.5.5 0 010 .708L8.353 6.889a.5.5 0 01-.708-.707l3.536-3.536a.5.5 0 01.707 0z"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                      opacity="0.3"
                     />
                   </svg>
                 </span>
                 <span>
-                  common.viewText
+                  edit
                 </span>
               </a>
               <div

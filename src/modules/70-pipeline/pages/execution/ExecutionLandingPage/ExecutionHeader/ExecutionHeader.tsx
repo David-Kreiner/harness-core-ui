@@ -140,8 +140,8 @@ export function ExecutionHeader(): React.ReactElement {
               storeType: pipelineExecutionSummary?.storeType as StoreType
             })}
           >
-            <Icon name="main-view" />
-            <String stringID="common.viewText" />
+            <Icon name="Edit" size={12} />
+            <String stringID="edit" />
           </Link>
 
           <ExecutionActions

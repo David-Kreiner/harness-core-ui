@@ -125,7 +125,7 @@ describe('Test DeploymentInfraWrapperWithRef', () => {
     })
 
     const stepCardViewButton = await waitFor(() =>
-      container.querySelector('[data-testid="step-card-http_project_level-0"]')
+      container.querySelector('[data-testid="step-card-http_project_level-1"]')
     )
     fireEvent.click(stepCardViewButton!)
 

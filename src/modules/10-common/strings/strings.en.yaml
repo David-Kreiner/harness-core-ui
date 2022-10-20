@@ -983,6 +983,8 @@ moduleConfig:
 selectModules: Select Modules
 configureModuleList: Configure Module List
 codeErrorsAgents: Code Error Agents
+cdAndGitops: Continuous Delivery & GitOps
+stoText: Security Testing Orchestration
 
 # Chaos Module
 chaosText: Chaos
@@ -1037,6 +1039,7 @@ serviceName: Service Name
 assignedAt: Assigned at
 assignedThrough: Assigned Through
 directly: Directly
+noAvailableTags: No available tags
 loadBalancer: Load Balancer
 environmentInputs: Environment inputs
 infrastructures: Infrastructures
@@ -1078,3 +1081,4 @@ schedulePanel:
   expressionBreakdown: 'Expression Breakdown'
   cronExpression: 'Cron Expression'
   cronExpressionRequired: 'Cron Expression required'
+allClusters: 'All Clusters'

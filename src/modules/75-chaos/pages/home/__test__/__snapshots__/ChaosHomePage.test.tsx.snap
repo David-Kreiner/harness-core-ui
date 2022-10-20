@@ -1,42 +1,221 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Chaos Homepage Test Ensure project success handler calls history push 1`] = `
+exports[`ChaosHomePage snapshot test should display a loading spinner if the module license call is loading 1`] = `
 <div>
-  <div>
-    <h1>
-      Not Found
-    </h1>
+  <div
+    class="StyledProps--font StyledProps--main PageSpinner--spinner StyledProps--flex StyledProps--flex-align-center-center"
+  >
     <div
-      data-testid="location"
+      class="Layout--vertical Layout--layout-spacing-medium StyledProps--main PageSpinner--content"
+      style="align-items: center; width: 500px;"
     >
-      /account/undefined/chaos/orgs//projects/testID/dashboard
+      <span
+        class="bp3-icon StyledProps--main StyledProps--color StyledProps--color-grey600"
+        data-icon="steps-spinner"
+      >
+        <svg
+          height="32"
+          viewBox="0 0 128 128"
+          width="32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g>
+            <path
+              d="M122.5 69.25H96.47a33.1 33.1 0 000-10.5h26.05a5.25 5.25 0 010 10.5z"
+              fill="#ff8e02"
+            />
+            <path
+              d="M112.04 97.83L89.47 84.8a33.1 33.1 0 005.25-9.1l22.57 13.03a5.25 5.25 0 01-5.28 9.1zM88.68 117.35L75.65 94.78a33.1 33.1 0 009.1-5.25l13.02 22.57a5.25 5.25 0 11-9.1 5.25zM58.7 122.57V96.5a33.1 33.1 0 0010.5 0v26.07a5.25 5.25 0 01-10.5 0zM30.1 112.1l13.04-22.57a33.1 33.1 0 009.1 5.25L39.2 117.35a5.25 5.25 0 11-9.1-5.25zM10.6 88.74L33.16 75.7a33.1 33.1 0 005.25 9.1L15.88 97.83a5.25 5.25 0 11-5.25-9.1z"
+              fill="#ffddb3"
+              fill-opacity="0.3"
+            />
+            <path
+              d="M5.37 58.75h26.06a33.1 33.1 0 000 10.5H5.37a5.25 5.25 0 010-10.5z"
+              fill="#ffd29a"
+              fill-opacity="0.4"
+            />
+            <path
+              d="M15.85 30.17L38.4 43.2a33.1 33.1 0 00-5.24 9.1L10.6 39.25a5.25 5.25 0 115.25-9.1z"
+              fill="#ffc680"
+              fill-opacity="0.5"
+            />
+            <path
+              d="M39.2 10.65l13.03 22.57a33.1 33.1 0 00-9.1 5.25l-13-22.57a5.25 5.25 0 119.1-5.25z"
+              fill="#ffbb67"
+              fill-opacity="0.6"
+            />
+            <path
+              d="M69.2 5.43V31.5a33.1 33.1 0 00-10.5 0V5.42a5.25 5.25 0 1110.5 0z"
+              fill="#ffb04d"
+              fill-opacity="0.7"
+            />
+            <path
+              d="M97.77 15.9L84.75 38.47a33.1 33.1 0 00-9.1-5.25l13.03-22.57a5.25 5.25 0 119.1 5.25z"
+              fill="#ffa535"
+              fill-opacity="0.8"
+            />
+            <path
+              d="M117.3 39.26L94.7 52.3a33.1 33.1 0 00-5.25-9.1l22.57-13.03a5.25 5.25 0 015.25 9.1z"
+              fill="#ff991b"
+              fill-opacity="0.9"
+            />
+            <animatetransform
+              attributeName="transform"
+              calcMode="discrete"
+              dur="1200ms"
+              repeatCount="indefinite"
+              type="rotate"
+              values="0 64 64;30 64 64;60 64 64;90 64 64;120 64 64;150 64 64;180 64 64;210 64 64;240 64 64;270 64 64;300 64 64;330 64 64"
+            />
+          </g>
+        </svg>
+      </span>
+      <p
+        class="StyledProps--font StyledProps--main StyledProps--font-size-medium StyledProps--font-align-center StyledProps--color StyledProps--color-grey600"
+      >
+        Loading, please wait...
+      </p>
     </div>
   </div>
 </div>
 `;
 
-exports[`Chaos Homepage Test Ensure project success handler does not redirect when project is empty 1`] = `
+exports[`ChaosHomePage snapshot test should display an error if the get licenses call fails 1`] = `
 <div>
   <div
-    class="homepagetemplate"
+    class="StyledProps--font StyledProps--main PageSpinner--spinner StyledProps--flex StyledProps--flex-align-center-center"
   >
-    <button
-      class="projectCreate"
-      type="button"
-    />
+    <div
+      class="Layout--vertical Layout--layout-spacing-medium StyledProps--main PageSpinner--content"
+      style="align-items: center; width: 500px;"
+    >
+      <span
+        class="bp3-icon StyledProps--main StyledProps--color StyledProps--color-grey600"
+        data-icon="steps-spinner"
+      >
+        <svg
+          height="32"
+          viewBox="0 0 128 128"
+          width="32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g>
+            <path
+              d="M122.5 69.25H96.47a33.1 33.1 0 000-10.5h26.05a5.25 5.25 0 010 10.5z"
+              fill="#ff8e02"
+            />
+            <path
+              d="M112.04 97.83L89.47 84.8a33.1 33.1 0 005.25-9.1l22.57 13.03a5.25 5.25 0 01-5.28 9.1zM88.68 117.35L75.65 94.78a33.1 33.1 0 009.1-5.25l13.02 22.57a5.25 5.25 0 11-9.1 5.25zM58.7 122.57V96.5a33.1 33.1 0 0010.5 0v26.07a5.25 5.25 0 01-10.5 0zM30.1 112.1l13.04-22.57a33.1 33.1 0 009.1 5.25L39.2 117.35a5.25 5.25 0 11-9.1-5.25zM10.6 88.74L33.16 75.7a33.1 33.1 0 005.25 9.1L15.88 97.83a5.25 5.25 0 11-5.25-9.1z"
+              fill="#ffddb3"
+              fill-opacity="0.3"
+            />
+            <path
+              d="M5.37 58.75h26.06a33.1 33.1 0 000 10.5H5.37a5.25 5.25 0 010-10.5z"
+              fill="#ffd29a"
+              fill-opacity="0.4"
+            />
+            <path
+              d="M15.85 30.17L38.4 43.2a33.1 33.1 0 00-5.24 9.1L10.6 39.25a5.25 5.25 0 115.25-9.1z"
+              fill="#ffc680"
+              fill-opacity="0.5"
+            />
+            <path
+              d="M39.2 10.65l13.03 22.57a33.1 33.1 0 00-9.1 5.25l-13-22.57a5.25 5.25 0 119.1-5.25z"
+              fill="#ffbb67"
+              fill-opacity="0.6"
+            />
+            <path
+              d="M69.2 5.43V31.5a33.1 33.1 0 00-10.5 0V5.42a5.25 5.25 0 1110.5 0z"
+              fill="#ffb04d"
+              fill-opacity="0.7"
+            />
+            <path
+              d="M97.77 15.9L84.75 38.47a33.1 33.1 0 00-9.1-5.25l13.03-22.57a5.25 5.25 0 119.1 5.25z"
+              fill="#ffa535"
+              fill-opacity="0.8"
+            />
+            <path
+              d="M117.3 39.26L94.7 52.3a33.1 33.1 0 00-5.25-9.1l22.57-13.03a5.25 5.25 0 015.25 9.1z"
+              fill="#ff991b"
+              fill-opacity="0.9"
+            />
+            <animatetransform
+              attributeName="transform"
+              calcMode="discrete"
+              dur="1200ms"
+              repeatCount="indefinite"
+              type="rotate"
+              values="0 64 64;30 64 64;60 64 64;90 64 64;120 64 64;150 64 64;180 64 64;210 64 64;240 64 64;270 64 64;300 64 64;330 64 64"
+            />
+          </g>
+        </svg>
+      </span>
+      <p
+        class="StyledProps--font StyledProps--main StyledProps--font-size-medium StyledProps--font-align-center StyledProps--color StyledProps--color-grey600"
+      >
+        Loading, please wait...
+      </p>
+    </div>
   </div>
 </div>
 `;
 
-exports[`Chaos Homepage Test should render ChaosHomePage with proper headings 1`] = `
+exports[`ChaosHomePage snapshot test should move to the trial page when query param trial is true 1`] = `
 <div>
   <div
-    class="homepagetemplate"
+    class="StyledProps--font StyledProps--main container"
+    style="background: transparent url(test-file-stub) no-repeat;"
   >
-    <button
-      class="projectCreate"
-      type="button"
-    />
+    <div
+      class="Layout--vertical Layout--layout-spacing-medium StyledProps--main"
+    >
+      <h1
+        class="StyledProps--font StyledProps--font-h1 StyledProps--main StyledProps--font-weight-bold StyledProps--font-size-large StyledProps--color StyledProps--color-black100"
+      >
+        chaos.homepage.chaosHomePageTitle
+      </h1>
+      <p
+        class="StyledProps--font StyledProps--main subTitle StyledProps--color"
+      >
+        chaos.homepage.slogan
+      </p>
+      <a
+        class="bp3-button Button--button StyledProps--font StyledProps--main link StyledProps--color StyledProps--font StyledProps--font-size-normal Button--with-current-color Button--link"
+        href="https://docs.harness.io/category/kl0mxwpfw1-hce-category"
+        rel="noreferrer noopener"
+        role="button"
+        tabindex="0"
+        target="_blank"
+      >
+        <span
+          class="bp3-button-text"
+        >
+          chaos.homepage.learnMore
+        </span>
+      </a>
+      <div
+        class="Layout--horizontal Layout--layout-spacing-large StyledProps--main StyledProps--flex"
+      >
+        <button
+          class="bp3-button bp3-large Button--button StyledProps--font StyledProps--main Button--with-current-color Button--iconOnly Button--variation Button--variation-primary"
+          type="button"
+        >
+          <span
+            class="bp3-button-text"
+          >
+            createProject
+          </span>
+        </button>
+        <p
+          class="StyledProps--font StyledProps--main StyledProps--font-size-medium StyledProps--color StyledProps--color-black"
+        >
+          orSelectExisting
+        </p>
+        <span
+          style="flex-grow: 1;"
+        />
+      </div>
+    </div>
   </div>
 </div>
 `;

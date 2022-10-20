@@ -135,7 +135,7 @@ export const Organizationfield: React.FC<OrganizationfieldPropsInterface> = ({
             setFieldValue(excludeProjName, undefined)
           }
 
-          if (isMultiSelected) {
+          if (isMultiSelected || isEmptyOrg) {
             // Set org field
             setFieldValue(orgCheckBoxName, false)
             setFieldValue(excludeOrgName, undefined)

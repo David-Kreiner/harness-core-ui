@@ -26,7 +26,7 @@ exports[`Test Azure Infrastructure Spec behavior Should call onUpdate if valid v
             class="Layout--vertical Layout--layout-spacing-medium StyledProps--main"
           >
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main formRow"
+              class="Layout--horizontal StyledProps--main formGroup md inputWrapper"
             >
               <div>
                 <button
@@ -37,7 +37,7 @@ exports[`Test Azure Infrastructure Spec behavior Should call onUpdate if valid v
               </div>
             </div>
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main formRow"
+              class="Layout--horizontal StyledProps--main formGroup md inputWrapper"
             >
               <div
                 class="bp3-form-group inputWidth"
@@ -157,7 +157,7 @@ exports[`Test Azure Infrastructure Spec behavior Should call onUpdate if valid v
               </div>
             </div>
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main formRow"
+              class="Layout--horizontal StyledProps--main formGroup md inputWrapper"
             >
               <div
                 class="bp3-form-group inputWidth"
@@ -277,7 +277,7 @@ exports[`Test Azure Infrastructure Spec behavior Should call onUpdate if valid v
               </div>
             </div>
             <div
-              class="Layout--vertical StyledProps--main inputWidth"
+              class="Layout--vertical Layout--layout-spacing-small StyledProps--main inputWidth"
             >
               <div
                 class="bp3-form-group"
@@ -363,7 +363,7 @@ exports[`Test Azure Infrastructure Spec behavior Should call onUpdate if valid v
                               autocomplete="off"
                               class="bp3-input"
                               name="tagslabel1"
-                              placeholder="- Select -"
+                              placeholder=""
                               style="padding-right: 0px;"
                               type="text"
                               value="key"
@@ -721,7 +721,7 @@ exports[`Test Azure Infrastructure Spec behavior Should call onUpdate if valid v
             class="Layout--vertical Layout--layout-spacing-medium StyledProps--main"
           >
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main formRow"
+              class="Layout--horizontal StyledProps--main formGroup md inputWrapper"
             >
               <div>
                 <button
@@ -732,7 +732,7 @@ exports[`Test Azure Infrastructure Spec behavior Should call onUpdate if valid v
               </div>
             </div>
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main formRow"
+              class="Layout--horizontal StyledProps--main formGroup md inputWrapper"
             >
               <div
                 class="bp3-form-group inputWidth"
@@ -852,7 +852,7 @@ exports[`Test Azure Infrastructure Spec behavior Should call onUpdate if valid v
               </div>
             </div>
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main formRow"
+              class="Layout--horizontal StyledProps--main formGroup md inputWrapper"
             >
               <div
                 class="bp3-form-group inputWidth"
@@ -972,7 +972,7 @@ exports[`Test Azure Infrastructure Spec behavior Should call onUpdate if valid v
               </div>
             </div>
             <div
-              class="Layout--vertical StyledProps--main inputWidth"
+              class="Layout--vertical Layout--layout-spacing-small StyledProps--main inputWidth"
             >
               <div
                 class="bp3-form-group"
@@ -1058,7 +1058,7 @@ exports[`Test Azure Infrastructure Spec behavior Should call onUpdate if valid v
                               autocomplete="off"
                               class="bp3-input"
                               name="tagslabel1"
-                              placeholder="- Select -"
+                              placeholder=""
                               style="padding-right: 0px;"
                               type="text"
                               value="key"
@@ -1636,7 +1636,7 @@ exports[`Test Azure Infrastructure Spec behavior Should call onUpdate if valid v
                 class="Tooltip--acenter"
                 data-tooltip-id="stepTestUtilForm_.tags"
               >
-                Tags
+                tagLabel
               </span>
               <div
                 class="bp3-popover-wrapper typeSelectorWrapper"
@@ -1703,8 +1703,8 @@ exports[`Test Azure Infrastructure Spec behavior Should call onUpdate if valid v
                       <input
                         autocomplete="off"
                         class="bp3-input"
-                        name=".tagslabel1"
-                        placeholder="- Select -"
+                        name="tagslabel1"
+                        placeholder=""
                         style="padding-right: 0px;"
                         type="text"
                         value=""
@@ -2224,7 +2224,7 @@ exports[`Test Azure Infrastructure Spec snapshot Should render edit view for inp
                 class="Tooltip--acenter"
                 data-tooltip-id="stepTestUtilForm_.tags"
               >
-                Tags
+                tagLabel
               </span>
               <div
                 class="bp3-popover-wrapper typeSelectorWrapper"
@@ -2291,8 +2291,8 @@ exports[`Test Azure Infrastructure Spec snapshot Should render edit view for inp
                       <input
                         autocomplete="off"
                         class="bp3-input"
-                        name=".tagslabel1"
-                        placeholder="- Select -"
+                        name="tagslabel1"
+                        placeholder=""
                         style="padding-right: 0px;"
                         type="text"
                         value="key"
@@ -2346,7 +2346,7 @@ exports[`Test Azure Infrastructure Spec snapshot Should render edit view for inp
                         class="bp3-input"
                         name=".tags.key"
                         type="text"
-                        value=""
+                        value="value"
                       />
                     </div>
                   </div>
@@ -2562,7 +2562,7 @@ exports[`Test Azure Infrastructure Spec snapshot Should render edit view with em
             class="Layout--vertical Layout--layout-spacing-medium StyledProps--main"
           >
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main formRow"
+              class="Layout--horizontal StyledProps--main formGroup md inputWrapper"
             >
               <div>
                 <button
@@ -2573,7 +2573,7 @@ exports[`Test Azure Infrastructure Spec snapshot Should render edit view with em
               </div>
             </div>
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main formRow"
+              class="Layout--horizontal StyledProps--main formGroup md inputWrapper"
             >
               <div
                 class="bp3-form-group inputWidth"
@@ -2677,7 +2677,7 @@ exports[`Test Azure Infrastructure Spec snapshot Should render edit view with em
               </div>
             </div>
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main formRow"
+              class="Layout--horizontal StyledProps--main formGroup md inputWrapper"
             >
               <div
                 class="bp3-form-group inputWidth"
@@ -2781,7 +2781,7 @@ exports[`Test Azure Infrastructure Spec snapshot Should render edit view with em
               </div>
             </div>
             <div
-              class="Layout--vertical StyledProps--main inputWidth"
+              class="Layout--vertical Layout--layout-spacing-small StyledProps--main inputWidth"
             >
               <div
                 class="bp3-form-group"
@@ -3112,7 +3112,7 @@ exports[`Test Azure Infrastructure Spec snapshot Should render edit view with ru
             class="Layout--vertical Layout--layout-spacing-medium StyledProps--main"
           >
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main formRow"
+              class="Layout--horizontal StyledProps--main formGroup md inputWrapper"
             >
               <div>
                 <button
@@ -3157,7 +3157,7 @@ exports[`Test Azure Infrastructure Spec snapshot Should render edit view with ru
               </span>
             </div>
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main formRow"
+              class="Layout--horizontal StyledProps--main formGroup md inputWrapper"
             >
               <div
                 class="bp3-form-group inputWidth"
@@ -3267,7 +3267,7 @@ exports[`Test Azure Infrastructure Spec snapshot Should render edit view with ru
               </span>
             </div>
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main formRow"
+              class="Layout--horizontal StyledProps--main formGroup md inputWrapper"
             >
               <div
                 class="bp3-form-group inputWidth"
@@ -3377,7 +3377,7 @@ exports[`Test Azure Infrastructure Spec snapshot Should render edit view with ru
               </span>
             </div>
             <div
-              class="Layout--vertical StyledProps--main inputWidth"
+              class="Layout--vertical Layout--layout-spacing-small StyledProps--main inputWidth"
             >
               <div
                 class="bp3-form-group formGroup"
@@ -3677,7 +3677,7 @@ exports[`Test Azure Infrastructure Spec snapshot Should render edit view with va
             class="Layout--vertical Layout--layout-spacing-medium StyledProps--main"
           >
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main formRow"
+              class="Layout--horizontal StyledProps--main formGroup md inputWrapper"
             >
               <div>
                 <button
@@ -3688,7 +3688,7 @@ exports[`Test Azure Infrastructure Spec snapshot Should render edit view with va
               </div>
             </div>
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main formRow"
+              class="Layout--horizontal StyledProps--main formGroup md inputWrapper"
             >
               <div
                 class="bp3-form-group inputWidth"
@@ -3808,7 +3808,7 @@ exports[`Test Azure Infrastructure Spec snapshot Should render edit view with va
               </div>
             </div>
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main formRow"
+              class="Layout--horizontal StyledProps--main formGroup md inputWrapper"
             >
               <div
                 class="bp3-form-group inputWidth"
@@ -3928,7 +3928,7 @@ exports[`Test Azure Infrastructure Spec snapshot Should render edit view with va
               </div>
             </div>
             <div
-              class="Layout--vertical StyledProps--main inputWidth"
+              class="Layout--vertical Layout--layout-spacing-small StyledProps--main inputWidth"
             >
               <div
                 class="bp3-form-group"
@@ -4014,7 +4014,7 @@ exports[`Test Azure Infrastructure Spec snapshot Should render edit view with va
                               autocomplete="off"
                               class="bp3-input"
                               name="tagslabel1"
-                              placeholder="- Select -"
+                              placeholder=""
                               style="padding-right: 0px;"
                               type="text"
                               value="key"

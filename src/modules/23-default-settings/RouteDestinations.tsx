@@ -25,7 +25,10 @@ import { PermissionIdentifier } from '@rbac/interfaces/PermissionIdentifier'
 import { String } from 'framework/strings'
 import DefaultSettingsFactory from './factories/DefaultSettingsFactory'
 import { SettingType } from './interfaces/SettingType.types'
-import { DefaultSettingCheckBoxWithTrueAndFalse } from './components/ReusableHandlers'
+import {
+  DefaultSettingCheckBoxWithTrueAndFalse,
+  DefaultSettingRadioBtnWithTrueAndFalse
+} from './components/ReusableHandlers'
 
 DefaultSettingsFactory.registerCategory('CORE', {
   icon: 'cog',
@@ -62,6 +65,32 @@ RbacFactory.registerResourceTypeHandler(ResourceType.SETTING, {
     [PermissionIdentifier.VIEW_CORE_SETTING]: <String stringID="rbac.permissionLabels.view" />,
     [PermissionIdentifier.EDIT_CORE_SETTING]: <String stringID="rbac.permissionLabels.createEdit" />
   }
+})
+
+DefaultSettingsFactory.registerCategory('CD', {
+  icon: 'cd-main',
+  label: 'deploymentsText',
+  settingsAndGroupDisplayOrder: [SettingType.WEBHOOK_GITHUB_TRIGGERS_AUTHENTICATION_CD],
+  modulesWhereCategoryWillBeDisplayed: ['cd']
+})
+
+DefaultSettingsFactory.registerSettingHandler(SettingType.WEBHOOK_GITHUB_TRIGGERS_AUTHENTICATION_CD, {
+  label: 'defaultSettings.mandateWebhookSecretsGithubTriggers',
+  settingRenderer: props => <DefaultSettingRadioBtnWithTrueAndFalse {...props} />,
+  settingCategory: 'CD'
+})
+
+DefaultSettingsFactory.registerCategory('CI', {
+  icon: 'ci-main',
+  label: 'buildsText',
+  settingsAndGroupDisplayOrder: [SettingType.WEBHOOK_GITHUB_TRIGGERS_AUTHENTICATION_CI],
+  modulesWhereCategoryWillBeDisplayed: ['ci']
+})
+
+DefaultSettingsFactory.registerSettingHandler(SettingType.WEBHOOK_GITHUB_TRIGGERS_AUTHENTICATION_CI, {
+  label: 'defaultSettings.mandateWebhookSecretsGithubTriggers',
+  settingRenderer: props => <DefaultSettingRadioBtnWithTrueAndFalse {...props} />,
+  settingCategory: 'CI'
 })
 
 export default function DefaultSettingsRoutes(): React.ReactElement {

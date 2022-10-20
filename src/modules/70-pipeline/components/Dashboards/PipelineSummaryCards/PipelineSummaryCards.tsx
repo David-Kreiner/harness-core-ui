@@ -31,7 +31,7 @@ export default function PipelineSummaryCards() {
       startTime: range[0],
       endTime: range[1],
       pipelineIdentifier,
-      moduleInfo: module
+      moduleInfo: module || ''
     }
   })
 

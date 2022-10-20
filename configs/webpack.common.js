@@ -220,6 +220,9 @@ if (!enableCCMUI) {
 if (!enableChaosUI) {
   // render a mock app when Chaos MF is disabled
   config.resolve.alias['chaos/MicroFrontendApp'] = ChildAppError
+  config.resolve.alias['chaos/PipelineExperimentSelect'] = ChildAppError
+  config.resolve.alias['chaos/ExperimentPreview'] = ChildAppError
+  config.resolve.alias['chaos/ChaosStepExecution'] = ChildAppError
 }
 
 if (!enableSTO) {

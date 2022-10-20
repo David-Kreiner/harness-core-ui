@@ -37,7 +37,7 @@ declare global {
   }
 }
 
-export default function PipelineDetails({ children }: React.PropsWithChildren<unknown>): React.ReactElement {
+function PipelinePageHeader(): React.ReactElement {
   const { orgIdentifier, projectIdentifier, pipelineIdentifier, accountId, module } =
     useParams<PipelineType<PipelinePathProps>>()
   const {
@@ -230,116 +230,141 @@ export default function PipelineDetails({ children }: React.PropsWithChildren<un
   }
 
   return (
-    <div className={css.wrapper}>
-      <GitSyncStoreProvider>
-        <Page.Header
-          className={isPipelineStudioRoute ? css.rightMargin : ''}
-          testId={isPipelineStudioRoute ? 'pipeline-studio' : 'not-pipeline-studio'}
-          size={isPipelineStudioRoute ? 'small' : 'standard'}
-          title={
-            <Layout.Vertical>
-              <Layout.Horizontal>
-                <NGBreadcrumbs links={getBreadCrumbs()} />
-              </Layout.Horizontal>
-              {isPipelineStudioRoute && (
-                <String tagName="div" className={css.pipelineStudioTitle} stringID="pipelineStudio" />
-              )}
-              {!isPipelineStudioRoute && (
-                <Layout.Horizontal spacing="xsmall" flex={{ justifyContent: 'left', alignItems: 'center' }}>
-                  <Heading level={2} color={Color.GREY_800} font={{ weight: 'bold' }}>
-                    {pipelineName}
-                  </Heading>
-                  {isPipelineRemote ? (
-                    <div className={css.gitRemoteDetailsWrapper}>
-                      <GitRemoteDetails
-                        connectorRef={connectorRef}
-                        repoName={pipeline?.data?.gitDetails?.repoName}
-                        branch={defaultTo(pipeline?.data?.gitDetails?.branch, branch)} // gitDetails will not have branch if pipeline not found
-                        filePath={pipeline?.data?.gitDetails?.filePath}
-                        fileUrl={pipeline?.data?.gitDetails?.fileUrl}
-                        onBranchChange={onGitBranchChange}
-                        flags={{ readOnly: isTriggersView }}
-                      />
-                    </div>
-                  ) : isGitSyncEnabled && repoIdentifier ? (
-                    <GitPopover data={{ repoIdentifier, branch }} iconProps={{ margin: { left: 'small' } }} />
-                  ) : null}
-                </Layout.Horizontal>
-              )}
-            </Layout.Vertical>
-          }
-          toolbar={
-            <TabNavigation
-              size={'small'}
-              links={[
-                {
-                  label: getString('pipelineStudio'),
-                  to: routes.toPipelineStudio({
-                    orgIdentifier,
-                    projectIdentifier,
-                    pipelineIdentifier,
-                    accountId,
-                    module,
-                    connectorRef,
-                    repoIdentifier,
-                    repoName,
-                    branch,
-                    storeType
-                  })
-                },
-                {
-                  label: getString('inputSetsText'),
-                  to: routes.toInputSetList({
-                    orgIdentifier,
-                    projectIdentifier,
-                    pipelineIdentifier,
-                    accountId,
-                    module,
-                    connectorRef,
-                    repoIdentifier,
-                    repoName,
-                    branch,
-                    storeType
-                  }),
-                  disabled: pipelineIdentifier === DefaultNewPipelineId
-                },
-                {
-                  label: getString('common.triggersLabel'),
-                  to: routes.toTriggersPage({
-                    orgIdentifier,
-                    projectIdentifier,
-                    pipelineIdentifier,
-                    accountId,
-                    module,
-                    connectorRef,
-                    repoIdentifier,
-                    repoName,
-                    branch,
-                    storeType
-                  }),
-                  disabled: pipelineIdentifier === DefaultNewPipelineId || triggerTabDisabled
-                },
-                {
-                  label: getString('executionHeaderText'),
-                  to: routes.toPipelineDeploymentList({
-                    orgIdentifier,
-                    projectIdentifier,
-                    pipelineIdentifier,
-                    accountId,
-                    module,
-                    connectorRef,
-                    repoIdentifier,
-                    repoName,
-                    branch,
-                    storeType
-                  }),
-                  disabled: pipelineIdentifier === DefaultNewPipelineId
-                }
-              ]}
-            />
-          }
+    <Page.Header
+      className={isPipelineStudioRoute ? css.rightMargin : ''}
+      testId={isPipelineStudioRoute ? 'pipeline-studio' : 'not-pipeline-studio'}
+      size={isPipelineStudioRoute ? 'small' : 'standard'}
+      title={
+        <Layout.Vertical>
+          <Layout.Horizontal>
+            <NGBreadcrumbs links={getBreadCrumbs()} />
+          </Layout.Horizontal>
+          {isPipelineStudioRoute && (
+            <String tagName="div" className={css.pipelineStudioTitle} stringID="pipelineStudio" />
+          )}
+          {!isPipelineStudioRoute && (
+            <Layout.Horizontal spacing="xsmall" flex={{ justifyContent: 'left', alignItems: 'center' }}>
+              <Heading level={2} color={Color.GREY_800} font={{ weight: 'bold' }}>
+                {pipelineName}
+              </Heading>
+              {isPipelineRemote ? (
+                <div className={css.gitRemoteDetailsWrapper}>
+                  <GitRemoteDetails
+                    connectorRef={connectorRef}
+                    repoName={pipeline?.data?.gitDetails?.repoName}
+                    branch={defaultTo(pipeline?.data?.gitDetails?.branch, branch)} // gitDetails will not have branch if pipeline not found
+                    filePath={pipeline?.data?.gitDetails?.filePath}
+                    fileUrl={pipeline?.data?.gitDetails?.fileUrl}
+                    onBranchChange={onGitBranchChange}
+                    flags={{ readOnly: isTriggersView }}
+                  />
+                </div>
+              ) : isGitSyncEnabled && repoIdentifier ? (
+                <GitPopover data={{ repoIdentifier, branch }} iconProps={{ margin: { left: 'small' } }} />
+              ) : null}
+            </Layout.Horizontal>
+          )}
+        </Layout.Vertical>
+      }
+      toolbar={
+        <TabNavigation
+          size={'small'}
+          links={[
+            {
+              label: getString('pipelineStudio'),
+              to: routes.toPipelineStudio({
+                orgIdentifier,
+                projectIdentifier,
+                pipelineIdentifier,
+                accountId,
+                module,
+                connectorRef,
+                repoIdentifier,
+                repoName,
+                branch,
+                storeType
+              })
+            },
+            {
+              label: getString('inputSetsText'),
+              to: routes.toInputSetList({
+                orgIdentifier,
+                projectIdentifier,
+                pipelineIdentifier,
+                accountId,
+                module,
+                connectorRef,
+                repoIdentifier,
+                repoName,
+                branch,
+                storeType
+              }),
+              disabled: pipelineIdentifier === DefaultNewPipelineId
+            },
+            {
+              label: getString('common.triggersLabel'),
+              to: routes.toTriggersPage({
+                orgIdentifier,
+                projectIdentifier,
+                pipelineIdentifier,
+                accountId,
+                module,
+                connectorRef,
+                repoIdentifier,
+                repoName,
+                branch,
+                storeType
+              }),
+              disabled: pipelineIdentifier === DefaultNewPipelineId || triggerTabDisabled
+            },
+            {
+              label: getString('executionHeaderText'),
+              to: routes.toPipelineDeploymentList({
+                orgIdentifier,
+                projectIdentifier,
+                pipelineIdentifier,
+                accountId,
+                module,
+                connectorRef,
+                repoIdentifier,
+                repoName,
+                branch,
+                storeType
+              }),
+              disabled: pipelineIdentifier === DefaultNewPipelineId
+            }
+          ]}
         />
-      </GitSyncStoreProvider>
+      }
+    />
+  )
+}
+
+export default function PipelineDetails({ children }: React.PropsWithChildren<unknown>): React.ReactElement {
+  const { orgIdentifier, projectIdentifier, pipelineIdentifier, accountId, module } =
+    useParams<PipelineType<PipelinePathProps>>()
+  const { isGitSyncEnabled: isGitSyncEnabledForProject, gitSyncEnabledOnlyForFF } = useAppStore()
+  const isGitSyncEnabled = isGitSyncEnabledForProject && !gitSyncEnabledOnlyForFF
+
+  const { isExact: isPipelineStudioRoute } = useRouteMatch(
+    routes.toPipelineStudio({
+      orgIdentifier,
+      projectIdentifier,
+      pipelineIdentifier,
+      accountId,
+      module
+    })
+  ) || { isExact: false }
+
+  return (
+    <div className={css.wrapper}>
+      {isGitSyncEnabled ? (
+        <GitSyncStoreProvider>
+          <PipelinePageHeader />
+        </GitSyncStoreProvider>
+      ) : (
+        <PipelinePageHeader />
+      )}
       <Page.Body className={isPipelineStudioRoute ? css.rightMargin : ''}>{children}</Page.Body>
     </div>
   )

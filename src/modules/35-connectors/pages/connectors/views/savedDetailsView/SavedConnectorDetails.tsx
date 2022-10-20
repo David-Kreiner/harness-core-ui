@@ -448,8 +448,9 @@ const getVaultSchema = (
       label: 'connectors.hashiCorpVault.renewal',
       value:
         data.accessType !== HashiCorpVaultAccessTypes.VAULT_AGENT &&
-        data.accessType !== HashiCorpVaultAccessTypes.AWS_IAM
-          ? data.renewalIntervalMinutes
+        data.accessType !== HashiCorpVaultAccessTypes.AWS_IAM &&
+        data.accessType !== HashiCorpVaultAccessTypes.K8s_AUTH
+          ? data.renewalIntervalMinutes?.toString()
           : undefined
     },
     {

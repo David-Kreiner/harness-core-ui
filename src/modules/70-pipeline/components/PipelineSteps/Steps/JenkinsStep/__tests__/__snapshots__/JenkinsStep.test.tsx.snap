@@ -1160,7 +1160,7 @@ exports[`Jenkins step tests Edit stage - readonly: edit stage view readonly 1`] 
                   class="Tooltip--acenter"
                   data-tooltip-id="JenkinsStep_spec.jobParameter"
                 >
-                  pipeline.jenkinsStep.jobParameter common.optionalLabel
+                  pipeline.jenkinsStep.jobParameter titleOptional
                 </span>
                 <div
                   class="bp3-popover-wrapper typeSelectorWrapper"
@@ -1263,37 +1263,64 @@ exports[`Jenkins step tests Edit stage - readonly: edit stage view readonly 1`] 
           </div>
         </div>
         <div
-          class="noLookDivider"
-        />
-        <div
-          class="Accordion--accordion accordion"
+          class="formGroup"
         >
           <div
-            class="Accordion--panel"
-            data-open="false"
-            data-testid="optional-config-panel"
+            class="bp3-form-group bp3-disabled"
+            data-id="spec.unstableStatusAsSuccess-5"
           >
             <div
-              class="Accordion--summary"
-              data-testid="optional-config-summary"
+              class="bp3-form-content"
             >
-              <div
-                class="Accordion--label"
+              <label
+                class="bp3-control bp3-checkbox bp3-disabled StyledProps--font Checkbox--checkbox StyledProps--main StyledProps--inline"
               >
-                common.optionalConfig
-              </div>
-              <div
-                class="Accordion--chevron"
-              />
+                <input
+                  disabled=""
+                  name="spec.unstableStatusAsSuccess"
+                  type="checkbox"
+                />
+                <span
+                  class="bp3-control-indicator"
+                />
+                <span
+                  class="Tooltip--acenter FormikForm--checkBoxDocTooltipLabel"
+                  data-tooltip-id="JenkinsStep_spec.unstableStatusAsSuccess"
+                >
+                  pipeline.jenkinsStep.unstableStatusAsSuccess
+                </span>
+              </label>
             </div>
+          </div>
+        </div>
+        <div
+          class="formGroup"
+        >
+          <div
+            class="bp3-form-group bp3-disabled"
+            data-id="spec.useConnectorUrlForJobExecution-6"
+          >
             <div
-              class="bp3-collapse Accordion--collapse"
+              class="bp3-form-content"
             >
-              <div
-                aria-hidden="false"
-                class="bp3-collapse-body"
-                style="transform: translateY(-undefinedpx);"
-              />
+              <label
+                class="bp3-control bp3-checkbox bp3-disabled StyledProps--font Checkbox--checkbox StyledProps--main StyledProps--inline"
+              >
+                <input
+                  disabled=""
+                  name="spec.useConnectorUrlForJobExecution"
+                  type="checkbox"
+                />
+                <span
+                  class="bp3-control-indicator"
+                />
+                <span
+                  class="Tooltip--acenter FormikForm--checkBoxDocTooltipLabel"
+                  data-tooltip-id="JenkinsStep_spec.useConnectorUrlForJobExecution"
+                >
+                  pipeline.jenkinsStep.useConnectorUrlForJobExecution
+                </span>
+              </label>
             </div>
           </div>
         </div>
@@ -1990,7 +2017,7 @@ exports[`Jira Approval fetch projects show error if failed to fetch projects 1`]
                   class="Tooltip--acenter"
                   data-tooltip-id="JenkinsStep_spec.jobParameter"
                 >
-                  pipeline.jenkinsStep.jobParameter common.optionalLabel
+                  pipeline.jenkinsStep.jobParameter titleOptional
                 </span>
                 <div
                   class="bp3-popover-wrapper typeSelectorWrapper"
@@ -2091,37 +2118,62 @@ exports[`Jira Approval fetch projects show error if failed to fetch projects 1`]
           </div>
         </div>
         <div
-          class="noLookDivider"
-        />
-        <div
-          class="Accordion--accordion accordion"
+          class="formGroup"
         >
           <div
-            class="Accordion--panel"
-            data-open="false"
-            data-testid="optional-config-panel"
+            class="bp3-form-group"
+            data-id="spec.unstableStatusAsSuccess-5"
           >
             <div
-              class="Accordion--summary"
-              data-testid="optional-config-summary"
+              class="bp3-form-content"
             >
-              <div
-                class="Accordion--label"
+              <label
+                class="bp3-control bp3-checkbox StyledProps--font Checkbox--checkbox StyledProps--main StyledProps--inline"
               >
-                common.optionalConfig
-              </div>
-              <div
-                class="Accordion--chevron"
-              />
+                <input
+                  name="spec.unstableStatusAsSuccess"
+                  type="checkbox"
+                />
+                <span
+                  class="bp3-control-indicator"
+                />
+                <span
+                  class="Tooltip--acenter FormikForm--checkBoxDocTooltipLabel"
+                  data-tooltip-id="JenkinsStep_spec.unstableStatusAsSuccess"
+                >
+                  pipeline.jenkinsStep.unstableStatusAsSuccess
+                </span>
+              </label>
             </div>
+          </div>
+        </div>
+        <div
+          class="formGroup"
+        >
+          <div
+            class="bp3-form-group"
+            data-id="spec.useConnectorUrlForJobExecution-6"
+          >
             <div
-              class="bp3-collapse Accordion--collapse"
+              class="bp3-form-content"
             >
-              <div
-                aria-hidden="false"
-                class="bp3-collapse-body"
-                style="transform: translateY(-undefinedpx);"
-              />
+              <label
+                class="bp3-control bp3-checkbox StyledProps--font Checkbox--checkbox StyledProps--main StyledProps--inline"
+              >
+                <input
+                  name="spec.useConnectorUrlForJobExecution"
+                  type="checkbox"
+                />
+                <span
+                  class="bp3-control-indicator"
+                />
+                <span
+                  class="Tooltip--acenter FormikForm--checkBoxDocTooltipLabel"
+                  data-tooltip-id="JenkinsStep_spec.useConnectorUrlForJobExecution"
+                >
+                  pipeline.jenkinsStep.useConnectorUrlForJobExecution
+                </span>
+              </label>
             </div>
           </div>
         </div>

@@ -56,7 +56,7 @@ function ArtifactsComponent(props: ArtifactsComponentProps): React.ReactElement 
                 return (
                   <div key={itemIdx} className={css.listItem}>
                     <a className={css.artifactUrl} href={url} target="_blank" rel="noreferrer">
-                      {image}: {tag}
+                      {type === 'File' ? url : `${image}: ${tag}`}
                     </a>
                     {type !== 'Image' && (
                       <a href={url} download>

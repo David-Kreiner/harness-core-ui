@@ -78,7 +78,11 @@ export default (
         <Redirect to={routes.toHome({ accountId: SessionToken.accountId() })} />
       </Route>
     )}
-    <Route exact path={[justAccountPath({ ...accountPathProps }), routes.toHome({ ...accountPathProps })]}>
+    <Route exact path={justAccountPath({ ...accountPathProps })}>
+      <Redirect to={routes.toMainDashboard({ accountId: SessionToken.accountId() })} />
+    </Route>
+
+    <Route exact path={routes.toHome({ ...accountPathProps })}>
       <RedirectToHome />
     </Route>
 

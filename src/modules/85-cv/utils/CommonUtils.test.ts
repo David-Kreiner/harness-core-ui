@@ -7,6 +7,7 @@
 
 import { Utils } from '@wings-software/uicore'
 import { Color } from '@harness/design-system'
+import type { StringKeys } from 'framework/strings'
 import {
   RiskValues,
   getRiskColorValue,
@@ -15,8 +16,16 @@ import {
   getEventTypeColor,
   EVENT_TYPE,
   getEventTypeLightColor,
-  getEventTypeChartColor
+  getEventTypeChartColor,
+  getRiskColorLogo,
+  SLOErrorBudget,
+  getDetailsLabel,
+  getRiskLabelStringId
 } from './CommonUtils'
+
+function getString(key: StringKeys): StringKeys {
+  return key
+}
 
 describe('Test for getRiskColorValue', () => {
   test('getRiskColorValue should return correct realCSSColors', () => {
@@ -104,5 +113,49 @@ describe('test for logs screen utils', () => {
     expect(getEventTypeChartColor(EVENT_TYPE.FREQUENCY, true)).toEqual('var(--yellow-700)')
     expect(getEventTypeChartColor(EVENT_TYPE.BASELINE)).toEqual(Utils.getRealCSSColor(Color.GREY_300))
     expect(getEventTypeChartColor(EVENT_TYPE.BASELINE, true)).toEqual('var(--grey-300)')
+  })
+})
+
+describe('Test for getRiskColorLogo', () => {
+  test('test for getting correct logo for particular risk color', () => {
+    expect(getRiskColorLogo(RiskValues.HEALTHY)).toEqual('heart')
+    expect(getRiskColorLogo(RiskValues.OBSERVE)).toEqual('warning-icon')
+    expect(getRiskColorLogo(RiskValues.NEED_ATTENTION)).toEqual('warning-sign')
+    expect(getRiskColorLogo(RiskValues.UNHEALTHY)).toEqual('heart-broken')
+    expect(getRiskColorLogo(SLOErrorBudget.EXHAUSTED)).toEqual('remove-minus')
+    expect(getRiskColorLogo(undefined)).toEqual('grid')
+  })
+})
+
+describe('Test for getDetailsLabel', () => {
+  test('test for getting correct details label', () => {
+    expect(getDetailsLabel('artifactType', getString)).toEqual(getString('pipeline.artifactsSelection.artifactType'))
+    expect(getDetailsLabel('artifactTag', getString)).toEqual(getString('connectors.cdng.artifactTag'))
+    expect(getDetailsLabel('executedBy', getString)).toEqual(getString('common.executedBy'))
+    expect(getDetailsLabel('eventType', getString)).toEqual(getString('pipeline.verification.logs.eventType'))
+    expect(getDetailsLabel('UNKNOWN', getString)).toEqual('UNKNOWN')
+  })
+})
+
+describe('Test for getRiskLabelStringId', () => {
+  test('test for getting correct risk label string id', () => {
+    expect(getRiskLabelStringId(RiskValues.NO_DATA)).toEqual('noData')
+    expect(getRiskLabelStringId(RiskValues.NO_ANALYSIS)).toEqual('cv.noAnalysis')
+    expect(getRiskLabelStringId(RiskValues.HEALTHY)).toEqual(
+      'cv.monitoredServices.serviceHealth.serviceDependencies.states.healthy'
+    )
+    expect(getRiskLabelStringId(RiskValues.OBSERVE)).toEqual(
+      'cv.monitoredServices.serviceHealth.serviceDependencies.states.observe'
+    )
+    expect(getRiskLabelStringId(RiskValues.NEED_ATTENTION)).toEqual(
+      'cv.monitoredServices.serviceHealth.serviceDependencies.states.needsAttention'
+    )
+    expect(getRiskLabelStringId(RiskValues.UNHEALTHY)).toEqual(
+      'cv.monitoredServices.serviceHealth.serviceDependencies.states.unhealthy'
+    )
+    expect(getRiskLabelStringId(SLOErrorBudget.EXHAUSTED)).toEqual(
+      'cv.monitoredServices.serviceHealth.serviceDependencies.states.exhausted'
+    )
+    expect(getRiskLabelStringId(undefined)).toEqual('na')
   })
 })

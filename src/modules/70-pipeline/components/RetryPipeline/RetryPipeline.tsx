@@ -234,7 +234,7 @@ function RetryPipeline({
       accountIdentifier: accountId,
       projectIdentifier,
       orgIdentifier,
-      moduleType: module,
+      moduleType: module || '',
       planExecutionId: planExecutionIdentifier,
       retryStages: (!isParallelStage
         ? [selectedStage?.value]

@@ -982,7 +982,7 @@ validation:
   secretEngine: Secret Engine is required
   engineVersionNumber: Secret Engine Version can only be a positive number
   engineVersion: Secret Engine Version is required
-  renewalNumber: 'Renewal interval can only be a positive number'
+  renewalNumber: 'Renewal interval cannot be negative number'
   renewalInterval: 'Renewal interval is required'
   authToken: 'Auth Token is required'
   appRole: 'App Role Id is required'

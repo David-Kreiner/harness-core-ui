@@ -5,7 +5,7 @@
  * https://polyformproject.org/wp-content/uploads/2020/06/PolyForm-Shield-1.0.0.txt.
  */
 
-import type { ServiceDefinition } from 'services/cd-ng'
+import type { ServiceDefinition, TemplateLinkConfig } from 'services/cd-ng'
 
 export interface DeployInfrastructureEntityCustomStepProps {
   deploymentType?: ServiceDefinition['type']
@@ -15,4 +15,5 @@ export interface DeployInfrastructureEntityCustomStepProps {
 
 export interface DeployInfrastructureEntityCustomInputStepProps extends DeployInfrastructureEntityCustomStepProps {
   deployToAllInfrastructures?: boolean
+  customDeploymentRef?: TemplateLinkConfig
 }

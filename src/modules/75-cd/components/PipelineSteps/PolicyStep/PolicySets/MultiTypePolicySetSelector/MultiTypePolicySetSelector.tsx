@@ -43,7 +43,7 @@ export function MultiTypePolicySetSelectorInternal(props: MultiTypePolicySetSele
 
   const policySetIds = get(formik?.values, name) || []
 
-  const onTypeChange = () => {
+  const onTypeChange = (): void => {
     formik?.setFieldTouched(name, true)
   }
 
@@ -73,7 +73,12 @@ interface PolicySetFixedTypeSelectorProps extends IFormGroupProps {
   formik?: FormikContextType<PolicyStepFormData>
 }
 
-function PolicySetFixedTypeSelector({ formik, name, policySetIds, disabled }: PolicySetFixedTypeSelectorProps) {
+function PolicySetFixedTypeSelector({
+  formik,
+  name,
+  policySetIds,
+  disabled
+}: PolicySetFixedTypeSelectorProps): React.ReactElement {
   const { getString } = useStrings()
 
   const [showModal, closeModal] = useModalHook(
@@ -82,8 +87,11 @@ function PolicySetFixedTypeSelector({ formik, name, policySetIds, disabled }: Po
         name={name}
         formikProps={formik}
         policySetIds={policySetIds}
-        closeModal={() => {
-          /* istanbul ignore next */ formik?.setFieldTouched(name, true)
+        closeModal={(action?: string) => {
+          /* istanbul ignore else */
+          if (action !== getString('common.apply')) {
+            /* istanbul ignore next */ formik?.setFieldTouched(name, true)
+          }
           closeModal()
         }}
       />
@@ -91,7 +99,7 @@ function PolicySetFixedTypeSelector({ formik, name, policySetIds, disabled }: Po
     [name, formik, policySetIds]
   )
 
-  const deletePolicySet = (policySetId: string) => {
+  const deletePolicySet = (policySetId: string): void => {
     const newPolicySetIds = policySetIds.filter(id => id !== policySetId)
     formik?.setFieldTouched(name, true)
     formik?.setFieldValue(name, newPolicySetIds)

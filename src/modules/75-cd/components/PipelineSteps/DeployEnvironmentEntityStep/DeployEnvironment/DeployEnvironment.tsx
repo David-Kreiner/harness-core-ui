@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react'
-import { defaultTo, get, isEmpty, isNil } from 'lodash-es'
+import { defaultTo, get, isEmpty, isNil, set } from 'lodash-es'
 import { useFormikContext } from 'formik'
 import produce from 'immer'
 import { Divider } from '@blueprintjs/core'
@@ -44,6 +44,7 @@ import type {
 import { useGetEnvironmentsData } from './useGetEnvironmentsData'
 import AddEditEnvironmentModal from '../../DeployInfrastructureStep/AddEditEnvironmentModal'
 import DeployInfrastructure from '../DeployInfrastructure/DeployInfrastructure'
+import DeployCluster from '../DeployCluster/DeployCluster'
 
 import css from './DeployEnvironment.module.scss'
 
@@ -92,7 +93,8 @@ export default function DeployEnvironment({
   customDeploymentRef,
   gitOpsEnabled
 }: DeployEnvironmentProps): JSX.Element {
-  const { values, setFieldValue, setValues } = useFormikContext<DeployEnvironmentEntityFormState>()
+  const { values, setFieldValue, setValues, errors, setFieldError, setFieldTouched } =
+    useFormikContext<DeployEnvironmentEntityFormState>()
   const { getString } = useStrings()
   const uniquePathForEnvironments = React.useRef(`_pseudo_field_${uuid()}`)
   const { isOpen: isAddNewModalOpen, open: openAddNewModal, close: closeAddNewModal } = useToggleOpen()
@@ -136,8 +138,22 @@ export default function DeployEnvironment({
     if (!isMultiEnvironment && !values.environment && selectedEnvironments.length) {
       setSelectedEnvironments([])
     }
+
+    // This condition sets the unique path when switching from single env to multi env after the component has loaded with single env view
+    if (isMultiEnvironment && values.environments?.length && selectedEnvironments.length) {
+      setFieldValue(uniquePathForEnvironments.current, values.environments)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMultiEnvironment])
+
+  useEffect(() => {
+    if (errors.environments) {
+      setFieldError(uniquePathForEnvironments.current, errors.environments)
+    } else {
+      setFieldError(uniquePathForEnvironments.current, undefined)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errors])
 
   useEffect(() => {
     if (!loading) {
@@ -202,6 +218,7 @@ export default function DeployEnvironment({
           getMultiTypeFromValue(values.environments) === MultiTypeInputType.RUNTIME
             ? values.environments
             : [SELECT_ALL_OPTION]
+
         setFieldValue(`${uniquePathForEnvironments.current}`, envIdentifierValue)
       }
     }
@@ -239,12 +256,23 @@ export default function DeployEnvironment({
     const newFormValues = produce(values, draft => {
       if (draft.environments && Array.isArray(draft.environments)) {
         draft.environments.push({ label: newEnvironmentInfo.name, value: newEnvironmentInfo.identifier })
-        if (draft.infrastructures) {
-          draft.infrastructures[newEnvironmentInfo.identifier] = []
+        if (gitOpsEnabled && draft.clusters) {
+          if (draft.infrastructures) {
+            delete draft.infrastructures
+          }
+        } else if (!gitOpsEnabled && draft.infrastructures) {
+          if (draft.clusters) {
+            delete draft.clusters
+          }
         }
+        set(draft, uniquePathForEnvironments.current, draft.environments)
       } else {
         draft.environment = newEnvironmentInfo.identifier
-        draft.infrastructure = ''
+        if (gitOpsEnabled) {
+          draft.cluster = ''
+        } else {
+          draft.infrastructure = ''
+        }
       }
     })
 
@@ -260,11 +288,31 @@ export default function DeployEnvironment({
     const newFormValues = produce(values, draft => {
       if (draft.environment) {
         draft.environment = ''
-        draft.infrastructure = ''
+
+        if (gitOpsEnabled) {
+          draft.cluster = ''
+        } else {
+          draft.infrastructure = ''
+        }
+
         delete draft.environments
       } else if (Array.isArray(draft.environments)) {
-        draft.environments = draft.environments.filter(env => env.value !== environmentToDelete)
-        if (draft.infrastructures?.[environmentToDelete] && Array.isArray(draft.infrastructures[environmentToDelete])) {
+        const filteredEnvironments = draft.environments.filter(env => env.value !== environmentToDelete)
+        draft.environments = filteredEnvironments
+        set(draft, uniquePathForEnvironments.current, filteredEnvironments)
+        setFieldTouched(uniquePathForEnvironments.current, true)
+
+        if (
+          gitOpsEnabled &&
+          draft.clusters?.[environmentToDelete] &&
+          Array.isArray(draft.clusters[environmentToDelete])
+        ) {
+          delete draft.clusters[environmentToDelete]
+        } else if (
+          !gitOpsEnabled &&
+          draft.infrastructures?.[environmentToDelete] &&
+          Array.isArray(draft.infrastructures[environmentToDelete])
+        ) {
           delete draft.infrastructures[environmentToDelete]
         }
       }
@@ -275,7 +323,11 @@ export default function DeployEnvironment({
 
   return (
     <>
-      <Layout.Horizontal spacing="medium" flex={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+      <Layout.Horizontal
+        spacing="medium"
+        flex={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}
+        className={css.inputField}
+      >
         {isMultiEnvironment ? (
           <FormMultiTypeMultiSelectDropDown
             label={getString('cd.pipelineSteps.environmentTab.specifyYourEnvironments')}
@@ -291,6 +343,7 @@ export default function DeployEnvironment({
               isAllSelectionSupported: isUnderEnvGroup
             }}
             onChange={items => {
+              setFieldTouched(uniquePathForEnvironments.current, true)
               if (items?.at(0)?.value === 'All') {
                 setFieldValue(`environments`, undefined)
                 setSelectedEnvironments([])
@@ -341,64 +394,76 @@ export default function DeployEnvironment({
           />
         )}
       </Layout.Horizontal>
-      {isMultiEnvironment && !isUnderEnvGroup ? (
-        <FormInput.CheckBox
-          label={getString('cd.pipelineSteps.environmentTab.multiEnvironmentsParallelDeployLabel')}
-          name="parallel"
-        />
-      ) : null}
-      {isFixed && !isEmpty(selectedEnvironments) && (
-        <>
-          <EnvironmentEntitiesList
-            loading={loading || updatingEnvironmentsData}
-            environmentsData={environmentsData}
-            readonly={readonly}
-            allowableTypes={allowableTypes}
-            onEnvironmentEntityUpdate={onEnvironmentEntityUpdate}
-            onRemoveEnvironmentFromList={onRemoveEnvironmentFromList}
-            initialValues={initialValues}
-            stageIdentifier={stageIdentifier}
-            deploymentType={deploymentType}
-            customDeploymentRef={customDeploymentRef}
-            gitOpsEnabled={gitOpsEnabled}
+
+      <Layout.Vertical className={css.mainContent} spacing="medium">
+        {isMultiEnvironment && !isUnderEnvGroup ? (
+          <FormInput.CheckBox
+            label={getString('cd.pipelineSteps.environmentTab.multiEnvironmentsParallelDeployLabel')}
+            name="parallel"
           />
+        ) : null}
 
-          {!loading && !isMultiEnvironment && (
-            <>
-              <Divider />
-              <DeployInfrastructure
-                initialValues={initialValues}
-                readonly={readonly}
-                allowableTypes={allowableTypes}
-                environmentIdentifier={selectedEnvironments[0]}
-                stageIdentifier={stageIdentifier}
-                deploymentType={deploymentType}
-                customDeploymentRef={customDeploymentRef}
-              />
-            </>
-          )}
-        </>
-      )}
+        {isFixed && !isEmpty(selectedEnvironments) && (
+          <>
+            <EnvironmentEntitiesList
+              loading={loading || updatingEnvironmentsData}
+              environmentsData={environmentsData}
+              readonly={readonly}
+              allowableTypes={allowableTypes}
+              onEnvironmentEntityUpdate={onEnvironmentEntityUpdate}
+              onRemoveEnvironmentFromList={onRemoveEnvironmentFromList}
+              initialValues={initialValues}
+              stageIdentifier={stageIdentifier}
+              deploymentType={deploymentType}
+              customDeploymentRef={customDeploymentRef}
+              gitOpsEnabled={gitOpsEnabled}
+            />
 
-      <ModalDialog
-        isOpen={isAddNewModalOpen}
-        onClose={closeAddNewModal}
-        title={getString('newEnvironment')}
-        canEscapeKeyClose={false}
-        canOutsideClickClose={false}
-        enforceFocus={false}
-        lazy
-        width={1128}
-        height={840}
-        className={css.dialogStyles}
-      >
-        <AddEditEnvironmentModal
-          data={{}}
-          onCreateOrUpdate={updateEnvironmentsList}
-          closeModal={closeAddNewModal}
-          isEdit={false}
-        />
-      </ModalDialog>
+            {!loading && !isMultiEnvironment && (
+              <>
+                <Divider />
+                {gitOpsEnabled ? (
+                  <DeployCluster
+                    initialValues={initialValues}
+                    readonly={readonly}
+                    allowableTypes={allowableTypes}
+                    environmentIdentifier={selectedEnvironments[0]}
+                  />
+                ) : (
+                  <DeployInfrastructure
+                    initialValues={initialValues}
+                    readonly={readonly}
+                    allowableTypes={allowableTypes}
+                    environmentIdentifier={selectedEnvironments[0]}
+                    deploymentType={deploymentType}
+                    customDeploymentRef={customDeploymentRef}
+                  />
+                )}
+              </>
+            )}
+          </>
+        )}
+
+        <ModalDialog
+          isOpen={isAddNewModalOpen}
+          onClose={closeAddNewModal}
+          title={getString('newEnvironment')}
+          canEscapeKeyClose={false}
+          canOutsideClickClose={false}
+          enforceFocus={false}
+          lazy
+          width={1128}
+          height={840}
+          className={css.dialogStyles}
+        >
+          <AddEditEnvironmentModal
+            data={{}}
+            onCreateOrUpdate={updateEnvironmentsList}
+            closeModal={closeAddNewModal}
+            isEdit={false}
+          />
+        </ModalDialog>
+      </Layout.Vertical>
     </>
   )
 }

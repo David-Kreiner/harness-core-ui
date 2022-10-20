@@ -155,7 +155,7 @@ interface ConnectorsSectionProps {
   orgIdentifier: string
   projectIdentifier: string
   pipelineIdentifier: string
-  module: Module
+  module?: Module
   preFlightCheckData?: PreFlightDTO
 }
 
@@ -338,7 +338,7 @@ interface SectionPanelProps {
   orgIdentifier: string
   projectIdentifier: string
   pipelineIdentifier: string
-  module: Module
+  module?: Module
   selectedSection: Section
   preFlightCheckData?: PreFlightDTO
 }
@@ -379,7 +379,7 @@ interface PreFlightCheckSectionsProps {
   orgIdentifier: string
   projectIdentifier: string
   pipelineIdentifier: string
-  module: Module
+  module?: Module
   preFlightCheckData?: PreFlightDTO
 }
 function PreFlightCheckSections({
@@ -493,7 +493,7 @@ export const POLL_INTERVAL = 3 /* sec */ * 1000 /* ms */
 
 export interface PreFlightCheckModalProps {
   pipeline?: PipelineInfoConfig
-  module: Module
+  module?: Module
   accountId: string
   orgIdentifier: string
   projectIdentifier: string

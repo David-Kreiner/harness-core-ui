@@ -290,7 +290,7 @@ export default function EnvironmentConfiguration({
       <Layout.Horizontal
         margin={{ bottom: 'medium' }}
         flex={{
-          justifyContent: 'center'
+          justifyContent: context !== PipelineContextType.Standalone ? 'flex-start' : 'center'
         }}
         width={'100%'}
       >

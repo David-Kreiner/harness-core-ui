@@ -41,7 +41,7 @@ export class ContinousVerificationStep extends PipelineStep<ContinousVerificatio
   protected stepName = 'Verify'
   protected stepIcon: IconName = 'cv-main'
   protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.Verify'
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
   protected defaultValues: ContinousVerificationData = cvDefaultValues
 
   renderStep(props: StepProps<ContinousVerificationData>): JSX.Element {

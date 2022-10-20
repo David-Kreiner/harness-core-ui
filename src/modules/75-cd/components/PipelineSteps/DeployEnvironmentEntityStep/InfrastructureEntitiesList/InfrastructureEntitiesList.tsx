@@ -24,7 +24,7 @@ import { InfrastructureEntityCard } from './InfrastructureEntityCard'
 import css from './InfrastructureEntitiesList.module.scss'
 
 export interface InfrastructureEntitiesListProps
-  extends Required<Pick<DeployEnvironmentEntityCustomStepProps, 'stageIdentifier' | 'customDeploymentRef'>> {
+  extends Required<Pick<DeployEnvironmentEntityCustomStepProps, 'customDeploymentRef'>> {
   loading: boolean
   infrastructuresData: InfrastructureData[]
   readonly: boolean
@@ -42,7 +42,6 @@ export default function InfrastructureEntitiesList({
   onInfrastructureEntityUpdate,
   onRemoveInfrastructureFromList,
   environmentIdentifier,
-  stageIdentifier,
   customDeploymentRef
 }: InfrastructureEntitiesListProps): React.ReactElement {
   const { getString } = useStrings()
@@ -98,7 +97,6 @@ export default function InfrastructureEntitiesList({
               onEditClick={setInfrastructureToEdit}
               allowableTypes={allowableTypes}
               readonly={readonly}
-              stageIdentifier={stageIdentifier}
               environmentIdentifier={environmentIdentifier}
             />
           )

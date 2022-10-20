@@ -5,9 +5,9 @@
  * https://polyformproject.org/wp-content/uploads/2020/06/PolyForm-Shield-1.0.0.txt.
  */
 
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import type { FormikProps } from 'formik'
-import { StepWizard } from '@harness/uicore'
+import { shouldShowError, StepWizard, useToaster } from '@harness/uicore'
 import { useModalHook } from '@harness/use-modal'
 import { Color } from '@harness/design-system'
 import cx from 'classnames'
@@ -15,7 +15,7 @@ import { useParams } from 'react-router-dom'
 import { Dialog, IDialogProps, Classes } from '@blueprintjs/core'
 import type { IconProps } from '@harness/icons'
 import { merge } from 'lodash-es'
-import type { PageConnectorResponse, ConnectorInfoDTO, PrimaryArtifact } from 'services/cd-ng'
+import { PageConnectorResponse, ConnectorInfoDTO, PrimaryArtifact, useGetConnectorListV2 } from 'services/cd-ng'
 import { CONNECTOR_CREDENTIALS_STEP_IDENTIFIER } from '@connectors/constants'
 import type { GitQueryParams, PipelineType } from '@common/interfaces/RouteInterfaces'
 import { useStrings } from 'framework/strings'
@@ -38,6 +38,9 @@ import { ArtifactActions } from '@common/constants/TrackingConstants'
 import StepNexusAuthentication from '@connectors/components/CreateConnector/NexusConnector/StepAuth/StepNexusAuthentication'
 import StepArtifactoryAuthentication from '@connectors/components/CreateConnector/ArtifactoryConnector/StepAuth/StepArtifactoryAuthentication'
 import AzureAuthentication from '@connectors/components/CreateConnector/AzureConnector/StepAuth/AzureAuthentication'
+import type { RBACError } from '@rbac/utils/useRBACError/useRBACError'
+import useRBACError from '@rbac/utils/useRBACError/useRBACError'
+import { getIdentifierFromValue } from '@common/components/EntityReference/EntityReference'
 import {
   ArtifactIconByType,
   ArtifactTitleIdByType,
@@ -78,7 +81,7 @@ export default function ArtifactsSelection({ formikProps }: ArtifactsSelectionPr
   const selectedArtifactType = artifactType as ArtifactTriggerConfig['type']
   const [isEditMode, setIsEditMode] = useState(false)
   const [connectorView, setConnectorView] = useState(false)
-  const [fetchedConnectorResponse] = useState<PageConnectorResponse | undefined>()
+  const [fetchedConnectorResponse, setFetchedConnectorResponse] = useState<PageConnectorResponse | undefined>()
   const [primaryArtifact, setPrimaryArtifact] = useState<PrimaryArtifact>(triggerSpec as PrimaryArtifact)
 
   const { getString } = useStrings()
@@ -106,6 +109,45 @@ export default function ArtifactsSelection({ formikProps }: ArtifactsSelectionPr
     title: '',
     style: { width: 1100, height: 550, borderLeft: 'none', paddingBottom: 0, position: 'relative' }
   }
+
+  const defaultQueryParams = {
+    pageIndex: 0,
+    pageSize: 10,
+    searchTerm: '',
+    accountIdentifier: accountId,
+    orgIdentifier,
+    projectIdentifier,
+    includeAllConnectorsAvailableAtScope: true
+  }
+  const { mutate: fetchConnectors } = useGetConnectorListV2({
+    queryParams: defaultQueryParams
+  })
+
+  const { showError } = useToaster()
+  const { getRBACErrorMessage } = useRBACError()
+
+  const refetchConnectorList = async (): Promise<void> => {
+    try {
+      const response = await fetchConnectors({
+        filterType: 'Connector',
+        connectorIdentifiers: [getIdentifierFromValue(artifactSpec.connectorRef as string)]
+      })
+      /* istanbul ignore else */
+      if (response.data) {
+        const { data: connectorResponse } = response
+        setFetchedConnectorResponse(connectorResponse)
+      }
+    } catch (e) {
+      /* istanbul ignore else */
+      if (shouldShowError(e)) {
+        showError(getRBACErrorMessage(e as RBACError))
+      }
+    }
+  }
+
+  useEffect(() => {
+    refetchConnectorList()
+  }, [artifactSpec.connectorRef])
 
   const [showConnectorModal, hideConnectorModal] = useModalHook(
     () => (
@@ -347,7 +389,15 @@ export default function ArtifactsSelection({ formikProps }: ArtifactsSelectionPr
       default:
         return <></>
     }
-  }, [connectorView, selectedArtifactType, isEditMode])
+  }, [
+    connectorView,
+    selectedArtifactType,
+    isEditMode,
+    ConnectorTestConnectionProps,
+    authenticationStepProps,
+    connectorDetailStepProps,
+    delegateStepProps
+  ])
 
   const getLastSteps = useCallback((): JSX.Element | undefined => {
     switch (selectedArtifactType) {

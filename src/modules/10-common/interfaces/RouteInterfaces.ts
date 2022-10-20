@@ -205,7 +205,7 @@ export type ModuleHomeParams = {
   source?: string
 }
 
-export type PipelineType<T> = T & ModulePathParams
+export type PipelineType<T> = T & Partial<ModulePathParams>
 
 export type PathFn<T> = (props: AccountPathProps & T) => string
 

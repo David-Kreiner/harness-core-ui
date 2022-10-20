@@ -5,7 +5,7 @@
  * https://polyformproject.org/wp-content/uploads/2020/06/PolyForm-Shield-1.0.0.txt.
  */
 
-import { defaultTo, get, isEmpty, isEqual, set, trim, unset, map } from 'lodash-es'
+import { defaultTo, get, isEmpty, isEqual, set, trim, unset, map, omit } from 'lodash-es'
 import produce from 'immer'
 import type { GetDataError } from 'restful-react'
 import React from 'react'
@@ -19,7 +19,16 @@ import type {
   Failure,
   Error
 } from 'services/pipeline-ng'
-import type { TemplateSummaryResponse } from 'services/template-ng'
+import {
+  getTemplatePromise,
+  GetTemplateQueryParams,
+  ResponseTemplateResponse,
+  TemplateSummaryResponse,
+  getTemplateListPromise,
+  GetTemplateListQueryParams,
+  ResponsePageTemplateSummaryResponse,
+  TemplateResponse
+} from 'services/template-ng'
 import {
   getIdentifierFromValue,
   getScopeFromDTO,
@@ -30,15 +39,12 @@ import type { StepType } from '@pipeline/components/PipelineSteps/PipelineStepIn
 import type { StageType } from '@pipeline/utils/stageHelpers'
 import type { StepOrStepGroupOrTemplateStepData } from '@pipeline/components/PipelineStudio/StepCommands/StepCommandTypes'
 import { generateRandomString } from '@pipeline/components/PipelineStudio/ExecutionGraph/ExecutionGraphUtil'
-import {
-  getTemplateListPromise,
-  GetTemplateListQueryParams,
-  ResponsePageTemplateSummaryResponse
-} from 'services/template-ng'
 import { Category } from '@common/constants/TrackingConstants'
 import type { ServiceDefinition } from 'services/cd-ng'
 import { INPUT_EXPRESSION_REGEX_STRING, parseInput } from '@common/components/ConfigureOptions/ConfigureOptionsUtils'
 import { ErrorHandler } from '@common/components/ErrorHandler/ErrorHandler'
+import { getGitQueryParamsWithParentScope } from '@common/utils/gitSyncUtils'
+import type { StoreMetadata } from '@common/constants/GitSyncTypes'
 
 export const TEMPLATE_INPUT_PATH = 'template.templateInputs'
 export interface TemplateServiceDataType {
@@ -120,8 +126,8 @@ export const createStepNodeFromTemplate = (template: TemplateSummaryResponse, is
       })) as unknown as StepElementConfig
 }
 
-const getPromisesForTemplateList = (params: GetTemplateListQueryParams, templateRefs: string[]) => {
-  const scopedTemplates = templateRefs.reduce((a: { [key: string]: string[] }, b) => {
+export const getScopedTemplatesFromTemplateRefs = (templateRefs: string[]) => {
+  return templateRefs.reduce((a: { [key: string]: string[] }, b) => {
     const identifier = getIdentifierFromValue(b)
     const scope = getScopeFromValue(b)
     if (a[scope]) {
@@ -131,6 +137,10 @@ const getPromisesForTemplateList = (params: GetTemplateListQueryParams, template
     }
     return a
   }, {})
+}
+
+const getPromisesForTemplateList = (params: GetTemplateListQueryParams, templateRefs: string[]) => {
+  const scopedTemplates = getScopedTemplatesFromTemplateRefs(templateRefs)
 
   const promises: Promise<ResponsePageTemplateSummaryResponse>[] = []
   Object.keys(scopedTemplates).forEach(scope => {
@@ -147,6 +157,36 @@ const getPromisesForTemplateList = (params: GetTemplateListQueryParams, template
           repoIdentifier: params.repoIdentifier,
           branch: params.branch,
           getDefaultFromOtherRepo: true
+        }
+      })
+    )
+  })
+
+  return promises
+}
+
+const getPromisesForTemplateGet = (
+  params: GetTemplateQueryParams,
+  templateRefs: string[],
+  storeMetadata?: StoreMetadata
+) => {
+  const promises: Promise<ResponseTemplateResponse>[] = []
+  templateRefs.forEach(templateRef => {
+    const templateIdentifier = getIdentifierFromValue(templateRef)
+    const scope = getScopeFromValue(templateRef)
+
+    promises.push(
+      getTemplatePromise({
+        templateIdentifier,
+        queryParams: {
+          ...params,
+          projectIdentifier: scope === Scope.PROJECT ? params.projectIdentifier : undefined,
+          orgIdentifier: scope === Scope.PROJECT || scope === Scope.ORG ? params.orgIdentifier : undefined,
+          ...getGitQueryParamsWithParentScope(storeMetadata, {
+            accountId: params.accountIdentifier,
+            orgIdentifier: defaultTo(params.orgIdentifier, ''),
+            projectIdentifier: defaultTo(params.projectIdentifier, '')
+          })
         }
       })
     )
@@ -183,6 +223,38 @@ export const getResolvedCustomDeploymentDetailsByRef = (
 }
 
 export const getTemplateTypesByRef = (
+  params: GetTemplateListQueryParams | GetTemplateQueryParams,
+  templateRefs: string[],
+  storeMetadata?: StoreMetadata,
+  supportingTemplatesGitx?: boolean
+): Promise<{
+  templateTypes: { [key: string]: string }
+  templateServiceData: TemplateServiceDataType
+}> => {
+  return supportingTemplatesGitx
+    ? getTemplateTypesByRefV2(params, templateRefs, storeMetadata)
+    : getTemplateTypesByRefV1(params as GetTemplateListQueryParams, templateRefs)
+}
+
+const setTemplateTypesAndService = (
+  templateTypes: Record<string, unknown>,
+  templateServiceData: Record<string, unknown>,
+  template: TemplateSummaryResponse | TemplateResponse
+) => {
+  const templateData = parse<any>(template.yaml || '').template
+  const scopeBasedTemplateRef = getScopeBasedTemplateRef(template)
+  set(templateTypes, scopeBasedTemplateRef, templateData.spec.type)
+
+  const serviceData = defaultTo(
+    templateData.spec.spec?.serviceConfig?.serviceDefinition?.type,
+    templateData.spec.spec?.deploymentType
+  )
+  if (templateData.type === Category.STAGE && serviceData) {
+    set(templateServiceData, scopeBasedTemplateRef, serviceData)
+  }
+}
+
+export const getTemplateTypesByRefV1 = (
   params: GetTemplateListQueryParams,
   templateRefs: string[]
 ): Promise<{
@@ -196,18 +268,33 @@ export const getTemplateTypesByRef = (
       const templateTypes = {}
       responses.forEach(response => {
         response.data?.content?.forEach(item => {
-          const templateData = parse<any>(item.yaml || '').template
-          const scopeBasedTemplateRef = getScopeBasedTemplateRef(item)
-          set(templateTypes, scopeBasedTemplateRef, templateData.spec.type)
-
-          const serviceData = defaultTo(
-            templateData.spec.spec?.serviceConfig?.serviceDefinition?.type,
-            templateData.spec.spec?.deploymentType
-          )
-          if (templateData.type === Category.STAGE && serviceData) {
-            set(templateServiceData, scopeBasedTemplateRef, serviceData)
-          }
+          setTemplateTypesAndService(templateTypes, templateServiceData, item)
         })
+      })
+      return { templateTypes, templateServiceData }
+    })
+    .catch(_ => {
+      return { templateTypes: {}, templateServiceData: {} }
+    })
+}
+
+export const getTemplateTypesByRefV2 = (
+  params: GetTemplateQueryParams,
+  templateRefs: string[],
+  storeMetadata?: StoreMetadata
+): Promise<{
+  templateTypes: { [key: string]: string }
+  templateServiceData: TemplateServiceDataType
+}> => {
+  const promises = getPromisesForTemplateGet(omit(params, 'templateListType'), templateRefs, storeMetadata)
+  return Promise.all(promises)
+    .then(responses => {
+      const templateServiceData = {}
+      const templateTypes = {}
+      responses.forEach(response => {
+        if (response?.data) {
+          setTemplateTypesAndService(templateTypes, templateServiceData, response.data)
+        }
       })
       return { templateTypes, templateServiceData }
     })

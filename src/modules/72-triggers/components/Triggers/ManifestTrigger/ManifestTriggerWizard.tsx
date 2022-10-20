@@ -50,7 +50,6 @@ import type { Pipeline } from '@pipeline/utils/types'
 import { usePermission } from '@rbac/hooks/usePermission'
 import { PermissionIdentifier } from '@rbac/interfaces/PermissionIdentifier'
 import { ResourceType } from '@rbac/interfaces/ResourceType'
-import { useAppStore } from 'framework/AppStore/AppStoreContext'
 import { useStrings } from 'framework/strings'
 
 import { Failure, getConnectorListV2Promise, GetConnectorQueryParams, useGetConnector } from 'services/cd-ng'
@@ -99,6 +98,7 @@ import {
   TriggerTypes
 } from './ManifestWizardPageUtils'
 import type { TriggerProps } from '../Trigger'
+import useGitAwareForTriggerEnabled from '../useGitAwareForTriggerEnabled'
 import css from '@triggers/pages/triggers/TriggersWizardPage.module.scss'
 
 type ResponseNGTriggerResponseWithMessage = ResponseNGTriggerResponse & { message?: string }
@@ -166,13 +166,7 @@ export default function ManifestTriggerWizard(
     }
   })
 
-  const isGitSyncEnabled = useMemo(() => !!pipelineResponse?.data?.gitDetails?.branch, [pipelineResponse])
-  const { supportingGitSimplification } = useAppStore()
-
-  const gitAwareForTriggerEnabled = useMemo(
-    () => isGitSyncEnabled && supportingGitSimplification,
-    [isGitSyncEnabled, supportingGitSimplification]
-  )
+  const gitAwareForTriggerEnabled = useGitAwareForTriggerEnabled()
 
   const [connectorScopeParams] = useState<GetConnectorQueryParams | undefined>(undefined)
   const [ignoreError, setIgnoreError] = useState<boolean>(false)
@@ -988,9 +982,19 @@ export default function ManifestTriggerWizard(
     latestYaml?: any // validate from YAML view
   }): Promise<FormikErrors<FlatValidWebhookFormikValuesInterface>> => {
     if (!formikProps) return {}
+    let _pipelineBranchNameError = ''
     let _inputSetRefsError = ''
 
     if (gitAwareForTriggerEnabled) {
+      // Custom validation when pipeline Reference Branch Name is an expression for non-webhook triggers
+      if (formikProps?.values?.triggerType !== TriggerTypes.WEBHOOK) {
+        const pipelineBranchName = (formikProps?.values?.pipelineBranchName || '').trim()
+
+        if (isHarnessExpression(pipelineBranchName)) {
+          _pipelineBranchNameError = getString('triggers.branchNameCantBeExpression')
+        }
+      }
+
       // inputSetRefs is required if Input Set is required to run pipeline
       if (template?.data?.inputSetTemplateYaml && !formikProps?.values?.inputSetSelected?.length) {
         _inputSetRefsError = getString('triggers.inputSetIsRequired')
@@ -1015,7 +1019,7 @@ export default function ManifestTriggerWizard(
       setSubmitting
     })
     const gitXErrors = gitAwareForTriggerEnabled
-      ? omitBy({ pipelineBranchName: {}, inputSetRefs: _inputSetRefsError }, value => !value)
+      ? omitBy({ pipelineBranchName: _pipelineBranchNameError, inputSetRefs: _inputSetRefsError }, value => !value)
       : undefined
     // https://github.com/formium/formik/issues/1392
     const errors: any = await {

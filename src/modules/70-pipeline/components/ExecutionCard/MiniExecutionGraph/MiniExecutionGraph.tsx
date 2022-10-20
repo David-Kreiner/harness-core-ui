@@ -21,7 +21,7 @@ import css from './MiniExecutionGraph.module.scss'
 const SCROLL_DELTA = 60
 const THROTTLE_TIME = 300
 
-export interface MiniExecutionGraphProps extends ProjectPathProps, ModulePathParams {
+export interface MiniExecutionGraphProps extends ProjectPathProps, Partial<ModulePathParams> {
   pipelineExecution: PipelineExecutionSummary
   source: ExecutionPathProps['source']
 }

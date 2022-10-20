@@ -171,7 +171,7 @@ export class CommandScriptsStep extends PipelineStep<CommandScriptsData> {
   protected stepIcon: IconName = 'command-shell-script'
   protected stepIconColor = Color.GREY_700
   protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.SHELLSCRIPT'
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
   protected invocationMap: Map<
     RegExp,
     (path: string, yaml: string, params: Record<string, unknown>) => Promise<CompletionItemInterface[]>

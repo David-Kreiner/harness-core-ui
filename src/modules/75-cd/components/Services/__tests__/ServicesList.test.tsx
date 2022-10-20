@@ -94,7 +94,7 @@ describe('ServicesList', () => {
     expect(window.open).toHaveBeenCalledTimes(1)
     expect(window.open).toBeCalledWith(
       expect.stringContaining(
-        `/account/dummy/undefined/orgs/dummy/projects/dummy/pipelines/Test/deployments/${planExecutionId}/pipeline`
+        `/account/dummy/home/orgs/dummy/projects/dummy/pipelines/Test/deployments/${planExecutionId}/pipeline`
       )
     )
   })

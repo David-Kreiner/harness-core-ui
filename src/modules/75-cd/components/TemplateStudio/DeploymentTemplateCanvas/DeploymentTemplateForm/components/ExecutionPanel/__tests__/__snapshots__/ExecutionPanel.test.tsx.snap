@@ -6,18 +6,78 @@ exports[`Test DeploymentInfraWrapperWithRef initial render - with step template 
     class="StyledProps--font StyledProps--main executionWidgetWrapper"
   >
     <div
-      class="Layout--vertical StyledProps--main tooltipStyle deploymentStepsCard StyledProps--margin-medium"
+      class="Layout--horizontal StyledProps--main StyledProps--margin-top-xlarge StyledProps--margin-bottom-xlarge StyledProps--margin-left-medium StyledProps--margin-right-medium"
     >
       <div
         class="Text--withDocsTooltip"
         data-tooltip-id="deploymentStepsDT"
       >
         <p
-          class="StyledProps--font StyledProps--main header headerText StyledProps--color StyledProps--color-black"
+          class="StyledProps--font StyledProps--main headerText StyledProps--color StyledProps--color-black"
         >
           cd.deploymentSteps
         </p>
       </div>
+      <span
+        class="bp3-popover-wrapper main marginLeft"
+      >
+        <span
+          class="bp3-popover-target"
+        >
+          <button
+            class="bp3-button Button--button StyledProps--font StyledProps--main addButton Button--with-current-color Button--withLeftIcon Button--withRightIcon"
+            type="button"
+          >
+            <span
+              class="bp3-icon bp3-icon-plus StyledProps--main StyledProps--padding-right-xsmall"
+              icon="plus"
+            >
+              <svg
+                data-icon="plus"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+              >
+                <desc>
+                  plus
+                </desc>
+                <path
+                  d="M13 7H9V3c0-.55-.45-1-1-1s-1 .45-1 1v4H3c-.55 0-1 .45-1 1s.45 1 1 1h4v4c0 .55.45 1 1 1s1-.45 1-1V9h4c.55 0 1-.45 1-1s-.45-1-1-1z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </span>
+            <span
+              class="bp3-button-text"
+            >
+              addStep
+            </span>
+            <span
+              class="bp3-icon bp3-icon-chevron-down StyledProps--main"
+              icon="chevron-down"
+            >
+              <svg
+                data-icon="chevron-down"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+              >
+                <desc>
+                  chevron-down
+                </desc>
+                <path
+                  d="M12 5c-.28 0-.53.11-.71.29L8 8.59l-3.29-3.3a1.003 1.003 0 00-1.42 1.42l4 4c.18.18.43.29.71.29s.53-.11.71-.29l4-4A1.003 1.003 0 0012 5z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </span>
+          </button>
+        </span>
+      </span>
+    </div>
+    <div
+      class="Layout--vertical StyledProps--main tooltipStyle deploymentStepsCard StyledProps--margin-medium"
+    >
       <div
         class="bp3-card bp3-elevation-0 Card--card sectionCard shadow"
       >
@@ -33,53 +93,12 @@ exports[`Test DeploymentInfraWrapperWithRef initial render - with step template 
           <div
             class="StyledProps--font StyledProps--main stepsContainer"
           >
-            <span
-              class="bp3-popover-wrapper bp3-dark"
-            >
-              <span
-                class="bp3-popover-target"
-              >
-                <div
-                  class="Layout--vertical Layout--layout-spacing-small StyledProps--main StyledProps--flex StyledProps--flex-align-center-center"
-                >
-                  <div
-                    class="StyledProps--font StyledProps--main addStep"
-                  >
-                    <span
-                      class="bp3-icon bp3-icon-plus"
-                      icon="plus"
-                    >
-                      <svg
-                        data-icon="plus"
-                        fill="var(--grey-400)"
-                        height="22"
-                        viewBox="0 0 20 20"
-                        width="22"
-                      >
-                        <desc>
-                          plus
-                        </desc>
-                        <path
-                          d="M16 9h-5V4c0-.55-.45-1-1-1s-1 .45-1 1v5H4c-.55 0-1 .45-1 1s.45 1 1 1h5v5c0 .55.45 1 1 1s1-.45 1-1v-5h5c.55 0 1-.45 1-1s-.45-1-1-1z"
-                          fill-rule="evenodd"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                  <p
-                    class="StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--font-weight-semi-bold StyledProps--color StyledProps--color-grey500"
-                  >
-                    add
-                  </p>
-                </div>
-              </span>
-            </span>
             <div
-              class="Layout--vertical Layout--layout-spacing-small StyledProps--main"
+              class="Layout--vertical Layout--layout-spacing-small StyledProps--main StyledProps--flex StyledProps--flex-alignItems-center"
             >
               <div
                 class="bp3-card bp3-elevation-0 Card--card paletteCard"
-                data-testid="step-card-account.-0"
+                data-testid="step-card-http_project_level-0"
               >
                 <span
                   class="bp3-icon StyledProps--main templateLibraryIcon"
@@ -138,12 +157,16 @@ exports[`Test DeploymentInfraWrapperWithRef initial render - with step template 
                   </span>
                 </button>
               </div>
-              <p
-                class="StyledProps--font Text--lineclamp StyledProps--main stepTemplateCardText StyledProps--font-small StyledProps--color StyledProps--color-grey600"
-                style="--text-line-clamp: 1; width: 64px;"
+              <div
+                class="stepTemplateCardText"
               >
-                account.
-              </p>
+                <p
+                  class="StyledProps--font Text--lineclamp StyledProps--main StyledProps--font-size-small StyledProps--font-align-center StyledProps--color StyledProps--color-grey600"
+                  style="--text-line-clamp: 3; width: 100px;"
+                >
+                  http project level
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -160,18 +183,78 @@ exports[`Test DeploymentInfraWrapperWithRef initial render - without step templa
     class="StyledProps--font StyledProps--main executionWidgetWrapper"
   >
     <div
-      class="Layout--vertical StyledProps--main tooltipStyle deploymentStepsCard StyledProps--margin-medium"
+      class="Layout--horizontal StyledProps--main StyledProps--margin-top-xlarge StyledProps--margin-bottom-xlarge StyledProps--margin-left-medium StyledProps--margin-right-medium"
     >
       <div
         class="Text--withDocsTooltip"
         data-tooltip-id="deploymentStepsDT"
       >
         <p
-          class="StyledProps--font StyledProps--main header headerText StyledProps--color StyledProps--color-black"
+          class="StyledProps--font StyledProps--main headerText StyledProps--color StyledProps--color-black"
         >
           cd.deploymentSteps
         </p>
       </div>
+      <span
+        class="bp3-popover-wrapper main marginLeft"
+      >
+        <span
+          class="bp3-popover-target"
+        >
+          <button
+            class="bp3-button Button--button StyledProps--font StyledProps--main addButton Button--with-current-color Button--withLeftIcon Button--withRightIcon"
+            type="button"
+          >
+            <span
+              class="bp3-icon bp3-icon-plus StyledProps--main StyledProps--padding-right-xsmall"
+              icon="plus"
+            >
+              <svg
+                data-icon="plus"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+              >
+                <desc>
+                  plus
+                </desc>
+                <path
+                  d="M13 7H9V3c0-.55-.45-1-1-1s-1 .45-1 1v4H3c-.55 0-1 .45-1 1s.45 1 1 1h4v4c0 .55.45 1 1 1s1-.45 1-1V9h4c.55 0 1-.45 1-1s-.45-1-1-1z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </span>
+            <span
+              class="bp3-button-text"
+            >
+              addStep
+            </span>
+            <span
+              class="bp3-icon bp3-icon-chevron-down StyledProps--main"
+              icon="chevron-down"
+            >
+              <svg
+                data-icon="chevron-down"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+              >
+                <desc>
+                  chevron-down
+                </desc>
+                <path
+                  d="M12 5c-.28 0-.53.11-.71.29L8 8.59l-3.29-3.3a1.003 1.003 0 00-1.42 1.42l4 4c.18.18.43.29.71.29s.53-.11.71-.29l4-4A1.003 1.003 0 0012 5z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </span>
+          </button>
+        </span>
+      </span>
+    </div>
+    <div
+      class="Layout--vertical StyledProps--main tooltipStyle deploymentStepsCard StyledProps--margin-medium"
+    >
       <div
         class="bp3-card bp3-elevation-0 Card--card sectionCard shadow"
       >
@@ -186,49 +269,7 @@ exports[`Test DeploymentInfraWrapperWithRef initial render - without step templa
           </p>
           <div
             class="StyledProps--font StyledProps--main stepsContainer"
-          >
-            <span
-              class="bp3-popover-wrapper bp3-dark"
-            >
-              <span
-                class="bp3-popover-target"
-              >
-                <div
-                  class="Layout--vertical Layout--layout-spacing-small StyledProps--main StyledProps--flex StyledProps--flex-align-center-center"
-                >
-                  <div
-                    class="StyledProps--font StyledProps--main addStep"
-                  >
-                    <span
-                      class="bp3-icon bp3-icon-plus"
-                      icon="plus"
-                    >
-                      <svg
-                        data-icon="plus"
-                        fill="var(--grey-400)"
-                        height="22"
-                        viewBox="0 0 20 20"
-                        width="22"
-                      >
-                        <desc>
-                          plus
-                        </desc>
-                        <path
-                          d="M16 9h-5V4c0-.55-.45-1-1-1s-1 .45-1 1v5H4c-.55 0-1 .45-1 1s.45 1 1 1h5v5c0 .55.45 1 1 1s1-.45 1-1v-5h5c.55 0 1-.45 1-1s-.45-1-1-1z"
-                          fill-rule="evenodd"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                  <p
-                    class="StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--font-weight-semi-bold StyledProps--color StyledProps--color-grey500"
-                  >
-                    add
-                  </p>
-                </div>
-              </span>
-            </span>
-          </div>
+          />
         </div>
       </div>
     </div>

@@ -21,6 +21,7 @@ import TriggersPage from '@triggers/pages/triggers/TriggersPage'
 import TriggersDetailPage from '@triggers/pages/triggers/TriggersDetailPage'
 
 import TriggersWizardPage from '@triggers/components/pages/TriggersWizardPage/TriggersWizardPage'
+import { ProjectDetailsSideNavProps } from '@projects-orgs/RouteDestinations'
 
 export const TriggersRouteDestinations: React.FC<{
   moduleParams: ModulePathParams
@@ -42,7 +43,27 @@ export const TriggersRouteDestinations: React.FC<{
     <RouteWithLayout
       exact
       licenseRedirectData={licenseRedirectData}
+      sidebarProps={ProjectDetailsSideNavProps}
+      path={routes.toTriggersPage({ ...accountPathProps, ...pipelinePathProps })}
+      pageName={PAGE_NAME.TriggersPage}
+    >
+      <PipelineDetails>
+        <TriggersPage />
+      </PipelineDetails>
+    </RouteWithLayout>
+    <RouteWithLayout
+      exact
+      licenseRedirectData={licenseRedirectData}
       sidebarProps={sidebarProps}
+      path={routes.toTriggersDetailPage({ ...accountPathProps, ...triggerPathProps, ...moduleParams })}
+      pageName={PAGE_NAME.TriggersDetailPage}
+    >
+      <TriggersDetailPage />
+    </RouteWithLayout>
+    <RouteWithLayout
+      exact
+      licenseRedirectData={licenseRedirectData}
+      sidebarProps={ProjectDetailsSideNavProps}
       path={routes.toTriggersDetailPage({ ...accountPathProps, ...triggerPathProps, ...moduleParams })}
       pageName={PAGE_NAME.TriggersDetailPage}
     >
@@ -53,6 +74,15 @@ export const TriggersRouteDestinations: React.FC<{
       licenseRedirectData={licenseRedirectData}
       sidebarProps={sidebarProps}
       path={routes.toTriggersWizardPage({ ...accountPathProps, ...triggerPathProps, ...moduleParams })}
+      pageName={PAGE_NAME.TriggersWizardPage}
+    >
+      <TriggersWizardPage />
+    </RouteWithLayout>
+    <RouteWithLayout
+      exact
+      licenseRedirectData={licenseRedirectData}
+      sidebarProps={ProjectDetailsSideNavProps}
+      path={routes.toTriggersWizardPage({ ...accountPathProps, ...triggerPathProps })}
       pageName={PAGE_NAME.TriggersWizardPage}
     >
       <TriggersWizardPage />

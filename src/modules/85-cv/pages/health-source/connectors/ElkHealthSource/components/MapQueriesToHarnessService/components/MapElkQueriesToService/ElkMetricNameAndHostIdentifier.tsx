@@ -30,7 +30,8 @@ export function ElkMetricNameAndHostIdentifier(props: MapElkQueriesToServiceProp
     isTemplate,
     expressions,
     connectorIdentifier,
-    formikProps
+    formikProps,
+    logIndexes
   } = props
 
   const { projectIdentifier, orgIdentifier, accountId } = useParams<ProjectPathProps>()
@@ -81,6 +82,7 @@ export function ElkMetricNameAndHostIdentifier(props: MapElkQueriesToServiceProp
         placeholder={indicesLoading ? getString('loading') : getString('cv.monitoringSources.elk.selectLogIndex')}
         items={getIndexItems}
         onChange={handleSelectChange}
+        value={logIndexes ? { label: logIndexes, value: logIndexes } : undefined}
       />
 
       <InputWithDynamicModalForJsonMultiType

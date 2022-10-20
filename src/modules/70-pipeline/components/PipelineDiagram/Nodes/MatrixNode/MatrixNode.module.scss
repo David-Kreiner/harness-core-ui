@@ -22,18 +22,21 @@
   width: 80px !important;
 }
 .matrixNode {
+  position: relative;
   width: fit-content;
   height: fit-content;
   padding-bottom: var(--spacing-large);
   background: rgb(239 251 255);
   border-radius: 4px;
-  border: dashed 2px #ae82fc !important;
+  border: dashed 2px var(--purple-300);
   z-index: 1 !important;
 
   &.marginBottom {
     margin-bottom: 30px;
   }
-  position: relative;
+  &.multiSvcEnv {
+    border-color: var(--teal-500);
+  }
 
   &:hover .closeNode {
     opacity: 1;

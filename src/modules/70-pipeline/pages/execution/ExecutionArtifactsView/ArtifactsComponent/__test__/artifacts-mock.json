@@ -40,27 +40,27 @@
     "icon": "pipeline-deploy",
     "artifacts": [
       {
-        "url": "https://...",
+        "url": "file://hub.docker.com",
         "type": "File"
       },
       {
-        "url": "https://...",
+        "url": "file://hub.docker.com",
         "type": "File"
       },
       {
-        "url": "https://...",
+        "url": "file://hub.docker.com",
         "type": "File"
       },
       {
-        "url": "https://...",
+        "url": "file://hub.docker.com",
         "type": "File"
       },
       {
-        "url": "https://...",
+        "url": "file://hub.docker.com",
         "type": "File"
       },
       {
-        "url": "https://...",
+        "url": "file://hub.docker.com",
         "type": "File"
       }
     ]

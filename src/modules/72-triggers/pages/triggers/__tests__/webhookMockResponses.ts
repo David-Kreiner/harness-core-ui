@@ -1338,3 +1338,39 @@ export const GetSchemaYaml = {
   metaData: null,
   correlationId: 'd317ef50-dda6-408b-94dc-c66da72e9bcf'
 }
+
+export const GetSettingValueResponse = {
+  status: 'SUCCESS',
+  data: {
+    valueType: 'Boolean',
+    value: 'false'
+  },
+  metaData: null,
+  correlationId: '21667c6f-4afe-4d4d-9228-ab5d18121ae4'
+}
+
+export const GetSecretV2PromiseResponse = {
+  status: 'SUCCESS',
+  data: {
+    secret: {
+      type: 'SecretText',
+      name: 'testAudit',
+      identifier: 'testAudit',
+      orgIdentifier: 'default',
+      projectIdentifier: 'Kapil',
+      tags: {},
+      description: '',
+      spec: {
+        secretManagerIdentifier: 'harnessSecretManager',
+        valueType: 'Inline',
+        value: null
+      }
+    },
+    createdAt: 1665490710042,
+    updatedAt: 1665490710042,
+    draft: false,
+    governanceMetadata: null
+  },
+  metaData: null,
+  correlationId: 'bdc0b57d-8c6a-46bc-b09c-3030342c7f18'
+}

@@ -409,7 +409,7 @@ function DeployEnvironment({
             setSelectedEnvironment(
               environments?.find(environment => environment.identifier === (item as SelectOption)?.value)
             )
-            if (formik?.values['infrastructureRef']) {
+            if (formik?.values['infrastructureRef'] && item !== RUNTIME_INPUT_VALUE) {
               formik?.setFieldValue('infrastructureRef', '')
             }
           },

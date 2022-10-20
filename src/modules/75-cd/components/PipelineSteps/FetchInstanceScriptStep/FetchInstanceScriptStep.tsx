@@ -218,7 +218,7 @@ export class FetchInstanceScript extends PipelineStep<StepElementConfig> {
   protected stepIcon: IconName = 'rolling'
   protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.fetchInstanceScript'
   protected stepPaletteVisible = false
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
   protected isStepNonDeletable = true
 
   // istanbul ignore next

@@ -12,6 +12,7 @@ declare const styles: {
   readonly commandFlagType: string
   readonly commandFlags: string
   readonly commandType: string
+  readonly commandTypeSelect: string
   readonly delBtn: string
   readonly folderPath: string
   readonly halfWidth: string

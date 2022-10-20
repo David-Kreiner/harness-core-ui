@@ -1,0 +1,54 @@
+{
+  "status": "SUCCESS",
+  "data": {
+    "totalPages": 1,
+    "totalItems": 3,
+    "pageItemCount": 3,
+    "pageSize": 50,
+    "content": [
+      {
+        "project": {
+          "orgIdentifier": "default",
+          "identifier": "ishant_project_1",
+          "name": "ishant project 1",
+          "color": "#0063f7",
+          "modules": ["CD", "CI", "CV", "CF", "CE", "STO", "CORE", "PMS", "TEMPLATESERVICE", "CHAOS"],
+          "description": "",
+          "tags": {}
+        },
+        "createdAt": 1663142309054,
+        "lastModifiedAt": 1663142309054
+      },
+      {
+        "project": {
+          "orgIdentifier": "default",
+          "identifier": "freeze_windows_2",
+          "name": "freeze windows 2",
+          "color": "#0063f7",
+          "modules": ["CD", "CI", "CV", "CF", "CE", "STO", "CORE", "PMS", "TEMPLATESERVICE", "CHAOS"],
+          "description": "",
+          "tags": {}
+        },
+        "createdAt": 1661408444017,
+        "lastModifiedAt": 1661408444017
+      },
+      {
+        "project": {
+          "orgIdentifier": "default",
+          "identifier": "default_org_project",
+          "name": "default org project",
+          "color": "#0063f7",
+          "modules": ["CD", "CI", "CV", "CF", "CE", "STO", "CORE", "PMS", "TEMPLATESERVICE", "CHAOS"],
+          "description": "",
+          "tags": {}
+        },
+        "createdAt": 1661258739249,
+        "lastModifiedAt": 1661258739249
+      }
+    ],
+    "pageIndex": 0,
+    "empty": false
+  },
+  "metaData": null,
+  "correlationId": "8bf47bb4-f355-41bb-93c8-5bce1e982e73"
+}

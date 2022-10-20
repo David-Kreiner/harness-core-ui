@@ -71,7 +71,7 @@ import {
 import type { ServerlessAwsLambdaSpec } from '@cd/components/PipelineSteps/ServerlessAWSLambda/ServerlessAwsLambdaSpec'
 import type { ServerlessGCPSpec } from '@cd/components/PipelineSteps/ServerlessGCP/ServerlessGCPSpec'
 import type { ServerlessAzureSpec } from '@cd/components/PipelineSteps/ServerlessAzure/ServerlessAzureSpec'
-import { useFeatureFlag, useFeatureFlags } from '@common/hooks/useFeatureFlag'
+import { useFeatureFlag } from '@common/hooks/useFeatureFlag'
 import { FeatureFlag } from '@common/featureFlags'
 import { isNewServiceEnvEntity } from '@pipeline/components/PipelineStudio/CommonUtils/DeployStageSetupShellUtils'
 import type { ECSInfraSpec } from '@cd/components/PipelineSteps/ECSInfraSpec/ECSInfraSpec'
@@ -125,7 +125,6 @@ export default function DeployInfraDefinition(props: React.PropsWithChildren<unk
     React.useState<Infrastructure>({})
 
   const { getString } = useStrings()
-  const { NG_DEPLOYMENT_TEMPLATE } = useFeatureFlags()
 
   const {
     state: {
@@ -165,9 +164,7 @@ export default function DeployInfraDefinition(props: React.PropsWithChildren<unk
   >(getServiceDefinitionType(stage, getStageFromPipeline, isNewServiceEnvEntity, isSvcEnvEnabled, templateServiceData))
 
   const [infraGroups, setInfraGroups] = React.useState<InfrastructureGroup[]>(
-    getInfraGroups(selectedDeploymentType, getString, {
-      NG_DEPLOYMENT_TEMPLATE: defaultTo(NG_DEPLOYMENT_TEMPLATE, false)
-    })
+    getInfraGroups(selectedDeploymentType, getString, isSvcEnvEnabled)
   )
 
   useEffect(() => {
@@ -241,9 +238,7 @@ export default function DeployInfraDefinition(props: React.PropsWithChildren<unk
       infraReset = true
     }
 
-    const initialInfraGroups = getInfraGroups(newDeploymentType, getString, {
-      NG_DEPLOYMENT_TEMPLATE: defaultTo(NG_DEPLOYMENT_TEMPLATE, false)
-    })
+    const initialInfraGroups = getInfraGroups(newDeploymentType, getString, isSvcEnvEnabled)
 
     const filteredInfraGroups = initialInfraGroups.map(group => ({
       ...group,
@@ -257,11 +252,7 @@ export default function DeployInfraDefinition(props: React.PropsWithChildren<unk
         : deploymentTypeInfraTypeMap[newDeploymentType])
 
     setSelectedInfrastructureType(infrastructureType)
-    setInfraGroups(
-      getInfraGroups(newDeploymentType, getString, {
-        NG_DEPLOYMENT_TEMPLATE: defaultTo(NG_DEPLOYMENT_TEMPLATE, false)
-      })
-    )
+    setInfraGroups(getInfraGroups(newDeploymentType, getString, isSvcEnvEnabled))
 
     const initialInfraDefValues = getInfrastructureDefaultValue(stage, infrastructureType)
     setInitialInfrastructureDefinitionValues(initialInfraDefValues)
@@ -762,9 +753,7 @@ export default function DeployInfraDefinition(props: React.PropsWithChildren<unk
           />
         </Card>
       )}
-      {contextType !== PipelineContextType.Standalone &&
-      selectedInfrastructureType &&
-      !isServerlessDeploymentType(selectedDeploymentType) ? (
+      {contextType !== PipelineContextType.Standalone && selectedInfrastructureType && (
         <Accordion className={stageCss.accordion} activeId="dynamicProvisioning">
           <Accordion.Panel
             id="dynamicProvisioning"
@@ -802,7 +791,7 @@ export default function DeployInfraDefinition(props: React.PropsWithChildren<unk
             }
           />
         </Accordion>
-      ) : null}
+      )}
       {selectedInfrastructureType && (
         <>
           {(isAzureWebAppDeploymentType(selectedInfrastructureType) ||

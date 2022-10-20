@@ -3,3 +3,4 @@ allowOverrides: Allow Overrides
 noSettingToDisplay: No Settings to Display
 harnessDefault: Harness Default
 inheritedFrom: Inherited from {{source}}
+mandateWebhookSecretsGithubTriggers: Mandate Webhook Secrets for Github Triggers

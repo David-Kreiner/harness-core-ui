@@ -15,7 +15,7 @@ export const DefaultFreeze = {
   name: '',
   identifier: DefaultFreezeId,
   entityConfigs: [],
-  status: 'Enabled'
+  status: 'Disabled'
 }
 
 export interface FreezeWindowReducerState {

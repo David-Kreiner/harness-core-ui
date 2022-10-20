@@ -9,12 +9,14 @@ import { isEmpty, isUndefined } from 'lodash-es'
 import { string, array, object, ObjectSchema } from 'yup'
 import { illegalIdentifiers, regexIdentifier } from '@common/utils/StringUtils'
 import type { PanelInterface } from '@triggers/components/TabWizard/TabWizard'
-import type { StringKeys, UseStringsReturn } from 'framework/strings'
+import type { UseStringsReturn } from 'framework/strings'
 import type { GetActionsListQueryParams, NGTriggerSourceV2, PipelineInfoConfig } from 'services/pipeline-ng'
 import type { ConnectorInfoDTO } from 'services/cd-ng'
 import { IdentifierSchema, NameSchema } from '@common/utils/Validation'
 import { connectorUrlType } from '@connectors/constants'
 import type { AddConditionInterface } from '@triggers/components/AddConditionsSection/AddConditionsSection'
+import type { Module } from '@common/interfaces/RouteInterfaces'
+import { SettingType } from '@default-settings/interfaces/SettingType.types'
 import type { SourceRepo, TriggerBaseType } from '../TriggerInterface'
 import { ciCodebaseBuild, CUSTOM, TriggerGitEvent } from '../utils'
 
@@ -229,11 +231,21 @@ export const getModifiedTemplateValues = (
 
 // requiredFields and checkValidPanel in getPanels() above to render warning icons related to this schema
 export const getValidationSchema = (
-  getString: (key: StringKeys, params?: any) => string
+  getString: UseStringsReturn['getString'],
+  isGithubWebhookAuthenticationEnabled = false
 ): ObjectSchema<Record<string, any> | undefined> => {
   return object().shape({
     name: NameSchema({ requiredErrorMsg: getString('triggers.validation.triggerName') }),
     identifier: IdentifierSchema(),
+    ...(isGithubWebhookAuthenticationEnabled && {
+      encryptedWebhookSecretIdentifier: string().test(
+        getString('triggers.validation.configureSecret'),
+        getString('triggers.validation.configureSecret'),
+        function (encryptedWebhookSecretIdentifier) {
+          return !!encryptedWebhookSecretIdentifier
+        }
+      )
+    }),
     event: string().test(
       getString('triggers.validation.event'),
       getString('triggers.validation.event'),
@@ -389,4 +401,16 @@ export const eventTypes = {
   ISSUE_COMMENT: 'IssueComment',
   PR_COMMENT: 'PRComment',
   MR_COMMENT: 'MRComment'
+}
+
+export const getWebhookGithubTriggersAuthenticationSetting = (moduleName: Module): string => {
+  if (moduleName === 'cd') {
+    return SettingType.WEBHOOK_GITHUB_TRIGGERS_AUTHENTICATION_CD
+  }
+
+  if (moduleName === 'ci') {
+    return SettingType.WEBHOOK_GITHUB_TRIGGERS_AUTHENTICATION_CI
+  }
+
+  return ''
 }

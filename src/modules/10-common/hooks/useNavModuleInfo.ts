@@ -67,7 +67,7 @@ const moduleInfoMap: Record<NavModuleName, ModuleInfo> = {
   },
   [ModuleName.CV]: {
     icon: 'cv-main',
-    label: 'common.purpose.cv.serviceReliability',
+    label: 'common.serviceReliabilityManagement',
     getHomePageUrl: (accountId: string) => routes.toCV({ accountId }),
     featureFlagName: FeatureFlag.CVNG_ENABLED
   },
@@ -91,7 +91,7 @@ const moduleInfoMap: Record<NavModuleName, ModuleInfo> = {
   },
   [ModuleName.CHAOS]: {
     icon: 'chaos-main',
-    label: 'common.chaosText',
+    label: 'chaos.homepage.chaosHomePageTitle',
     getHomePageUrl: (accountId: string) => routes.toChaos({ accountId }),
     featureFlagName: FeatureFlag.CHAOS_ENABLED
   },
@@ -112,18 +112,14 @@ export interface GroupConfig {
 export const moduleGroupConfig: GroupConfig[] = [
   {
     label: 'common.moduleList.buildAndTest',
-    items: [ModuleName.CI]
+    items: [ModuleName.CI, ModuleName.CHAOS, ModuleName.STO]
   },
   {
     label: 'common.moduleList.deployChanges',
-    items: [ModuleName.CD]
+    items: [ModuleName.CD, ModuleName.CF]
   },
   {
     label: 'common.moduleList.manageImpact',
-    items: [ModuleName.STO, ModuleName.CF, ModuleName.CHAOS]
-  },
-  {
-    label: 'common.moduleList.optimize',
     items: [ModuleName.CE, ModuleName.CV]
   }
 ]

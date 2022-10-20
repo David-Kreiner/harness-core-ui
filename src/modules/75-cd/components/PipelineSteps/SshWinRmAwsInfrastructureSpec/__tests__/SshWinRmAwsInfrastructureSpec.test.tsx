@@ -91,20 +91,22 @@ describe('Test SshWinRmAwsInfrastructureSpec behavior', () => {
   })
 
   test('should call onUpdate if valid values entered - inputset', async () => {
+    const path = 'inputSet'
     const onUpdateHandler = jest.fn()
     const { getByText, container } = render(
       <TestStepWidget
-        initialValues={getInitialValues()}
-        template={getRuntimeInputsValues()}
-        allValues={getInitialValues()}
+        initialValues={{ [path]: getInitialValues() }}
+        template={{ [path]: getRuntimeInputsValues() }}
+        allValues={{ [path]: getInitialValues() }}
         type={StepType.SshWinRmAws}
         stepViewType={StepViewType.InputSet}
         onUpdate={onUpdateHandler}
+        path={path}
       />
     )
     await checkForFormInit(container)
     await submitForm(getByText)
-    expect(onUpdateHandler).toHaveBeenCalledWith(getInitialValues())
+    expect(onUpdateHandler).toHaveBeenCalledWith({ [path]: getInitialValues() })
   })
 
   test('should not call onUpdate if invalid values entered - inputset', async () => {

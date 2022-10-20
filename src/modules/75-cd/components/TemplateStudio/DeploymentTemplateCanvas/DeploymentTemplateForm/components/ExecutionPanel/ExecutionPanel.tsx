@@ -6,10 +6,9 @@
  */
 
 import React from 'react'
-import { Classes, Icon, PopoverInteractionKind, Position } from '@blueprintjs/core'
-import { get, map } from 'lodash-es'
-import cx from 'classnames'
-import { Button, ButtonVariation, Container, Layout, Popover, Text } from '@wings-software/uicore'
+import { Position } from '@blueprintjs/core'
+import { get, map, noop } from 'lodash-es'
+import { Button, Container, IconName, Layout, Text } from '@wings-software/uicore'
 import { Color } from '@wings-software/design-system'
 import { useStrings } from 'framework/strings'
 import { useDeploymentContext } from '@cd/context/DeploymentContext/DeploymentContextProvider'
@@ -24,38 +23,17 @@ import {
 import { StepTemplateCard } from '@cd/components/TemplateStudio/DeploymentTemplateCanvas/DeploymentTemplateForm/components/StepTemplateCard/StepTemplateCard'
 import { getScopeBasedTemplateRef } from '@pipeline/utils/templateUtils'
 import { useTemplateSelector } from 'framework/Templates/TemplateSelectorContext/useTemplateSelector'
+import { TemplatesActionPopover } from '@templates-library/components/TemplatesActionPopover/TemplatesActionPopover'
 import css from './ExecutionPanel.module.scss'
-
-function AddStepTemplate({ onAddStepClick }: { onAddStepClick: () => void }) {
-  const { isReadOnly } = useDeploymentContext()
-  const { getString } = useStrings()
-
-  const handleOnClick = () => {
-    /* istanbul ignore else */
-    if (!isReadOnly) {
-      onAddStepClick()
-    }
-  }
-
-  return (
-    <Layout.Vertical flex={{ align: 'center-center' }} spacing="small" onClick={handleOnClick}>
-      <Container className={cx({ [css.addStepDisabled]: isReadOnly }, css.addStep)}>
-        <Icon icon="plus" iconSize={22} color={'var(--grey-400)'} />
-      </Container>
-      <Text
-        className={cx({ [css.addStepDisabled]: isReadOnly })}
-        font={{ size: 'small', weight: 'semi-bold' }}
-        color={Color.GREY_500}
-      >
-        {getString('add')}
-      </Text>
-    </Layout.Vertical>
-  )
+export interface StepAdditionMenuItem {
+  icon: IconName
+  label: string
+  onClick: () => void
 }
 
 const ALLOWED_STEP_TEMPLATE_TYPES = [StepType.SHELLSCRIPT, StepType.HTTP]
 
-export function ExecutionPanel({ children }: React.PropsWithChildren<unknown>) {
+export function ExecutionPanel({ children }: React.PropsWithChildren<unknown>): JSX.Element {
   const {
     deploymentConfig,
     updateDeploymentConfig,
@@ -68,15 +46,7 @@ export function ExecutionPanel({ children }: React.PropsWithChildren<unknown>) {
 
   const { getTemplate } = useTemplateSelector()
 
-  const [isDeploymentStepPopoverOpen, setIsDeploymentStepPopoverOpen] = React.useState(false)
-
-  const openDeploymentStepPopover = () => {
-    setIsDeploymentStepPopoverOpen(true)
-  }
-
-  const closeDeploymentStepPopover = () => {
-    setIsDeploymentStepPopoverOpen(false)
-  }
+  const [menuOpen, setMenuOpen] = React.useState(false)
 
   const { getString } = useStrings()
 
@@ -109,7 +79,7 @@ export function ExecutionPanel({ children }: React.PropsWithChildren<unknown>) {
     }
   }
 
-  const renderLinkedStepTemplates = () =>
+  const renderLinkedStepTemplates = (): (JSX.Element | null)[] =>
     map(stepTemplateRefs, (stepTemplateRef: string, stepTemplateIndex: number) => {
       return stepTemplateRef ? (
         <StepTemplateCard templateRef={stepTemplateRef} stepTemplateIndex={stepTemplateIndex} />
@@ -118,57 +88,58 @@ export function ExecutionPanel({ children }: React.PropsWithChildren<unknown>) {
 
   const handleAddStepClick = React.useCallback(() => {
     setDrawerData({ type: DrawerTypes.AddStep, data: { isDrawerOpen: true } })
-    closeDeploymentStepPopover()
-  }, [])
+  }, [setDrawerData])
 
-  const handleUseTemplateClick = () => {
+  const handleUseTemplateClick = (): void => {
     onUseTemplate()
-    closeDeploymentStepPopover()
   }
+
+  const stepAdditionOptions: StepAdditionMenuItem[] = [
+    {
+      label: getString('cd.createAndUseTemplate'),
+      icon: 'plus',
+      onClick: handleAddStepClick
+    },
+    {
+      label: getString('templatesLibrary.useTemplateLabel'),
+      icon: 'template-library',
+      onClick: handleUseTemplateClick
+    }
+  ]
 
   return (
     <Container className={css.executionWidgetWrapper}>
-      <CardWithOuterTitle
-        title={getString('cd.deploymentSteps')}
-        className={css.deploymentStepsCard}
-        headerClassName={css.headerText}
-        dataTooltipId="deploymentStepsDT"
-      >
+      <Layout.Horizontal margin={{ top: 'xlarge', bottom: 'xlarge', left: 'medium', right: 'medium' }}>
+        <Text color={Color.BLACK} className={css.headerText} tooltipProps={{ dataTooltipId: 'deploymentStepsDT' }}>
+          {getString('cd.deploymentSteps')}
+        </Text>
+        <TemplatesActionPopover
+          open={menuOpen}
+          minimal={true}
+          items={stepAdditionOptions}
+          position={Position.BOTTOM}
+          disabled={isReadOnly}
+          setMenuOpen={setMenuOpen}
+          usePortal
+          className={css.marginLeft}
+        >
+          <Button
+            icon="plus"
+            rightIcon="chevron-down"
+            text={getString('addStep')}
+            onClick={noop}
+            disabled={isReadOnly}
+            className={css.addButton}
+          />
+        </TemplatesActionPopover>
+      </Layout.Horizontal>
+
+      <CardWithOuterTitle className={css.deploymentStepsCard}>
         <Layout.Vertical spacing="medium" width={'100%'}>
           <Text color={Color.GREY_500} font={{ size: 'small', weight: 'semi-bold' }}>
             {getString('cd.useStepTemplatesForYourDeploymentType')}
           </Text>
-          <Container className={css.stepsContainer}>
-            <Popover
-              interactionKind={PopoverInteractionKind.CLICK}
-              className={Classes.DARK}
-              position={Position.BOTTOM}
-              disabled={isReadOnly}
-              isOpen={isDeploymentStepPopoverOpen}
-              onInteraction={setIsDeploymentStepPopoverOpen}
-              content={
-                <Layout.Vertical className={css.addStepPopoverContainer} spacing="small" padding="small">
-                  <Button
-                    minimal
-                    variation={ButtonVariation.PRIMARY}
-                    icon="plus"
-                    text={getString('cd.createAndUseTemplate')}
-                    onClick={handleAddStepClick}
-                  />
-                  <Button
-                    minimal
-                    variation={ButtonVariation.PRIMARY}
-                    icon="template-library"
-                    text={getString('templatesLibrary.useTemplateLabel')}
-                    onClick={handleUseTemplateClick}
-                  />
-                </Layout.Vertical>
-              }
-            >
-              <AddStepTemplate onAddStepClick={openDeploymentStepPopover} />
-            </Popover>
-            {renderLinkedStepTemplates()}
-          </Container>
+          <Container className={css.stepsContainer}>{renderLinkedStepTemplates()}</Container>
         </Layout.Vertical>
       </CardWithOuterTitle>
       {children}

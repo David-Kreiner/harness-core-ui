@@ -50,8 +50,8 @@ export class ECSBlueGreenSwapTargetGroupsStep extends PipelineStep<ECSBlueGreenS
   protected type = StepType.EcsBlueGreenSwapTargetGroups
   protected stepName = 'Configure Swap Target Groups'
   protected stepIcon: IconName = 'bluegreen'
-  protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.K8sBGSwapServices'
-  protected isHarnessSpecific = true
+  protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.ECSBlueGreenSwapTargetGroups'
+  protected isHarnessSpecific = false
   protected defaultValues: ECSBlueGreenSwapTargetGroupsStepValues = {
     identifier: '',
     name: '',

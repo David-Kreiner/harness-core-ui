@@ -53,7 +53,7 @@ export function PipelineListEmpty({ hasFilter, resetFilter, createPipeline }: Pi
           </>
         ) : (
           <>
-            <img src={illustration[module]} className={css.image} />
+            <img src={module ? illustration[module] : CDPipelineIllustration} className={css.image} />
             <Text className={css.noPipelineText} margin={{ top: 'medium', bottom: 'small' }}>
               {getString('pipeline.noPipelineText')}
             </Text>

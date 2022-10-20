@@ -76,7 +76,7 @@ addParameter: Add Parameter
 baseURL: Base URL
 requestMethod: Request Method
 optionalAuthentication: Authentication (optional)
-bearerToken: Bearer Token(HTTP Header)
+bearerToken: Bearer Token (HTTP Header)
 connectivityMode:
   title: 'Connectivity Mode'
   validation: 'Please select connectivity mode'
@@ -233,6 +233,7 @@ hashiCorpVault:
   engineName: 'Secret Engine Name'
   engineVersion: 'Secret Engine Version'
   renewal: 'Renewal Interval (minutes)'
+  renewalIntervalWarningMessage: Harness will not renew the token if Renewal Interval is set to zero
   readOnly: '{{$.common.readOnly}}'
   readOnlyVault: 'Read-only Vault'
   default: '{{$.common.default}}'
@@ -761,7 +762,7 @@ ceAzure:
     subscriptionId: '{{ $.common.subscriptionId }}'
     tenantId: '{{ $.connectors.tenantId }}'
     hints:
-      nextStepHint1: 'If the Azure tenant ID you entered is covered by any of the above, select and click “Continue >” to proceed.'
+      nextStepHint1: 'If the billing export for the Subscription Id {{ subscriptionId }} is covered by any of the above existing exports, click "Continue >" to proceed.'
       nextStepHint2: '{{ $.connectors.ceAws.curExising.nextStepHint2 }}'
     searchBillingReports: Enter billing report name
   chooseRequirements:
@@ -771,6 +772,7 @@ ceAzure:
     info: Cost visibility of the resources for which you added the Billing Export in the previous step is enabled by default. Select the others as per your requirements.
     visibilityCardDesc: Cost insights, anomaly detection, service insights, creating budgets perspectives and alerts, utilised/wasted resources in clusters.
     optimizationCardDesc: Detection of orphaned resources, recommendations to save costs, scaling/tearing down, turning off in non-work hours, reserving instances.
+    atleastOneError: Please select at least one feature other than Visibility
     billing:
       feat1: Azure costs by services, accounts, etc.
       feat2: Cost perspective by various constructs

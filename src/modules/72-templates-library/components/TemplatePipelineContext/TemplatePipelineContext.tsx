@@ -46,6 +46,7 @@ import type { PipelineSelectionState } from '@pipeline/components/PipelineStudio
 import { getScopeFromDTO } from '@common/components/EntityReference/EntityReference'
 import type { EntityGitDetails } from 'services/template-ng'
 import type { StoreMetadata } from '@common/constants/GitSyncTypes'
+import { useAppStore } from 'framework/AppStore/AppStoreContext'
 
 export interface TemplatePipelineProviderProps {
   queryParams: GetPipelineQueryParams
@@ -82,6 +83,7 @@ export function TemplatePipelineProvider({
   const setSchemaErrorView = React.useCallback(flag => {
     dispatch(PipelineContextActions.updateSchemaErrorsFlag({ schemaErrors: flag }))
   }, [])
+  const { supportingTemplatesGitx } = useAppStore()
   const getStageFromPipeline = React.useCallback(
     <T extends StageElementConfig = StageElementConfig>(
       stageId: string,
@@ -161,7 +163,9 @@ export function TemplatePipelineProvider({
           branch: gitDetails?.branch,
           getDefaultFromOtherRepo: true
         },
-        templateRefs
+        templateRefs,
+        storeMetadata,
+        supportingTemplatesGitx
       )
       dispatch(
         PipelineContextActions.setTemplateTypes({
@@ -219,7 +223,9 @@ export function TemplatePipelineProvider({
         branch: state.gitDetails?.branch,
         getDefaultFromOtherRepo: true
       },
-      templateRefs
+      templateRefs,
+      storeMetadata,
+      supportingTemplatesGitx
     ).then(resp => {
       PipelineContextActions.setTemplateTypes({ templateTypes: merge(state.templateTypes, resp.templateTypes) })
       PipelineContextActions.setTemplateServiceData({

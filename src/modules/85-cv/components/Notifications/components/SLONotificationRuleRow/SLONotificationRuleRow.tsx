@@ -37,7 +37,7 @@ export default function SLONotificationRuleRow({
       case SLOCondition.ERROR_BUDGET_REMAINING_MINUTES:
         return (
           <Layout.Vertical spacing="xsmall" padding={{ left: 'small' }}>
-            <Text>{'Value'}</Text>
+            <Text>{'Value (min)'}</Text>
             <TextInput
               required
               type="number"
@@ -53,7 +53,7 @@ export default function SLONotificationRuleRow({
       case SLOCondition.ERROR_BUDGET_BURN_RATE_IS_ABOVE:
         return (
           <Layout.Vertical spacing="xsmall" padding={{ left: 'small' }}>
-            <Text>{'Value'}</Text>
+            <Text>{'Value (%)'}</Text>
             <TextInput
               required
               type="number"
@@ -69,7 +69,7 @@ export default function SLONotificationRuleRow({
       case SLOCondition.ERROR_BUDGET_REMAINING_PERCENTAGE:
         return (
           <Layout.Vertical spacing="xsmall" padding={{ left: 'small' }}>
-            <Text>{'Value'}</Text>
+            <Text>{'Value (%)'}</Text>
             <TextInput
               required
               type="number"
@@ -108,7 +108,7 @@ export default function SLONotificationRuleRow({
         {threshold ? renderThresholdField(index) : null}
         {lookBackDuration && condition?.value === SLOCondition.ERROR_BUDGET_BURN_RATE_IS_ABOVE ? (
           <Layout.Vertical spacing="xsmall" padding={{ left: 'small' }}>
-            <Text>{'Lookback Duration'}</Text>
+            <Text>{'Lookback Duration (min)'}</Text>
             <TextInput
               required
               type="number"

@@ -19,11 +19,9 @@ import {
 } from '@wings-software/uicore'
 import { Color } from '@harness/design-system'
 import { merge, cloneDeep, isEmpty, defaultTo, get, debounce, remove } from 'lodash-es'
-import type { FormikProps } from 'formik'
 import { InputSetSelector, InputSetSelectorProps } from '@pipeline/components/InputSetSelector/InputSetSelector'
 import {
   PipelineInfoConfig,
-  StageElementWrapperConfig,
   useGetTemplateFromPipeline,
   getInputSetForPipelinePromise,
   useGetMergeInputSetFromPipelineTemplateWithListInput,
@@ -45,8 +43,6 @@ import NewInputSetModal from '@pipeline/components/InputSetForm/NewInputSetModal
 import {
   ciCodebaseBuild,
   ciCodebaseBuildPullRequest,
-  filterArtifactIndex,
-  getFilteredStage,
   TriggerTypes,
   eventTypes,
   getTriggerInputSetsBranchQueryParameter,
@@ -55,97 +51,12 @@ import {
   TriggerGitEvent,
   ciCodebaseBuildIssueComment
 } from '@triggers/pages/triggers/utils/TriggersWizardPageUtils'
-import { useAppStore } from 'framework/AppStore/AppStoreContext'
+import useGitAwareForTriggerEnabled from '@triggers/components/Triggers/useGitAwareForTriggerEnabled'
 import css from '@triggers/pages/triggers/views/WebhookPipelineInputPanel.module.scss'
 
-interface ArtifactTriggerInputPanelProps {
+interface ArtifactTriggerInputPanelFormProps {
   formikProps?: any
   isEdit?: boolean
-}
-
-const applyArtifactToPipeline = (newPipelineObject: any, formikProps: FormikProps<any>): PipelineInfoConfig => {
-  const artifactIndex = filterArtifactIndex({
-    runtimeData: newPipelineObject?.stages,
-    stageId: formikProps?.values?.stageId,
-    artifactId: formikProps?.values?.selectedArtifact?.identifier,
-    isManifest: false
-  })
-  const filteredStage = getFilteredStage(newPipelineObject?.stages, formikProps?.values?.stageId)
-  if (artifactIndex >= 0) {
-    const selectedArtifact = {
-      sidecar: {
-        type: formikProps?.values?.selectedArtifact?.type,
-        spec: {
-          ...formikProps?.values?.selectedArtifact?.spec
-        }
-      }
-    }
-
-    const filteredStageArtifacts =
-      filteredStage.stage?.spec?.serviceConfig?.serviceDefinition?.spec?.artifacts?.sidecars
-    filteredStageArtifacts[artifactIndex] = selectedArtifact
-  } else if (artifactIndex < 0) {
-    const selectedArtifact = {
-      type: formikProps?.values?.selectedArtifact?.type,
-      spec: {
-        ...formikProps?.values?.selectedArtifact?.spec
-      }
-    }
-
-    const filteredStageArtifacts = defaultTo(
-      filteredStage.stage?.spec?.serviceConfig?.serviceDefinition?.spec?.artifacts,
-      {}
-    )
-    filteredStageArtifacts.primary = selectedArtifact
-  }
-  return newPipelineObject
-}
-// Selected Artifact is applied to inputYaml on Pipeline Input Panel in KubernetesManifests.tsx
-// This is to apply the selected artifact values
-// to the applied input sets pipeline stage values
-const applySelectedArtifactToPipelineObject = (
-  pipelineObj: PipelineInfoConfig,
-  formikProps: FormikProps<any>
-): PipelineInfoConfig => {
-  // Cloning or making into a new object
-  // so the original pipeline is not effected
-  const newPipelineObject = { ...pipelineObj }
-  if (!newPipelineObject) {
-    return {} as PipelineInfoConfig
-  }
-
-  const { triggerType } = formikProps.values
-
-  if (triggerType === TriggerTypes.MANIFEST) {
-    const artifactIndex = filterArtifactIndex({
-      runtimeData: newPipelineObject?.stages,
-      stageId: formikProps?.values?.stageId,
-      artifactId: formikProps?.values?.selectedArtifact?.identifier,
-      isManifest: true
-    })
-    if (artifactIndex >= 0) {
-      const filteredStage =
-        (newPipelineObject?.stages || []).find(
-          (stage: StageElementWrapperConfig) => stage.stage?.identifier === formikProps?.values?.stageId
-        ) || {}
-
-      const selectedArtifact = {
-        manifest: {
-          type: formikProps?.values?.selectedArtifact?.type,
-          spec: {
-            ...formikProps?.values?.selectedArtifact?.spec
-          }
-        }
-      }
-
-      const filteredStageManifests = (filteredStage.stage?.spec as any)?.serviceConfig?.serviceDefinition?.spec
-        ?.manifests
-      filteredStageManifests[artifactIndex] = selectedArtifact
-    }
-  } else if (triggerType === TriggerTypes.ARTIFACT && newPipelineObject) {
-    return applyArtifactToPipeline(newPipelineObject, formikProps)
-  }
-  return newPipelineObject
 }
 
 const getPipelineWithInjectedWithCloneCodebase = ({
@@ -191,18 +102,16 @@ const getPipelineWithInjectedWithCloneCodebase = ({
   }
 }
 
-function WebhookPipelineInputPanelForm({ formikProps, isEdit }: ArtifactTriggerInputPanelProps): React.ReactElement {
+function ArtifactTriggerInputPanelForm({
+  formikProps,
+  isEdit
+}: ArtifactTriggerInputPanelFormProps): React.ReactElement {
   const {
     values: { inputSetSelected, pipeline, resolvedPipeline },
     values
   } = formikProps
 
-  const { isGitSimplificationEnabled, isGitSyncEnabled } = useAppStore()
-
-  const gitAwareForTriggerEnabled = useMemo(
-    () => isGitSyncEnabled && isGitSimplificationEnabled,
-    [isGitSyncEnabled, isGitSimplificationEnabled]
-  )
+  const gitAwareForTriggerEnabled = useGitAwareForTriggerEnabled()
 
   const { getString } = useStrings()
   const ciCodebaseBuildValue = formikProps.values?.pipeline?.properties?.ci?.codebase?.build
@@ -426,9 +335,7 @@ function WebhookPipelineInputPanelForm({ formikProps, isEdit }: ArtifactTriggerI
         if (!data?.data?.errorResponse && data?.data?.pipelineYaml) {
           const parsedInputSets = clearRuntimeInput(memoizedParse<Pipeline>(data.data.pipelineYaml).pipeline)
 
-          const newPipelineObject = clearRuntimeInput(
-            merge(pipeline, applySelectedArtifactToPipelineObject(pipelineObject.pipeline, formikProps))
-          )
+          const newPipelineObject = clearRuntimeInput(merge(pipeline, pipelineObject.pipeline))
 
           const mergedPipeline = mergeTemplateWithInputSetData({
             inputSetPortion: { pipeline: parsedInputSets },
@@ -661,10 +568,10 @@ function WebhookPipelineInputPanelForm({ formikProps, isEdit }: ArtifactTriggerI
   )
 }
 
-const ArtifactTriggerInputPanel: React.FC<ArtifactTriggerInputPanelProps> = props => {
+const ArtifactTriggerInputPanel: React.FC<ArtifactTriggerInputPanelFormProps> = props => {
   return (
     <NestedAccordionProvider>
-      <WebhookPipelineInputPanelForm {...props} />
+      <ArtifactTriggerInputPanelForm {...props} />
     </NestedAccordionProvider>
   )
 }

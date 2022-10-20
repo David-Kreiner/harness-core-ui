@@ -50,7 +50,7 @@ export default function ResourceConstraintTooltip(props: ResourceConstraintToolt
     props.data?.executionId
   )
 
-  const stageDeploymentType = props.data?.moduleInfo?.[module]?.serviceInfo?.deploymentType
+  const stageDeploymentType = module ? props.data?.moduleInfo?.[module]?.serviceInfo?.deploymentType : undefined
   const isServerlessDeploymentTypeSelected = isServerlessDeploymentType(defaultTo(stageDeploymentType, ''))
 
   return props.loading ? (

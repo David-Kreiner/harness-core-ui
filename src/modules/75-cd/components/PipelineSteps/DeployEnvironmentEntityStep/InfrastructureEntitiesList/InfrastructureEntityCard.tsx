@@ -37,11 +37,10 @@ import type { StepType } from '@pipeline/components/PipelineSteps/PipelineStepIn
 import { infraDefinitionTypeMapping } from '@pipeline/utils/stageHelpers'
 
 import type { DeployEnvironmentEntityFormState, InfrastructureData } from '../types'
-import type { DeployServiceEntityCustomProps } from '../../DeployServiceEntityStep/DeployServiceEntityUtils'
 
 import css from './InfrastructureEntitiesList.module.scss'
 
-export interface InfrastructureEntityCardProps extends InfrastructureData, DeployServiceEntityCustomProps {
+export interface InfrastructureEntityCardProps extends InfrastructureData {
   readonly: boolean
   allowableTypes: AllowedTypes
   onEditClick: (infrastructure: InfrastructureData) => void
@@ -103,19 +102,12 @@ export function InfrastructureEntityCard({
               permission: PermissionIdentifier.EDIT_ENVIRONMENT
             }}
           />
-          <RbacButton
+          <Button
             variation={ButtonVariation.ICON}
             icon="remove-minus"
             data-testid={`delete-infrastructure-${identifier}`}
             disabled={readonly}
             onClick={() => onDeleteClick({ infrastructureDefinition, infrastructureInputs })}
-            permission={{
-              resource: {
-                resourceType: ResourceType.ENVIRONMENT,
-                resourceIdentifier: identifier
-              },
-              permission: PermissionIdentifier.DELETE_ENVIRONMENT
-            }}
           />
         </Container>
       </Layout.Horizontal>

@@ -30,6 +30,7 @@ declare const styles: {
   readonly matrixBorderWrapper: string
   readonly matrixFooter: string
   readonly matrixNode: string
+  readonly multiSvcEnv: string
   readonly nestedGroup: string
   readonly nodeNameText: string
   readonly readonly: string

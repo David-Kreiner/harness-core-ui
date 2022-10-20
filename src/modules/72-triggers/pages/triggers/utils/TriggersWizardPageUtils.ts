@@ -342,7 +342,8 @@ export const getWizardMap = ({
 export const getValidationSchema = (
   triggerType: NGTriggerSourceV2['type'],
   getString: (key: StringKeys, params?: any) => string,
-  isGitWebhookPollingEnabled?: boolean
+  isGitWebhookPollingEnabled?: boolean,
+  isGithubWebhookAuthenticationEnabled?: boolean
 ): ObjectSchema<Record<string, any> | undefined> => {
   if (triggerType === TriggerTypes.WEBHOOK) {
     return object().shape({
@@ -355,6 +356,15 @@ export const getValidationSchema = (
           return this.parent.sourceRepo === CUSTOM || event
         }
       ),
+      ...(isGithubWebhookAuthenticationEnabled && {
+        encryptedWebhookSecretIdentifier: string().test(
+          getString('triggers.validation.configureSecret'),
+          getString('triggers.validation.configureSecret'),
+          function (encryptedWebhookSecretIdentifier) {
+            return !!encryptedWebhookSecretIdentifier
+          }
+        )
+      }),
       ...(isGitWebhookPollingEnabled && {
         pollInterval: getDurationValidationSchema({
           minimum: '2m',

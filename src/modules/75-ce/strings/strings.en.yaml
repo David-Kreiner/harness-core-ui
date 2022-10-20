@@ -30,7 +30,6 @@ common:
   serverName: 'Server name'
   pathMatch: 'Path match'
 allRegions: 'All Regions'
-allClusters: 'All Clusters'
 enforcementMessage:
   exceededSpendLimit: You have exceeded your cloud spend subscription limit. Consider increasing your limits to manage higher cloud spend.
   exceededSpendLimitFreePlan: 'You have used {{ usage }} / {{ limit }} free cloud spend incuded in your current plan. Consider upgrading to manage higher cloud spend.'

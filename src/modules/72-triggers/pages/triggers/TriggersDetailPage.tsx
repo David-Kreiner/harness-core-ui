@@ -19,7 +19,7 @@ import {
   HarnessDocTooltip
 } from '@wings-software/uicore'
 import { Color } from '@harness/design-system'
-import React, { ReactNode, useMemo } from 'react'
+import React, { ReactNode } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { isEmpty, get, pickBy } from 'lodash-es'
 import { parse } from 'yaml'
@@ -37,7 +37,6 @@ import {
   useGetPipelineSummary
 } from 'services/pipeline-ng'
 import { useStrings, UseStringsReturn } from 'framework/strings'
-import { useAppStore } from 'framework/AppStore/AppStoreContext'
 import { TagsPopover, PageSpinner } from '@common/components'
 import { usePermission } from '@rbac/hooks/usePermission'
 import { PermissionIdentifier } from '@rbac/interfaces/PermissionIdentifier'
@@ -51,6 +50,7 @@ import type { YamlBuilderProps } from '@common/interfaces/YAMLBuilderProps'
 import { useDocumentTitle } from '@common/hooks/useDocumentTitle'
 import { useQueryParams } from '@common/hooks'
 import { yamlStringify } from '@common/utils/YamlHelperMethods'
+import useGitAwareForTriggerEnabled from '@triggers/components/Triggers/useGitAwareForTriggerEnabled'
 import { TriggerBreadcrumbs } from '../trigger-details/TriggerDetails'
 import { getTriggerIcon, getEnabledStatusTriggerValues } from './utils/TriggersListUtils'
 import { clearNullUndefined, ResponseStatus } from './utils/TriggersWizardPageUtils'
@@ -235,7 +235,6 @@ const renderSwitch = ({
 )
 
 export default function TriggersDetailPage(): JSX.Element {
-  const { supportingGitSimplification } = useAppStore()
   const { repoIdentifier, branch, connectorRef, repoName, storeType } = useQueryParams<GitQueryParams>()
 
   const [selectedView, setSelectedView] = React.useState<SelectedView>(SelectedView.VISUAL)
@@ -378,12 +377,7 @@ export default function TriggersDetailPage(): JSX.Element {
 
   const isTriggerRbacDisabled = !isExecutable || isPipelineInvalid
 
-  const isGitSyncEnabled = useMemo(() => !!pipeline?.data?.gitDetails?.branch, [pipeline])
-
-  const gitAwareForTriggerEnabled = useMemo(
-    () => isGitSyncEnabled && supportingGitSimplification,
-    [isGitSyncEnabled, supportingGitSimplification]
-  )
+  const gitAwareForTriggerEnabled = useGitAwareForTriggerEnabled()
 
   let pipelineInputSet
   if (gitAwareForTriggerEnabled) {

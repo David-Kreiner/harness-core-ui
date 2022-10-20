@@ -12,7 +12,6 @@ import {
   Formik,
   FormikForm,
   FormInput,
-  Accordion,
   getMultiTypeFromValue,
   MultiTypeInputType,
   SelectOption,
@@ -49,7 +48,6 @@ import type { JenkinsStepProps } from './JenkinsStep'
 import { getGenuineValue } from '../JiraApproval/helper'
 import type { JenkinsFormContentInterface, JenkinsStepData, jobParameterInterface, SubmenuSelectOption } from './types'
 import { resetForm, scriptInputType, variableSchema } from './helper'
-import OptionalConfiguration from './OptionalConfiguration'
 import { getNameAndIdentifierSchema } from '../StepsValidateUtils'
 import stepCss from '@pipeline/components/PipelineSteps/Steps/Steps.module.scss'
 import css from './JenkinsStep.module.scss'
@@ -391,7 +389,7 @@ function FormContent({
           label={getString('pipeline.jenkinsStep.jobParameter')}
           isOptional
           allowedTypes={allowableTypes}
-          optionalLabel={getString('common.optionalLabel')}
+          optionalLabel={getString('titleOptional')}
           defaultValueToReset={[]}
           disableTypeSelection={false}
         >
@@ -483,15 +481,20 @@ function FormContent({
         )}
       </div>
 
-      <div className={stepCss.noLookDivider} />
-
-      <Accordion className={stepCss.accordion}>
-        <Accordion.Panel
-          id="optional-config"
-          summary={getString('common.optionalConfig')}
-          details={<OptionalConfiguration readonly={readonly} />}
+      <div className={cx(stepCss.formGroup)}>
+        <FormInput.CheckBox
+          name="spec.unstableStatusAsSuccess"
+          label={getString('pipeline.jenkinsStep.unstableStatusAsSuccess')}
+          disabled={readonly}
         />
-      </Accordion>
+      </div>
+      <div className={cx(stepCss.formGroup)}>
+        <FormInput.CheckBox
+          name="spec.useConnectorUrlForJobExecution"
+          label={getString('pipeline.jenkinsStep.useConnectorUrlForJobExecution')}
+          disabled={readonly}
+        />
+      </div>
     </React.Fragment>
   )
 }

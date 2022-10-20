@@ -12,6 +12,7 @@ import { get, defaultTo, isEmpty } from 'lodash-es'
 import { Container, Layout, Pagination, Text, TableV2, FontVariation, Color, TagsPopover } from '@harness/uicore'
 import { Intent } from '@harness/design-system'
 import cx from 'classnames'
+import { HelpPanel, HelpPanelType } from '@harness/help-panel'
 import {
   EnvironmentResponseDTO,
   GetEnvironmentListForProjectQueryParams,
@@ -304,6 +305,7 @@ const ChaosEnvironments: React.FC = () => {
           />
         </Container>
       )}
+      <HelpPanel referenceId="chaosEnvironment" type={HelpPanelType.FLOATING_CONTAINER} />
     </ListingPageTemplate>
   )
 }

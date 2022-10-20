@@ -7,12 +7,14 @@
  **/
 // this is an auto-generated file, do not update this manually
 declare const styles: {
+  readonly addButton: string
   readonly addStep: string
   readonly addStepDisabled: string
   readonly addStepPopoverContainer: string
   readonly deploymentStepsCard: string
   readonly executionWidgetWrapper: string
   readonly headerText: string
+  readonly marginLeft: string
   readonly stepsContainer: string
 }
 export default styles

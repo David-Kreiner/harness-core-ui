@@ -7,7 +7,7 @@
 
 import React from 'react'
 import type { MutateMethod } from 'restful-react'
-import { defaultTo, isEmpty, noop, omit } from 'lodash-es'
+import { defaultTo, isEmpty, noop, omit, omitBy, set } from 'lodash-es'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { useToaster } from '@harness/uicore'
@@ -235,6 +235,14 @@ export function useSaveInputSet(inputSetInfo: InputSetInfo): UseSaveInputSetRetu
         'filePath',
         'storeType'
       )
+
+      // This removes the pseudo fields set for handling multiple fields in the form at once
+      set(
+        inputSetObj,
+        'pipeline',
+        omitBy(inputSetObjWithGitInfo.pipeline, (_val, key) => key.startsWith('_'))
+      )
+
       setSavedInputSetObj(inputSetObj)
       setInitialGitDetails(defaultTo(isEdit ? inputSetResponse?.data?.gitDetails : gitDetails, {}))
       setInitialStoreMetadata(defaultTo(storeMetadata, {}))

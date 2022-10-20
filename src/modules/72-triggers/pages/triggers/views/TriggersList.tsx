@@ -23,9 +23,6 @@ import type { GitQueryParams, PipelineType } from '@common/interfaces/RouteInter
 import { usePermission } from '@rbac/hooks/usePermission'
 import { PermissionIdentifier } from '@rbac/interfaces/PermissionIdentifier'
 import { ResourceType } from '@rbac/interfaces/ResourceType'
-import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
-import { isNewServiceEnvEntity } from '@pipeline/components/PipelineStudio/CommonUtils/DeployStageSetupShellUtils'
-import type { DeploymentStageElementConfig } from '@pipeline/utils/pipelineTypes'
 import { TriggersListSection, GoToEditWizardInterface } from './TriggersListSection'
 
 import { TriggerTypes } from '../utils/TriggersWizardPageUtils'
@@ -40,7 +37,7 @@ interface TriggersListPropsInterface {
 }
 
 export default function TriggersList(props: TriggersListPropsInterface & GitQueryParams): JSX.Element {
-  const { onNewTriggerClick, isPipelineInvalid, gitAwareForTriggerEnabled, pipeline } = props
+  const { onNewTriggerClick, isPipelineInvalid, gitAwareForTriggerEnabled } = props
   const { branch, repoIdentifier, connectorRef, repoName, storeType } = useQueryParams<GitQueryParams>()
 
   const { projectIdentifier, orgIdentifier, accountId, pipelineIdentifier, module } = useParams<
@@ -53,19 +50,6 @@ export default function TriggersList(props: TriggersListPropsInterface & GitQuer
   >()
   const [searchParam, setSearchParam] = useState('')
   const { getString } = useStrings()
-
-  const { NG_SVC_ENV_REDESIGN = false, CD_TRIGGERS_REFACTOR = false } = useFeatureFlags()
-  const isNewService = isNewServiceEnvEntity(
-    NG_SVC_ENV_REDESIGN,
-    pipeline?.stages?.[0]?.stage as DeploymentStageElementConfig
-  )
-
-  /*
-   *  Show artifact and manifest selection only if:
-   *   1: CD_TRIGGERS_REFACTOR is enabled
-   *   2: If its not newService
-   */
-  const hideArtifactManifestSelection = CD_TRIGGERS_REFACTOR || !isNewService ? false : true
 
   const {
     data: triggerListResponse,
@@ -189,7 +173,7 @@ export default function TriggersList(props: TriggersListPropsInterface & GitQuer
 
     return (
       <AddDrawer
-        addDrawerMap={getCategoryItems(getString, hideArtifactManifestSelection)}
+        addDrawerMap={getCategoryItems(getString, false)}
         onSelect={onSelect}
         onClose={hideDrawer}
         drawerContext={DrawerContext.STUDIO}

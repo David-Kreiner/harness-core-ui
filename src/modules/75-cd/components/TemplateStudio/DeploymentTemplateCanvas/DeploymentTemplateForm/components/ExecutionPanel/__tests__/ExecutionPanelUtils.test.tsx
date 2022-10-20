@@ -22,7 +22,7 @@ describe('ExecutionPanel utils Test', () => {
     expect(getUpdatedDeploymentConfig(data)).toEqual({
       infrastructure: {},
       execution: {
-        stepTemplateRefs: ['org.http_org_level', 'account.accountSetup', 'http_project_level']
+        stepTemplateRefs: ['http_project_level', 'org.http_org_level', 'account.accountSetup']
       }
     })
   })

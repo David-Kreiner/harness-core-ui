@@ -98,7 +98,7 @@ const CreateServicePrincipal: React.FC<StepProps<CEAzureDTO>> = (props): JSX.Ele
     'SUCCESS' === data?.status && setAppId(data?.data || '')
   }, [loading])
 
-  let commands = []
+  const commands = []
   const featuresEnabled = prevStepData?.spec?.featuresEnabled || []
   const subscriptionId = prevStepData?.spec?.subscriptionId || '<insert_subscriptionId>'
   const storageAccountName =
@@ -127,7 +127,7 @@ const CreateServicePrincipal: React.FC<StepProps<CEAzureDTO>> = (props): JSX.Ele
   // az role assignment create --assignee <id_of_the_service_principal_from_api> --role 'Contributor' --scope /subscriptions/<subscription id from screen 1>
 
   // If only BILLING is selected, we need to show 1 and 2.
-  if (ENABLED.BILLING || ENABLED.VISIBILITY) {
+  if (ENABLED.BILLING) {
     commands.push(
       <Commands
         comment={getString('connectors.ceAzure.servicePrincipal.registerCommand')}
@@ -142,9 +142,16 @@ const CreateServicePrincipal: React.FC<StepProps<CEAzureDTO>> = (props): JSX.Ele
         command={`az role assignment create --assignee ${appId}  --role 'Storage Blob Data Reader' --scope $SCOPE`}
       />
     )
+  } else {
+    commands.push(
+      <Commands
+        comment={getString('connectors.ceAzure.servicePrincipal.registerCommand')}
+        command={`az ad sp create --id ${appId}`}
+      />
+    )
   }
 
-  if (ENABLED.BILLING && ENABLED.VISIBILITY) {
+  if (ENABLED.VISIBILITY) {
     commands.push(
       <Commands
         comment={getString('connectors.ceAzure.servicePrincipal.inventoryMgtCmd')}
@@ -155,7 +162,7 @@ const CreateServicePrincipal: React.FC<StepProps<CEAzureDTO>> = (props): JSX.Ele
 
   // If BILLING and OPTIMIZATION are selected, we need to show 1, 2, and 3.
   // 1 & 2 are added from above
-  if (ENABLED.BILLING && ENABLED.OPTIMIZATION) {
+  if (ENABLED.OPTIMIZATION) {
     commands.push(
       <Commands
         comment={getString('connectors.ceAzure.servicePrincipal.optimisationCmd')}
@@ -167,15 +174,6 @@ const CreateServicePrincipal: React.FC<StepProps<CEAzureDTO>> = (props): JSX.Ele
   // If only OPTIMIZATION is selected (BILLING was pre existing),
   // we need to show only this command, which is number 3. (As our app is already registered)
   // It doesn't matter if the VISIBILITY is also selected with OPTIMIZATION
-  if (!ENABLED.BILLING && ENABLED.OPTIMIZATION) {
-    commands = [
-      <Commands
-        key={'opt'}
-        comment={getString('connectors.ceAzure.servicePrincipal.optimisationCmd')}
-        command={`az role assignment create --assignee ${appId} --role 'Contributor' --scope /subscriptions/${subscriptionId}`}
-      />
-    ]
-  }
 
   return (
     <Layout.Vertical spacing="large" className={css.stepContainer}>

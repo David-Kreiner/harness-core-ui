@@ -70,6 +70,7 @@ import routes from '@common/RouteDefinitions'
 import { ServiceNowCreateUpdateView } from '@pipeline/components/execution/StepDetails/views/ServiceNowCreateUpdateView/ServiceNowCreateUpdateView'
 import { ModuleName } from 'framework/types/ModuleName'
 import { ServiceNowImportSetView } from '@pipeline/components/execution/StepDetails/views/ServiceNowImportSetView/ServiceNowImportSetView'
+import { ProjectDetailsSideNavProps } from '@projects-orgs/RouteDestinations'
 import PipelineResourceRenderer from './components/RbacResourceModals/PipelineResourceRenderer/PipelineResourceRenderer'
 import { JiraCreateUpdateView } from './components/execution/StepDetails/views/JiraCreateUpdateView/JiraCreateUpdateView'
 import ExecutionErrorTrackingView from './pages/execution/ExecutionErrorTrackingView/ExecutionErrorTrackingView'
@@ -307,6 +308,17 @@ export function PipelineRouteDestinations({
       </RouteWithLayout>
       <RouteWithLayout
         exact
+        licenseRedirectData={licenseRedirectData}
+        sidebarProps={ProjectDetailsSideNavProps}
+        path={routes.toPipelineStudio({ ...accountPathProps, ...pipelinePathProps })}
+        pageName={pipelineStudioPageName}
+      >
+        <PipelineDetails>
+          <PipelineStudio />
+        </PipelineDetails>
+      </RouteWithLayout>
+      <RouteWithLayout
+        exact
         layout={EmptyLayout}
         licenseRedirectData={licenseRedirectData}
         sidebarProps={sidebarProps}
@@ -314,6 +326,21 @@ export function PipelineRouteDestinations({
           ...accountPathProps,
           ...executionPathProps,
           ...moduleParams,
+          stageIdentifier: ':stageIdentifier',
+          stepIndentifier: ':stepIndentifier'
+        })}
+        pageName={PAGE_NAME.FullPageLogView}
+      >
+        <FullPageLogView />
+      </RouteWithLayout>
+      <RouteWithLayout
+        exact
+        layout={EmptyLayout}
+        licenseRedirectData={licenseRedirectData}
+        sidebarProps={ProjectDetailsSideNavProps}
+        path={routes.toPipelineLogs({
+          ...accountPathProps,
+          ...executionPathProps,
           stageIdentifier: ':stageIdentifier',
           stepIndentifier: ':stepIndentifier'
         })}
@@ -333,8 +360,26 @@ export function PipelineRouteDestinations({
       <RouteWithLayout
         exact
         licenseRedirectData={licenseRedirectData}
+        sidebarProps={ProjectDetailsSideNavProps}
+        path={routes.toPipelines({ ...accountPathProps, ...projectPathProps })}
+        pageName={PAGE_NAME.PipelineListPage}
+      >
+        <PipelineListPage />
+      </RouteWithLayout>
+      <RouteWithLayout
+        exact
+        licenseRedirectData={licenseRedirectData}
         sidebarProps={sidebarProps}
         path={routes.toDeployments({ ...accountPathProps, ...projectPathProps, ...moduleParams })}
+        pageName={PAGE_NAME.DeploymentsList}
+      >
+        <ExecutionListPage />
+      </RouteWithLayout>
+      <RouteWithLayout
+        exact
+        licenseRedirectData={licenseRedirectData}
+        sidebarProps={ProjectDetailsSideNavProps}
+        path={routes.toDeployments({ ...accountPathProps, ...projectPathProps })}
         pageName={PAGE_NAME.DeploymentsList}
       >
         <ExecutionListPage />
@@ -353,8 +398,28 @@ export function PipelineRouteDestinations({
       <RouteWithLayout
         exact
         licenseRedirectData={licenseRedirectData}
+        sidebarProps={ProjectDetailsSideNavProps}
+        path={routes.toInputSetList({ ...accountPathProps, ...pipelinePathProps })}
+        pageName={PAGE_NAME.InputSetList}
+      >
+        <PipelineDetails>
+          <InputSetList />
+        </PipelineDetails>
+      </RouteWithLayout>
+      <RouteWithLayout
+        exact
+        licenseRedirectData={licenseRedirectData}
         sidebarProps={sidebarProps}
         path={routes.toInputSetForm({ ...accountPathProps, ...inputSetFormPathProps, ...moduleParams })}
+        pageName={PAGE_NAME.EnhancedInputSetForm}
+      >
+        <EnhancedInputSetForm />
+      </RouteWithLayout>
+      <RouteWithLayout
+        exact
+        licenseRedirectData={licenseRedirectData}
+        sidebarProps={ProjectDetailsSideNavProps}
+        path={routes.toInputSetForm({ ...accountPathProps, ...inputSetFormPathProps })}
         pageName={PAGE_NAME.EnhancedInputSetForm}
       >
         <EnhancedInputSetForm />
@@ -367,12 +432,32 @@ export function PipelineRouteDestinations({
       >
         <RedirectToExecutionPipeline />
       </Route>
+      <Route
+        exact
+        licenseStateName={licenseRedirectData?.licenseStateName}
+        sidebarProps={ProjectDetailsSideNavProps}
+        path={routes.toExecution({ ...accountPathProps, ...executionPathProps })}
+      >
+        <RedirectToExecutionPipeline />
+      </Route>
       <RouteWithLayout
         exact
         licenseRedirectData={licenseRedirectData}
         sidebarProps={sidebarProps}
         layout={MinimalLayout}
         path={routes.toExecutionPipelineView({ ...accountPathProps, ...executionPathProps, ...moduleParams })}
+        pageName={PAGE_NAME.ExecutionPipelineView}
+      >
+        <ExecutionLandingPage>
+          <ExecutionPipelineView />
+        </ExecutionLandingPage>
+      </RouteWithLayout>
+      <RouteWithLayout
+        exact
+        licenseRedirectData={licenseRedirectData}
+        sidebarProps={ProjectDetailsSideNavProps}
+        layout={MinimalLayout}
+        path={routes.toExecutionPipelineView({ ...accountPathProps, ...executionPathProps })}
         pageName={PAGE_NAME.ExecutionPipelineView}
       >
         <ExecutionLandingPage>
@@ -398,12 +483,42 @@ export function PipelineRouteDestinations({
       <RouteWithLayout
         exact
         licenseRedirectData={licenseRedirectData}
+        sidebarProps={ProjectDetailsSideNavProps}
+        layout={MinimalLayout}
+        path={routes.toExecutionPolicyEvaluationsView({
+          ...accountPathProps,
+          ...executionPathProps
+        })}
+        pageName={PAGE_NAME.ExecutionPolicyEvaluationsView}
+      >
+        <ExecutionLandingPage>
+          <ExecutionPolicyEvaluationsView />
+        </ExecutionLandingPage>
+      </RouteWithLayout>
+      <RouteWithLayout
+        exact
+        licenseRedirectData={licenseRedirectData}
         sidebarProps={sidebarProps}
         layout={MinimalLayout}
         path={routes.toExecutionSecurityView({
           ...accountPathProps,
           ...executionPathProps,
           ...moduleParams
+        })}
+        pageName={PAGE_NAME.ExecutionSecurityView}
+      >
+        <ExecutionLandingPage>
+          <ExecutionSecurityView />
+        </ExecutionLandingPage>
+      </RouteWithLayout>
+      <RouteWithLayout
+        exact
+        licenseRedirectData={licenseRedirectData}
+        sidebarProps={ProjectDetailsSideNavProps}
+        layout={MinimalLayout}
+        path={routes.toExecutionSecurityView({
+          ...accountPathProps,
+          ...executionPathProps
         })}
         pageName={PAGE_NAME.ExecutionSecurityView}
       >
@@ -427,11 +542,37 @@ export function PipelineRouteDestinations({
         </ExecutionLandingPage>
       </RouteWithLayout>
       <RouteWithLayout
+        licenseRedirectData={licenseRedirectData}
+        sidebarProps={ProjectDetailsSideNavProps}
+        layout={MinimalLayout}
+        path={routes.toExecutionErrorTrackingView({
+          ...accountPathProps,
+          ...executionPathProps
+        })}
+        pageName={PAGE_NAME.ErrorTrackingListPage}
+      >
+        <ExecutionLandingPage>
+          <ExecutionErrorTrackingView />
+        </ExecutionLandingPage>
+      </RouteWithLayout>
+      <RouteWithLayout
         exact
         licenseRedirectData={licenseRedirectData}
         sidebarProps={sidebarProps}
         layout={MinimalLayout}
         path={routes.toExecutionInputsView({ ...accountPathProps, ...executionPathProps, ...moduleParams })}
+        pageName={PAGE_NAME.ExecutionInputsView}
+      >
+        <ExecutionLandingPage>
+          <ExecutionInputsView />
+        </ExecutionLandingPage>
+      </RouteWithLayout>
+      <RouteWithLayout
+        exact
+        licenseRedirectData={licenseRedirectData}
+        sidebarProps={ProjectDetailsSideNavProps}
+        layout={MinimalLayout}
+        path={routes.toExecutionInputsView({ ...accountPathProps, ...executionPathProps })}
         pageName={PAGE_NAME.ExecutionInputsView}
       >
         <ExecutionLandingPage>
@@ -447,6 +588,21 @@ export function PipelineRouteDestinations({
           ...accountPathProps,
           ...executionPathProps,
           ...moduleParams
+        })}
+        pageName={PAGE_NAME.ExecutionArtifactsView}
+      >
+        <ExecutionLandingPage>
+          <ExecutionArtifactsView />
+        </ExecutionLandingPage>
+      </RouteWithLayout>
+      <RouteWithLayout
+        exact
+        licenseRedirectData={licenseRedirectData}
+        sidebarProps={ProjectDetailsSideNavProps}
+        layout={MinimalLayout}
+        path={routes.toExecutionArtifactsView({
+          ...accountPathProps,
+          ...executionPathProps
         })}
         pageName={PAGE_NAME.ExecutionArtifactsView}
       >
@@ -473,11 +629,40 @@ export function PipelineRouteDestinations({
       <RouteWithLayout
         exact
         licenseRedirectData={licenseRedirectData}
+        sidebarProps={ProjectDetailsSideNavProps}
+        layout={MinimalLayout}
+        path={routes.toExecutionTestsView({
+          ...accountPathProps,
+          ...executionPathProps
+        })}
+        pageName={PAGE_NAME.BuildTests}
+      >
+        <ExecutionLandingPage>
+          <BuildTests />
+        </ExecutionLandingPage>
+      </RouteWithLayout>
+      <RouteWithLayout
+        exact
+        licenseRedirectData={licenseRedirectData}
         sidebarProps={sidebarProps}
         path={routes.toPipelineDeploymentList({
           ...accountPathProps,
           ...pipelinePathProps,
           ...moduleParams
+        })}
+        pageName={pipelineDeploymentListPageName}
+      >
+        <PipelineDetails>
+          <PipelineDeploymentList />
+        </PipelineDetails>
+      </RouteWithLayout>
+      <RouteWithLayout
+        exact
+        licenseRedirectData={licenseRedirectData}
+        sidebarProps={ProjectDetailsSideNavProps}
+        path={routes.toPipelineDeploymentList({
+          ...accountPathProps,
+          ...pipelinePathProps
         })}
         pageName={pipelineDeploymentListPageName}
       >

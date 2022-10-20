@@ -105,17 +105,17 @@ export default function SelectDeploymentType({
   const { getString } = useStrings()
   const formikRef = React.useRef<FormikProps<unknown> | null>(null)
   const { subscribeForm, unSubscribeForm } = React.useContext(StageErrorContext)
-  const { SSH_NG, ECS_NG, NG_DEPLOYMENT_TEMPLATE, NG_SVC_ENV_REDESIGN } = useFeatureFlags()
+  const { SSH_NG, NG_SVC_ENV_REDESIGN } = useFeatureFlags()
 
   // Supported in NG (Next Gen - The one for which you are coding right now)
   const ngSupportedDeploymentTypes = React.useMemo(() => {
-    return getNgSupportedDeploymentTypes({ SSH_NG, ECS_NG, NG_DEPLOYMENT_TEMPLATE, NG_SVC_ENV_REDESIGN })
-  }, [SSH_NG, ECS_NG, NG_DEPLOYMENT_TEMPLATE, NG_SVC_ENV_REDESIGN])
+    return getNgSupportedDeploymentTypes({ SSH_NG, NG_SVC_ENV_REDESIGN })
+  }, [SSH_NG, NG_SVC_ENV_REDESIGN])
 
   // Suppported in CG (First Gen - Old Version of Harness App)
   const cgSupportedDeploymentTypes: DeploymentTypeItem[] = React.useMemo(() => {
-    return getCgSupportedDeploymentTypes({ SSH_NG, ECS_NG })
-  }, [SSH_NG, ECS_NG])
+    return getCgSupportedDeploymentTypes({ SSH_NG, NG_SVC_ENV_REDESIGN })
+  }, [SSH_NG, NG_SVC_ENV_REDESIGN])
 
   const [cgDeploymentTypes, setCgDeploymentTypes] = React.useState(cgSupportedDeploymentTypes)
   const [ngDeploymentTypes, setNgDeploymentTypes] = React.useState(ngSupportedDeploymentTypes)
@@ -161,6 +161,7 @@ export default function SelectDeploymentType({
                   templateLinkConfig={customDeploymentData}
                   onOpenTemplateSelector={addOrUpdateTemplate}
                   className={cx(deployServiceCsss.templateBar, templateBarOverrideClassName)}
+                  isReadonly={isReadonly}
                 />
               </Layout.Vertical>
             ) : null}

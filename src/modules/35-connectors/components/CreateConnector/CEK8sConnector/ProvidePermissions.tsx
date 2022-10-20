@@ -206,7 +206,7 @@ const ProvidePermissions: React.FC<StepProps<StepSecretManagerProps> & ProvidePe
         text={getString('continue')}
         rightIcon="chevron-right"
         loading={isSaving}
-        disabled={isSaving || !(isDownloadComplete && isDelegateDone)}
+        disabled={props.isEditMode ? false : isSaving || !(isDownloadComplete && isDelegateDone)}
         onClick={() => saveAndContinue()}
         className={css.submitBtn}
       />

@@ -9,7 +9,7 @@ exports[`<ExecutionArtifactsView /> tests renders ok 1`] = `
     <div
       data-testid="location"
     >
-      /account/undefined/undefined/orgs/undefined/projects/undefined/pipelines/undefined/undefined/undefined/artifacts?stage=8PKMDSMyRdih_aJp8p3f6w
+      /account/undefined/home/orgs/undefined/projects/undefined/pipelines/undefined/undefined/undefined/artifacts?stage=8PKMDSMyRdih_aJp8p3f6w
     </div>
   </div>
 </div>

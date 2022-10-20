@@ -37,7 +37,7 @@ describe('useModuleInfo tests', () => {
     })
 
     expect(result.current.icon).toBe('cv-main')
-    expect(result.current.label).toBe('common.purpose.cv.serviceReliability')
+    expect(result.current.label).toBe('common.serviceReliabilityManagement')
     expect(result.current.shouldVisible).toBe(false)
   })
 
@@ -77,7 +77,7 @@ describe('useModuleInfo tests', () => {
     })
 
     expect(result.current.icon).toBe('chaos-main')
-    expect(result.current.label).toBe('common.chaosText')
+    expect(result.current.label).toBe('chaos.homepage.chaosHomePageTitle')
     expect(result.current.shouldVisible).toBe(false)
   })
 

@@ -331,7 +331,7 @@ export class K8sBlueGreenDeployStep extends PipelineStep<K8sBGDeployData> {
   protected stepName = 'K8s Blue Green Deploy'
   protected stepIcon: IconName = 'bluegreen'
   protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.K8sBlueGreenDeploy'
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
   protected referenceId = 'stageDeploymentStep'
 
   protected defaultValues: K8sBGDeployData = {

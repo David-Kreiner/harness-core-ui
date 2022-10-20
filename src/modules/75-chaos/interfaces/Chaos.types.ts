@@ -28,3 +28,26 @@ export interface ChaosCustomMicroFrontendProps {
     validateYAMLWithSchema: (yamlString: string, schema: Record<string, any>) => Promise<Diagnostic[]>
   }
 }
+
+export interface ChaosExperiment {
+  id: string
+  name: string
+}
+
+export interface PipelineExperimentSelectProps {
+  onSelect: (experiment: ChaosExperiment) => void
+  goToNewExperiment: () => void
+}
+
+export interface ExperimentPreviewProps {
+  experimentID: string
+}
+
+export interface ChaosStepExecutionProps {
+  experimentID: string
+  experimentRunID: string | undefined
+  status: string
+  expectedResilienceScore: number
+  isManualInterruption: boolean
+  actionButtons: React.ReactElement
+}

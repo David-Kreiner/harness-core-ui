@@ -640,6 +640,74 @@ exports[`TriggersWizardPage Triggers tests Initial Renders/snapshots Initial Ren
                             </div>
                           </div>
                         </div>
+                        <div
+                          class="nameIdDescriptionTags secret"
+                        >
+                          <div
+                            class="bp3-form-group"
+                            data-id="null-4"
+                          >
+                            <div
+                              class="bp3-form-content"
+                            >
+                              <div
+                                class="Layout--vertical StyledProps--main"
+                              >
+                                <label
+                                  class="bp3-label"
+                                >
+                                  <span
+                                    class="Tooltip--acenter"
+                                    data-tooltip-id="wizardForm_webhook_encryptedWebhookSecretIdentifier"
+                                  >
+                                    secrets.secret.configureSecret
+                                  </span>
+                                </label>
+                                <div
+                                  class="StyledProps--font StyledProps--main container StyledProps--flex StyledProps--flex-alignItems-center StyledProps--flex-justifyContent-space-between"
+                                >
+                                  <a
+                                    class="containerLink"
+                                    data-testid="encryptedWebhookSecretIdentifier"
+                                    href="/"
+                                  >
+                                    <span
+                                      class="bp3-icon StyledProps--main"
+                                      data-icon="key-main"
+                                      style="height: 12px;"
+                                    >
+                                      <svg
+                                        height="24"
+                                        width="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <g
+                                          fill="none"
+                                          stroke="#1C1C28"
+                                          stroke-width="0.5"
+                                        >
+                                          <path
+                                            d="M5.444 1A4.45 4.45 0 001 5.444c0 2.459 1.994 4.46 4.444 4.46 1.939 0 3.613-1.542 4.202-2.995a.393.393 0 01.23-.223.39.39 0 01.322.015l1.032.507.757-.72a.402.402 0 01.552-.007l.543.493.547-.556a.404.404 0 01.572-.005l.527.516.528-.53a.406.406 0 01.571-.002l.522.522.524-.523a.406.406 0 01.571 0l.522.522.523-.522a.414.414 0 01.315-.118.41.41 0 01.294.16l.277.369c.116-.153.234-.311.312-.396a.412.412 0 01.3-.134c.693 0 .927-.37.927-1.465 0-1.018-.636-1.381-1.23-1.381H9.638a.408.408 0 01-.35-.202A4.448 4.448 0 005.444 1h0z"
+                                          />
+                                          <path
+                                            d="M3.828 3.99c.403 0 .769.163 1.034.428a1.458 1.458 0 010 2.067 1.458 1.458 0 01-2.067 0 1.458 1.458 0 010-2.067c.265-.265.63-.428 1.033-.428z"
+                                          />
+                                        </g>
+                                      </svg>
+                                    </span>
+                                    <p
+                                      class="StyledProps--font StyledProps--main containerLinkText StyledProps--color StyledProps--color-primary7 StyledProps--flex StyledProps--flex-alignItems-center StyledProps--flex-justifyContent-flex-start StyledProps--flex-inline StyledProps--padding-small"
+                                    >
+                                      <div>
+                                        createOrSelectSecret
+                                      </div>
+                                    </p>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </section>
                     </div>
                   </div>
@@ -2519,20 +2587,20 @@ exports[`TriggersWizardPage Triggers tests Renders/snapshots OnEdit Render - Git
                       class="tab"
                     >
                       <span
-                        class="bp3-icon bp3-icon-tick-circle StyledProps--main StyledProps--color StyledProps--color-green500"
-                        icon="tick-circle"
+                        class="bp3-icon bp3-icon-warning-sign StyledProps--main StyledProps--color StyledProps--color-red500"
+                        icon="warning-sign"
                       >
                         <svg
-                          data-icon="tick-circle"
+                          data-icon="warning-sign"
                           height="20"
                           viewBox="0 0 20 20"
                           width="20"
                         >
                           <desc>
-                            tick-circle
+                            warning-sign
                           </desc>
                           <path
-                            d="M10 20C4.48 20 0 15.52 0 10S4.48 0 10 0s10 4.48 10 10-4.48 10-10 10zm5-14c-.28 0-.53.11-.71.29L8 12.59l-2.29-2.3a1.003 1.003 0 00-1.42 1.42l3 3c.18.18.43.29.71.29.28 0 .53-.11.71-.29l7-7A1.003 1.003 0 0015 6z"
+                            d="M19.86 17.52l.01-.01-9-16-.01.01C10.69 1.21 10.37 1 10 1s-.69.21-.86.52l-.01-.01-9 16 .01.01c-.08.14-.14.3-.14.48 0 .55.45 1 1 1h18c.55 0 1-.45 1-1 0-.18-.06-.34-.14-.48zM11 17H9v-2h2v2zm0-3H9V6h2v8z"
                             fill-rule="evenodd"
                           />
                         </svg>
@@ -3379,6 +3447,114 @@ exports[`TriggersWizardPage Triggers tests Renders/snapshots OnEdit Render - Git
                         >
                           triggers.triggerConfigurationPanel.autoAbortIssueComment
                         </p>
+                        <div
+                          class="bp3-form-group"
+                          data-id="pollInterval-7"
+                        >
+                          <label
+                            class="bp3-label"
+                            for="pollInterval"
+                          >
+                            <span
+                              class="Tooltip--acenter"
+                              data-tooltip-id="pollInterval"
+                            >
+                              triggers.triggerConfigurationPanel.pollingFrequency
+                            </span>
+                             
+                            <span
+                              class="bp3-text-muted"
+                            />
+                          </label>
+                          <div
+                            class="bp3-form-content"
+                          >
+                            <div
+                              class="Layout--horizontal StyledProps--main MultiTypeInput--main"
+                              style="flex-grow: 1; width: 324px;"
+                            >
+                              <div
+                                class="bp3-input-group bp3-fill"
+                              >
+                                <input
+                                  class="bp3-input"
+                                  name="pollInterval"
+                                  placeholder="Enter w/d/h/m/s/ms"
+                                  type="text"
+                                  value=""
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="nameIdDescriptionTags secret"
+                        >
+                          <div
+                            class="bp3-form-group"
+                            data-id="null-8"
+                          >
+                            <div
+                              class="bp3-form-content"
+                            >
+                              <div
+                                class="Layout--vertical StyledProps--main"
+                              >
+                                <label
+                                  class="bp3-label"
+                                >
+                                  <span
+                                    class="Tooltip--acenter"
+                                    data-tooltip-id="wizardForm_webhook_encryptedWebhookSecretIdentifier"
+                                  >
+                                    secrets.secret.configureSecret
+                                  </span>
+                                </label>
+                                <div
+                                  class="StyledProps--font StyledProps--main container StyledProps--flex StyledProps--flex-alignItems-center StyledProps--flex-justifyContent-space-between"
+                                >
+                                  <a
+                                    class="containerLink"
+                                    data-testid="encryptedWebhookSecretIdentifier"
+                                    href="/"
+                                  >
+                                    <span
+                                      class="bp3-icon StyledProps--main"
+                                      data-icon="key-main"
+                                      style="height: 12px;"
+                                    >
+                                      <svg
+                                        height="24"
+                                        width="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <g
+                                          fill="none"
+                                          stroke="#1C1C28"
+                                          stroke-width="0.5"
+                                        >
+                                          <path
+                                            d="M5.444 1A4.45 4.45 0 001 5.444c0 2.459 1.994 4.46 4.444 4.46 1.939 0 3.613-1.542 4.202-2.995a.393.393 0 01.23-.223.39.39 0 01.322.015l1.032.507.757-.72a.402.402 0 01.552-.007l.543.493.547-.556a.404.404 0 01.572-.005l.527.516.528-.53a.406.406 0 01.571-.002l.522.522.524-.523a.406.406 0 01.571 0l.522.522.523-.522a.414.414 0 01.315-.118.41.41 0 01.294.16l.277.369c.116-.153.234-.311.312-.396a.412.412 0 01.3-.134c.693 0 .927-.37.927-1.465 0-1.018-.636-1.381-1.23-1.381H9.638a.408.408 0 01-.35-.202A4.448 4.448 0 005.444 1h0z"
+                                          />
+                                          <path
+                                            d="M3.828 3.99c.403 0 .769.163 1.034.428a1.458 1.458 0 010 2.067 1.458 1.458 0 01-2.067 0 1.458 1.458 0 010-2.067c.265-.265.63-.428 1.033-.428z"
+                                          />
+                                        </g>
+                                      </svg>
+                                    </span>
+                                    <p
+                                      class="StyledProps--font StyledProps--main containerLinkText StyledProps--color StyledProps--color-primary7 StyledProps--flex StyledProps--flex-alignItems-center StyledProps--flex-justifyContent-flex-start StyledProps--flex-inline StyledProps--padding-small"
+                                    >
+                                      <div>
+                                        createOrSelectSecret
+                                      </div>
+                                    </p>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </section>
                     </div>
                   </div>
@@ -3547,20 +3723,20 @@ exports[`TriggersWizardPage Triggers tests Renders/snapshots OnEdit Render - Git
                       class="tab"
                     >
                       <span
-                        class="bp3-icon bp3-icon-tick-circle StyledProps--main StyledProps--color StyledProps--color-green500"
-                        icon="tick-circle"
+                        class="bp3-icon bp3-icon-warning-sign StyledProps--main StyledProps--color StyledProps--color-red500"
+                        icon="warning-sign"
                       >
                         <svg
-                          data-icon="tick-circle"
+                          data-icon="warning-sign"
                           height="20"
                           viewBox="0 0 20 20"
                           width="20"
                         >
                           <desc>
-                            tick-circle
+                            warning-sign
                           </desc>
                           <path
-                            d="M10 20C4.48 20 0 15.52 0 10S4.48 0 10 0s10 4.48 10 10-4.48 10-10 10zm5-14c-.28 0-.53.11-.71.29L8 12.59l-2.29-2.3a1.003 1.003 0 00-1.42 1.42l3 3c.18.18.43.29.71.29.28 0 .53-.11.71-.29l7-7A1.003 1.003 0 0015 6z"
+                            d="M19.86 17.52l.01-.01-9-16-.01.01C10.69 1.21 10.37 1 10 1s-.69.21-.86.52l-.01-.01-9 16 .01.01c-.08.14-.14.3-.14.48 0 .55.45 1 1 1h18c.55 0 1-.45 1-1 0-.18-.06-.34-.14-.48zM11 17H9v-2h2v2zm0-3H9V6h2v8z"
                             fill-rule="evenodd"
                           />
                         </svg>
@@ -4366,6 +4542,114 @@ exports[`TriggersWizardPage Triggers tests Renders/snapshots OnEdit Render - Git
                         >
                           triggers.triggerConfigurationPanel.autoAbortPR
                         </p>
+                        <div
+                          class="bp3-form-group"
+                          data-id="pollInterval-5"
+                        >
+                          <label
+                            class="bp3-label"
+                            for="pollInterval"
+                          >
+                            <span
+                              class="Tooltip--acenter"
+                              data-tooltip-id="pollInterval"
+                            >
+                              triggers.triggerConfigurationPanel.pollingFrequency
+                            </span>
+                             
+                            <span
+                              class="bp3-text-muted"
+                            />
+                          </label>
+                          <div
+                            class="bp3-form-content"
+                          >
+                            <div
+                              class="Layout--horizontal StyledProps--main MultiTypeInput--main"
+                              style="flex-grow: 1; width: 324px;"
+                            >
+                              <div
+                                class="bp3-input-group bp3-fill"
+                              >
+                                <input
+                                  class="bp3-input"
+                                  name="pollInterval"
+                                  placeholder="Enter w/d/h/m/s/ms"
+                                  type="text"
+                                  value=""
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="nameIdDescriptionTags secret"
+                        >
+                          <div
+                            class="bp3-form-group"
+                            data-id="null-6"
+                          >
+                            <div
+                              class="bp3-form-content"
+                            >
+                              <div
+                                class="Layout--vertical StyledProps--main"
+                              >
+                                <label
+                                  class="bp3-label"
+                                >
+                                  <span
+                                    class="Tooltip--acenter"
+                                    data-tooltip-id="wizardForm_webhook_encryptedWebhookSecretIdentifier"
+                                  >
+                                    secrets.secret.configureSecret
+                                  </span>
+                                </label>
+                                <div
+                                  class="StyledProps--font StyledProps--main container StyledProps--flex StyledProps--flex-alignItems-center StyledProps--flex-justifyContent-space-between"
+                                >
+                                  <a
+                                    class="containerLink"
+                                    data-testid="encryptedWebhookSecretIdentifier"
+                                    href="/"
+                                  >
+                                    <span
+                                      class="bp3-icon StyledProps--main"
+                                      data-icon="key-main"
+                                      style="height: 12px;"
+                                    >
+                                      <svg
+                                        height="24"
+                                        width="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <g
+                                          fill="none"
+                                          stroke="#1C1C28"
+                                          stroke-width="0.5"
+                                        >
+                                          <path
+                                            d="M5.444 1A4.45 4.45 0 001 5.444c0 2.459 1.994 4.46 4.444 4.46 1.939 0 3.613-1.542 4.202-2.995a.393.393 0 01.23-.223.39.39 0 01.322.015l1.032.507.757-.72a.402.402 0 01.552-.007l.543.493.547-.556a.404.404 0 01.572-.005l.527.516.528-.53a.406.406 0 01.571-.002l.522.522.524-.523a.406.406 0 01.571 0l.522.522.523-.522a.414.414 0 01.315-.118.41.41 0 01.294.16l.277.369c.116-.153.234-.311.312-.396a.412.412 0 01.3-.134c.693 0 .927-.37.927-1.465 0-1.018-.636-1.381-1.23-1.381H9.638a.408.408 0 01-.35-.202A4.448 4.448 0 005.444 1h0z"
+                                          />
+                                          <path
+                                            d="M3.828 3.99c.403 0 .769.163 1.034.428a1.458 1.458 0 010 2.067 1.458 1.458 0 01-2.067 0 1.458 1.458 0 010-2.067c.265-.265.63-.428 1.033-.428z"
+                                          />
+                                        </g>
+                                      </svg>
+                                    </span>
+                                    <p
+                                      class="StyledProps--font StyledProps--main containerLinkText StyledProps--color StyledProps--color-primary7 StyledProps--flex StyledProps--flex-alignItems-center StyledProps--flex-justifyContent-flex-start StyledProps--flex-inline StyledProps--padding-small"
+                                    >
+                                      <div>
+                                        createOrSelectSecret
+                                      </div>
+                                    </p>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </section>
                     </div>
                   </div>

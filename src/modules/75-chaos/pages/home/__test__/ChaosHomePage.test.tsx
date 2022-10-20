@@ -6,40 +6,73 @@
  */
 
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { TestWrapper } from '@common/utils/testUtils'
-import type { Project } from 'services/cd-ng'
+import {
+  useGetLicensesAndSummary,
+  useStartTrialLicense,
+  useExtendTrialLicense,
+  useGetProjectList,
+  useSaveFeedback
+} from 'services/cd-ng'
+import useChaosTrialModal from '@chaos/modals/ChaosTrialModal/useChaosTrialModal'
 import ChaosHomePage from '../ChaosHomePage'
 
-const project: Project = {
-  orgIdentifier: undefined,
-  identifier: 'testID',
-  name: 'testProject',
-  description: 'test'
+jest.mock('services/cd-ng')
+const useGetModuleLicenseInfoMock = useGetLicensesAndSummary as jest.MockedFunction<any>
+const useStartTrialMock = useStartTrialLicense as jest.MockedFunction<any>
+const useGetProjectListMock = useGetProjectList as jest.MockedFunction<any>
+const useExtendTrialLicenseMock = useExtendTrialLicense as jest.MockedFunction<any>
+useExtendTrialLicenseMock.mockImplementation(() => {
+  return {
+    mutate: jest.fn()
+  }
+})
+const useSaveFeedbackMock = useSaveFeedback as jest.MockedFunction<any>
+useSaveFeedbackMock.mockImplementation(() => {
+  return {
+    mutate: jest.fn()
+  }
+})
+
+jest.mock('@chaos/modals/ChaosTrialModal/useChaosTrialModal')
+const useChaosTrialModalMock = useChaosTrialModal as jest.MockedFunction<any>
+
+const currentUser = {
+  accounts: [
+    {
+      uuid: '123',
+      createdFromNG: true
+    }
+  ],
+  uuid: '123'
 }
 
-let projectExists = true
-
-jest.mock('@projects-orgs/pages/HomePageTemplate/HomePageTemplate', () => ({
-  ...(jest.requireActual('@projects-orgs/pages/HomePageTemplate/HomePageTemplate') as any),
-  HomePageTemplate: function MockComponent(props: any) {
-    return (
-      <div className="homepagetemplate">
-        <button
-          className="projectCreate"
-          type="button"
-          onClick={() => props.projectCreateSuccessHandler(projectExists ? project : undefined)}
-        />
-      </div>
-    )
-  }
-}))
-
-describe('Chaos Homepage Test', () => {
-  test('should render ChaosHomePage with proper headings', () => {
+describe('ChaosHomePage snapshot test', () => {
+  test('should display a loading spinner if the module license call is loading', () => {
+    useChaosTrialModalMock.mockImplementation(() => ({ showModal: jest.fn(), hideModal: jest.fn() }))
+    useGetProjectListMock.mockImplementation(() => {
+      return {
+        data: {
+          content: []
+        }
+      }
+    })
+    useGetModuleLicenseInfoMock.mockImplementation(() => {
+      return {
+        data: {
+          data: {},
+          status: 'SUCCESS'
+        },
+        loading: true,
+        refetch: jest.fn()
+      }
+    })
     const { container } = render(
       <TestWrapper
-        pathParams={{ accountId: 'dummyAccID', orgIdentifier: 'dummyOrgID', projectIdentifier: 'dummyProjID' }}
+        path="/account/:accountId"
+        pathParams={{ accountId: '123' }}
+        defaultAppStoreValues={{ currentUserInfo: currentUser }}
       >
         <ChaosHomePage />
       </TestWrapper>
@@ -47,31 +80,83 @@ describe('Chaos Homepage Test', () => {
     expect(container).toMatchSnapshot()
   })
 
-  test('Ensure project success handler calls history push', () => {
-    projectExists = true
+  test('should move to the trial page when query param trial is true', async () => {
+    useChaosTrialModalMock.mockImplementation(() => ({ showModal: jest.fn(), hideModal: jest.fn() }))
+    useStartTrialMock.mockImplementation(() => {
+      return {
+        cancel: jest.fn(),
+        loading: false,
+        mutate: jest.fn().mockImplementationOnce(() => {
+          return {
+            status: 'SUCCESS',
+            data: {
+              licenseType: 'TRIAL'
+            }
+          }
+        })
+      }
+    })
+
+    useGetProjectListMock.mockImplementation(() => {
+      return {
+        data: {
+          content: []
+        }
+      }
+    })
+
+    useGetModuleLicenseInfoMock.mockImplementation(() => {
+      return {
+        data: {
+          data: {},
+          status: 'SUCCESS'
+        },
+        error: null,
+        refetch: jest.fn()
+      }
+    })
     const { container } = render(
       <TestWrapper
-        pathParams={{ accountId: 'dummyAccID', orgIdentifier: 'dummyOrgID', projectIdentifier: 'dummyProjID' }}
+        path="/account/:accountId"
+        pathParams={{ accountId: '123' }}
+        defaultAppStoreValues={{ currentUserInfo: currentUser }}
+        queryParams={{ trial: true }}
       >
         <ChaosHomePage />
       </TestWrapper>
     )
-    const projectCreateButton = container.querySelector('[class~="projectCreate"]')
-    if (projectCreateButton) fireEvent.click(projectCreateButton)
+
     expect(container).toMatchSnapshot()
   })
 
-  test('Ensure project success handler does not redirect when project is empty', () => {
-    projectExists = false
+  test('should display an error if the get licenses call fails', () => {
+    useChaosTrialModalMock.mockImplementation(() => ({ showModal: jest.fn(), hideModal: jest.fn() }))
+    useGetProjectListMock.mockImplementation(() => {
+      return {
+        data: {
+          content: []
+        }
+      }
+    })
+    useGetModuleLicenseInfoMock.mockImplementation(() => {
+      return {
+        data: {
+          data: {}
+        },
+        loading: true,
+        refetch: jest.fn()
+      }
+    })
     const { container } = render(
       <TestWrapper
-        pathParams={{ accountId: 'dummyAccID', orgIdentifier: 'dummyOrgID', projectIdentifier: 'dummyProjID' }}
+        path="/account/:accountId"
+        pathParams={{ accountId: '123' }}
+        defaultAppStoreValues={{ currentUserInfo: currentUser }}
       >
         <ChaosHomePage />
       </TestWrapper>
     )
-    const projectCreateButton = container.querySelector('[class~="projectCreate"]')
-    if (projectCreateButton) fireEvent.click(projectCreateButton)
+
     expect(container).toMatchSnapshot()
   })
 })

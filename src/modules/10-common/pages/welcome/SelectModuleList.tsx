@@ -22,7 +22,7 @@ import { Experiences } from '@common/constants/Utils'
 import { useToaster } from '@common/components'
 import { Category, PurposeActions } from '@common/constants/TrackingConstants'
 import type { Module, ProjectPathProps } from '@common/interfaces/RouteInterfaces'
-import { getSavedRefererURL } from '@common/utils/utils'
+import { getGaClientID, getSavedRefererURL } from '@common/utils/utils'
 import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
 import ModuleCard from './ModuleCard'
 import css from './WelcomePage.module.scss'
@@ -93,11 +93,13 @@ const SelectModuleList: React.FC<SelectModuleListProps> = ({ onModuleClick, modu
   const history = useHistory()
   const startFreeLicense = async (): Promise<ResponseModuleLicenseDTO> => {
     const refererURL = getSavedRefererURL()
+    const gaClientID = getGaClientID()
     return mutate(undefined, {
       queryParams: {
         accountIdentifier: accountId,
         moduleType: upperCase(selected) as StartFreeLicenseQueryParams['moduleType'],
-        ...(refererURL ? { referer: refererURL } : {})
+        ...(refererURL ? { referer: refererURL } : {}),
+        ...(gaClientID ? { gaClientID } : {})
       }
     })
   }

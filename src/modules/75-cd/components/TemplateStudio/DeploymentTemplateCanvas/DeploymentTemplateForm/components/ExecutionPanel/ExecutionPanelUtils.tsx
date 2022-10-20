@@ -16,10 +16,10 @@ interface Params {
   deploymentConfig: DeploymentConfig
 }
 
-export const getUpdatedDeploymentConfig = ({ templateRef, deploymentConfig }: Params) =>
+export const getUpdatedDeploymentConfig = ({ templateRef, deploymentConfig }: Params): DeploymentConfig =>
   produce(deploymentConfig, draft => {
     const stepTemplateRefs = deploymentConfig.execution?.stepTemplateRefs || /* istanbul ignore next */ []
-    const updatedStepTemplateRefs = [...stepTemplateRefs, templateRef]
+    const updatedStepTemplateRefs = [templateRef, ...stepTemplateRefs]
 
     set(draft, 'execution.stepTemplateRefs', updatedStepTemplateRefs)
   })
@@ -32,7 +32,7 @@ export const getUpdatedTemplateDetailsByRef = ({
   templateDetailsObj: TemplateSummaryResponse
   templateDetailsByRef: TemplateDetailsByRef
   templateRef: string
-}) =>
+}): TemplateDetailsByRef =>
   produce(templateDetailsByRef, draft => {
     set(draft, templateRef, templateDetailsObj)
   })

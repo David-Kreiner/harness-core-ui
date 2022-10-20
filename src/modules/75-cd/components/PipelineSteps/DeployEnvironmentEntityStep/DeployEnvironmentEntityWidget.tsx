@@ -6,11 +6,10 @@
  */
 
 import React, { BaseSyntheticEvent, useEffect, useRef, useState } from 'react'
-import { isEmpty, isNil, noop, set } from 'lodash-es'
+import { isEmpty, noop, set } from 'lodash-es'
 import type { FormikProps } from 'formik'
 import produce from 'immer'
 import { RadioGroup } from '@blueprintjs/core'
-import cx from 'classnames'
 
 import {
   AllowedTypes,
@@ -31,10 +30,10 @@ import { StringKeys, useStrings } from 'framework/strings'
 import { useStageErrorContext } from '@pipeline/context/StageErrorContext'
 import { DeployTabs } from '@pipeline/components/PipelineStudio/CommonUtils/DeployStageSetupShellUtils'
 
-import { getEnvironmentTabV2Schema } from '../PipelineStepsUtil'
 import type { DeployEnvironmentEntityCustomStepProps, DeployEnvironmentEntityFormState } from './types'
 import DeployEnvironment from './DeployEnvironment/DeployEnvironment'
 import DeployEnvironmentGroup from './DeployEnvironmentGroup/DeployEnvironmentGroup'
+import { getValidationSchema } from './utils'
 
 import css from './DeployEnvironmentEntityStep.module.scss'
 
@@ -105,35 +104,56 @@ export default function DeployEnvironmentEntityWidget({
     /* istanbul ignore else */
     if (formikRef.current && confirmed) {
       const environment = formikRef.current.values.environment
+      const environmentGroup = formikRef.current.values.environmentGroup
       const infrastructure = formikRef.current.values.infrastructure
-      const newValues = produce(formikRef.current.values, draft => {
-        draft.environments = environment
-          ? getMultiTypeFromValue(environment) === MultiTypeInputType.RUNTIME
-            ? (RUNTIME_INPUT_VALUE as any)
-            : [{ label: environment, value: environment }]
-          : []
+      const cluster = formikRef.current.values.cluster
 
-        delete draft.infrastructure
-        delete draft.infrastructures
+      const newValues = produce(formikRef.current.values, draft => {
+        draft.category = 'multi'
+        draft.parallel = true
+
+        draft.environments =
+          environment && !environmentGroup
+            ? getMultiTypeFromValue(environment) === MultiTypeInputType.RUNTIME
+              ? (RUNTIME_INPUT_VALUE as any)
+              : [{ label: environment, value: environment }]
+            : []
 
         delete draft.environment
         delete draft.environmentGroup
 
-        draft.parallel = true
+        delete draft.infrastructure
+        delete draft.infrastructures
+
+        delete draft.cluster
+        delete draft.clusters
 
         if (environment) {
-          set(
-            draft,
-            `infrastructures.${environment}`,
-            infrastructure
-              ? getMultiTypeFromValue(infrastructure) === MultiTypeInputType.RUNTIME
-                ? RUNTIME_INPUT_VALUE
-                : [{ label: infrastructure, value: infrastructure }]
-              : []
-          )
+          if (gitOpsEnabled) {
+            set(
+              draft,
+              `clusters.${environment}`,
+              cluster
+                ? getMultiTypeFromValue(cluster) === MultiTypeInputType.RUNTIME
+                  ? RUNTIME_INPUT_VALUE
+                  : [{ label: cluster, value: cluster }]
+                : []
+            )
+          } else {
+            set(
+              draft,
+              `infrastructures.${environment}`,
+              infrastructure
+                ? getMultiTypeFromValue(infrastructure) === MultiTypeInputType.RUNTIME
+                  ? RUNTIME_INPUT_VALUE
+                  : [{ label: infrastructure, value: infrastructure }]
+                : []
+            )
+          }
         }
       })
       updateValuesInFormikAndPropogate(newValues)
+      setRadioValue(getString('environments'))
     }
 
     closeSwitchToMultiEnvironmentDialog()
@@ -143,12 +163,15 @@ export default function DeployEnvironmentEntityWidget({
     /* istanbul ignore else */
     if (formikRef.current && confirmed) {
       const newValues = produce(formikRef.current.values, draft => {
+        draft.category = 'single'
         draft.environment = ''
         delete draft.environments
         delete draft.infrastructures
+        delete draft.clusters
         delete draft.environmentGroup
       })
       updateValuesInFormikAndPropogate(newValues)
+      setRadioValue(getString('environments'))
     }
 
     closeSwitchToSingleEnvironmentDialog()
@@ -158,17 +181,19 @@ export default function DeployEnvironmentEntityWidget({
     /* istanbul ignore else */
     if (formikRef.current && confirmed) {
       const newValues = produce(formikRef.current.values, draft => {
+        draft.category = 'group'
         draft.environmentGroup = ''
         delete draft.environment
         delete draft.environments
       })
       updateValuesInFormikAndPropogate(newValues)
+      setRadioValue(getString('common.environmentGroup.label'))
     }
 
     closeSwitchToEnvironmentGroupDialog()
   }
 
-  function handleMultiEnvInfraToggle(checked: boolean): void {
+  function handleMultiEnvironmentToggle(checked: boolean): void {
     // istanbul ignore else
     if (formikRef.current) {
       const formValues = formikRef.current.values
@@ -189,18 +214,19 @@ export default function DeployEnvironmentEntityWidget({
   }
 
   function handleEnvironmentGroupToggle(event: BaseSyntheticEvent): void {
-    setRadioValue(event?.target.value)
     if (event.target.value === getString('environments')) {
       if (formikRef.current?.values.environmentGroup) {
         openSwitchToMultiEnvironmentDialog()
       } else {
         handleSwitchToMultiEnvironmentConfirmation(true)
+        setRadioValue(event?.target.value)
       }
     } else {
       if (formikRef.current?.values.environments) {
         openSwitchToEnvironmentGroupDialog()
       } else {
         handleSwitchToEnvironmentGroupConfirmation(true)
+        setRadioValue(event?.target.value)
       }
     }
   }
@@ -214,73 +240,72 @@ export default function DeployEnvironmentEntityWidget({
           onUpdate?.({ ...values })
         }}
         initialValues={initialValues}
-        validationSchema={getEnvironmentTabV2Schema(getString)}
+        validationSchema={getValidationSchema(getString, gitOpsEnabled)}
       >
         {formik => {
           window.dispatchEvent(new CustomEvent('UPDATE_ERRORS_STRIP', { detail: DeployTabs.ENVIRONMENT }))
           formikRef.current = formik
           const { values } = formik
 
-          const isMultiEnvironment = !isNil(values.environments)
-          const isEnvironmentGroup = !isNil(values.environmentGroup)
+          const isMultiEnvironment = values.category === 'multi'
+          const isEnvironmentGroup = values.category === 'group'
 
           return (
             <FormikForm>
-              <Layout.Vertical spacing="medium" width={'1000px'} className={css.environmentEntityWidget}>
-                <Layout.Vertical
-                  className={cx(css.toggle, { [css.toggleMargin]: isMultiEnvironment || isEnvironmentGroup })}
-                  flex={{ alignItems: 'flex-end', justifyContent: 'center' }}
-                >
-                  <Toggle
-                    checked={isMultiEnvironment || isEnvironmentGroup}
-                    onToggle={handleMultiEnvInfraToggle}
-                    label={getString('cd.pipelineSteps.environmentTab.multiEnvInfraToggleText')}
-                  />
-                  {(isMultiEnvironment || isEnvironmentGroup) && (
-                    <RadioGroup
-                      onChange={handleEnvironmentGroupToggle}
-                      options={[
-                        {
-                          label: getString('environments'),
-                          value: getString('environments')
-                        },
-                        {
-                          label: getString('common.environmentGroup.label'),
-                          value: getString('common.environmentGroup.label')
-                        }
-                      ]}
-                      selectedValue={radioValue}
-                      disabled={readonly}
-                      className={css.radioGroup}
-                      inline
+              <div className={css.environmentEntityWidget}>
+                <Layout.Vertical className={css.toggle} flex={{ alignItems: 'flex-end', justifyContent: 'center' }}>
+                  <Layout.Vertical flex={{ alignItems: 'center' }}>
+                    <Toggle
+                      checked={isMultiEnvironment || isEnvironmentGroup}
+                      onToggle={handleMultiEnvironmentToggle}
+                      label={getString('cd.pipelineSteps.environmentTab.multiEnvToggleText', {
+                        name: gitOpsEnabled ? getString('common.clusters') : getString('common.infrastructures')
+                      })}
                     />
-                  )}
+                    {(isMultiEnvironment || isEnvironmentGroup) && (
+                      <RadioGroup
+                        onChange={handleEnvironmentGroupToggle}
+                        options={[
+                          {
+                            label: getString('environments'),
+                            value: getString('environments')
+                          },
+                          {
+                            label: getString('common.environmentGroup.label'),
+                            value: getString('common.environmentGroup.label')
+                          }
+                        ]}
+                        selectedValue={radioValue}
+                        disabled={readonly}
+                        className={css.radioGroup}
+                        inline
+                      />
+                    )}
+                  </Layout.Vertical>
                 </Layout.Vertical>
-                <>
-                  {isEnvironmentGroup ? (
-                    <DeployEnvironmentGroup
-                      initialValues={initialValues}
-                      readonly={readonly}
-                      allowableTypes={allowableTypes}
-                      stageIdentifier={stageIdentifier}
-                      deploymentType={deploymentType}
-                      customDeploymentRef={customDeploymentRef}
-                      gitOpsEnabled={gitOpsEnabled}
-                    />
-                  ) : (
-                    <DeployEnvironment
-                      initialValues={initialValues}
-                      readonly={readonly}
-                      allowableTypes={allowableTypes}
-                      isMultiEnvironment={isMultiEnvironment}
-                      stageIdentifier={stageIdentifier}
-                      deploymentType={deploymentType}
-                      customDeploymentRef={customDeploymentRef}
-                      gitOpsEnabled={gitOpsEnabled}
-                    />
-                  )}
-                </>
-              </Layout.Vertical>
+                {isEnvironmentGroup ? (
+                  <DeployEnvironmentGroup
+                    initialValues={initialValues}
+                    readonly={readonly}
+                    allowableTypes={allowableTypes}
+                    stageIdentifier={stageIdentifier}
+                    deploymentType={deploymentType}
+                    customDeploymentRef={customDeploymentRef}
+                    gitOpsEnabled={gitOpsEnabled}
+                  />
+                ) : (
+                  <DeployEnvironment
+                    initialValues={initialValues}
+                    readonly={readonly}
+                    allowableTypes={allowableTypes}
+                    isMultiEnvironment={isMultiEnvironment}
+                    stageIdentifier={stageIdentifier}
+                    deploymentType={deploymentType}
+                    customDeploymentRef={customDeploymentRef}
+                    gitOpsEnabled={gitOpsEnabled}
+                  />
+                )}
+              </div>
             </FormikForm>
           )
         }}

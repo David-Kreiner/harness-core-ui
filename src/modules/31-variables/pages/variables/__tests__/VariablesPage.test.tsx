@@ -63,14 +63,14 @@ describe('Variables Page', () => {
     jest
       .spyOn(cdngServices, 'useGetVariablesList')
       .mockImplementation(() => ({ data: VariableSuccessResponseWithNoData, loading: false } as any))
-    const { getByText, getAllByText } = render(
+    const { getByText } = render(
       <TestWrapper path={routes.toVariables({ ...accountPathProps })} pathParams={{ accountId: 'dummy' }}>
         <VariablesPage />
       </TestWrapper>
     )
-    await waitFor(() => getAllByText('variables.newVariable'))
+    await waitFor(() => getByText('variables.newVariable'))
     expect(getByText('variables.noVariableExist')).toBeDefined()
-    const neVarBtn = getAllByText('variables.newVariable')[1]
+    const neVarBtn = getByText('variables.newVariable')
     act(() => {
       fireEvent.click(neVarBtn)
     })
@@ -89,7 +89,7 @@ describe('Variables Page', () => {
     )
     await waitFor(() => getAllByText('variables.newVariable'))
     expect(getByText('variables.noVariableExist')).toBeDefined()
-    const neVarBtn = getAllByText('variables.newVariable')[1]
+    const neVarBtn = getByText('variables.newVariable')
     act(() => {
       fireEvent.click(neVarBtn)
     })
@@ -108,7 +108,7 @@ describe('Variables Page', () => {
     )
     await waitFor(() => getAllByText('variables.newVariable'))
     expect(getByText('variables.noVariableExist')).toBeDefined()
-    const neVarBtn = getAllByText('variables.newVariable')[1]
+    const neVarBtn = getByText('variables.newVariable')
     act(() => {
       fireEvent.click(neVarBtn)
     })
@@ -127,7 +127,7 @@ describe('Variables Page', () => {
     )
     await waitFor(() => getAllByText('variables.newVariable'))
     expect(getByText('variables.noVariableExist')).toBeDefined()
-    const neVarBtn = getAllByText('variables.newVariable')[1]
+    const neVarBtn = getByText('variables.newVariable')
     act(() => {
       fireEvent.click(neVarBtn)
     })
@@ -142,12 +142,12 @@ describe('Variables Page', () => {
       .mockImplementation(
         () => ({ error: VariableSuccessResponseWithError, loading: false, refetch: mockListRefect } as any)
       )
-    const { getByText, getAllByText } = render(
+    const { getByText } = render(
       <TestWrapper path={routes.toVariables({ ...accountPathProps })} pathParams={{ accountId: 'dummy' }}>
         <VariablesPage />
       </TestWrapper>
     )
-    await waitFor(() => getAllByText('variables.newVariable'))
+    await waitFor(() => getByText('Retry'))
     expect(getByText('Invalid request: Failed to connect')).toBeDefined()
     const retryBtn = getByText('Retry')
     expect(retryBtn).toBeDefined()
@@ -169,7 +169,7 @@ describe('Variables Page', () => {
         <VariablesPage />
       </TestWrapper>
     )
-    await waitFor(() => getAllByText('variables.newVariable'))
+    await waitFor(() => getAllByText('Loading, please wait...'))
     expect(getByText('Loading, please wait...')).toBeDefined()
   })
 

@@ -32,7 +32,7 @@ export class JiraApproval extends PipelineStep<JiraApprovalData> {
   }
 
   protected referenceId = 'jiraApprovalStep'
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
   protected type = StepType.JiraApproval
   protected stepName = 'Jira Approval'
   protected stepIcon: IconName = 'jira-approve'

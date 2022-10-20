@@ -99,3 +99,9 @@
 .tooltipContent {
   width: 300px;
 }
+
+.commandTypeSelect {
+  & :global(.bp3-menu) {
+    max-height: 250px;
+  }
+}

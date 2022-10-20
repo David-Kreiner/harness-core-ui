@@ -605,7 +605,7 @@ exports[`helm with GIT tests expand advanced section 1`] = `
                                     class="commandType"
                                   >
                                     <div
-                                      class="bp3-form-group"
+                                      class="bp3-form-group commandTypeSelect"
                                     >
                                       <label
                                         class="bp3-label"

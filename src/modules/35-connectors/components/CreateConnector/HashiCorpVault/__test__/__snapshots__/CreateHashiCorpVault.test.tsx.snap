@@ -875,7 +875,7 @@ exports[`Create Secret Manager Wizard should render form 2`] = `
                       autocomplete="off"
                       class="bp3-input"
                       name="renewalIntervalMinutes"
-                      type="text"
+                      type="number"
                       value="10"
                     />
                   </div>
@@ -1926,7 +1926,7 @@ exports[`Create Secret Manager Wizard should render form in edit 1`] = `
                       autocomplete="off"
                       class="bp3-input"
                       name="renewalIntervalMinutes"
-                      type="text"
+                      type="number"
                       value="10"
                     />
                   </div>

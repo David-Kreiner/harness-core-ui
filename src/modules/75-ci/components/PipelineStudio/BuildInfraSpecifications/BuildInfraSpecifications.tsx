@@ -1437,7 +1437,6 @@ export default function BuildInfraSpecifications({ children }: React.PropsWithCh
             />
           </div>
         )}
-        {renderHarnessImageConnectorRefField()}
       </>
     )
   }, [expressions])
@@ -1561,6 +1560,7 @@ export default function BuildInfraSpecifications({ children }: React.PropsWithCh
             </Container>
           </Container>
           {renderTimeOutFields()}
+          {renderHarnessImageConnectorRefField()}
         </>
       )
     },

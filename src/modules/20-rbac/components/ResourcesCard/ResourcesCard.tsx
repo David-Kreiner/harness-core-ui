@@ -58,7 +58,7 @@ const ResourcesCard: React.FC<ResourcesCardProps> = ({
     resourceDetails
   const attributeSelectionEnabled = addAttributeModalBody
   const staticResourcesSelectionEnabled = !disableSpecificResourcesSelection && addResourceModalBody
-  const hideRadioBtnSet = disableSpecificResourcesSelection && !attributeSelectionEnabled
+  const hideRadioBtnSet = (disableSpecificResourcesSelection && !attributeSelectionEnabled) || disableAddingResources
   const staticResourceValues = isAtrributeFilterEnabled
     ? (resourceValues as AttributeFilter).attributeValues
     : resourceValues
@@ -105,6 +105,7 @@ const ResourcesCard: React.FC<ResourcesCardProps> = ({
                   <Radio
                     label={getString('common.specified')}
                     data-testid={`static-${resourceType}`}
+                    disabled={disableAddingResources}
                     checked={!isDynamicResourceSelector(resourceValues) && !isAtrributeFilterEnabled}
                     onChange={e => onResourceSelectionChange(resourceType, e.currentTarget.checked, [])}
                     className={css.radioBtnLabel}

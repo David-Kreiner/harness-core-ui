@@ -36,7 +36,7 @@ export class ServiceNowImportSet extends PipelineStep<ServiceNowImportSetData> {
     RegExp,
     (path: string, yaml: string, params: Record<string, unknown>) => Promise<CompletionItemInterface[]>
   > = new Map()
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
   protected type = StepType.ServiceNowImportSet
   protected referenceId = 'serviceNowImportSetStep'
   protected stepName = 'ServiceNow Import Set'

@@ -188,6 +188,14 @@ export const mergeTemplateWithInputSetData = (props: MergeTemplateWithInputSetDa
         })
       )
     }
+
+    if ((inputSetPortion.pipeline?.template?.templateInputs as PipelineInfoConfig).delegateSelectors) {
+      set(
+        toBeUpdated,
+        'pipeline.template.templateInputs.delegateSelectors',
+        (inputSetPortion.pipeline?.template?.templateInputs as PipelineInfoConfig).delegateSelectors
+      )
+    }
   } else {
     if (Array.isArray(mergedStages)) {
       toBeUpdated.pipeline.stages = mergedStages
@@ -217,6 +225,10 @@ export const mergeTemplateWithInputSetData = (props: MergeTemplateWithInputSetDa
         allVariables: defaultTo(allValues.pipeline.variables, []) as AllNGVariables[],
         shouldUseDefaultValues
       })
+    }
+
+    if (inputSetPortion.pipeline.delegateSelectors) {
+      toBeUpdated.pipeline.delegateSelectors = inputSetPortion.pipeline.delegateSelectors
     }
   }
   return toBeUpdated

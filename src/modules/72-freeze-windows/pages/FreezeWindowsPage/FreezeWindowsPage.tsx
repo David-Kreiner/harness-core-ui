@@ -33,6 +33,7 @@ import useRBACError from '@rbac/utils/useRBACError/useRBACError'
 import { useConfirmFreezeDelete } from '@freeze-windows/hooks/useConfirmFreezeDelete'
 import { DEFAULT_PAGE_INDEX } from '@pipeline/utils/constants'
 import { NewFreezeWindowButton } from '@freeze-windows/components/NewFreezeWindowButton/NewFreezeWindowButton'
+import { useComputedFreezeStatusMap } from '@freeze-windows/hooks/useComputedFreezeStatusMap'
 import freezeWindowsIllustration from '../../images/freeze-windows-illustration.svg'
 import css from '@freeze-windows/components/FreezeWindowListSubHeader/FreezeWindowListSubHeader.module.scss'
 
@@ -119,6 +120,8 @@ function _FreezeWindowsPage(): React.ReactElement {
   const hasFilter = !!(searchTerm || freezeStatus || startTime || endTime)
   const pageFreezeSummaryResponse = data?.data
 
+  const freezeStatusMap = useComputedFreezeStatusMap(data?.data?.content)
+
   return (
     <div className={css.main}>
       <FreezeWindowListHeader freezeListLoading={freezeListLoading} />
@@ -159,6 +162,7 @@ function _FreezeWindowsPage(): React.ReactElement {
             data={pageFreezeSummaryResponse}
             onDeleteRow={confirmFreezeDelete}
             onToggleFreezeRow={handleFreezeToggle}
+            freezeStatusMap={freezeStatusMap}
           />
         )}
       </Page.Body>

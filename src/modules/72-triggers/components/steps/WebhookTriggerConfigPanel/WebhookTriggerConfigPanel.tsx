@@ -15,6 +15,7 @@ import { NameIdDescriptionTags } from '@common/components'
 import { useStrings } from 'framework/strings'
 import { getSourceRepoOptions, GitSourceProviders } from '@triggers/components/Triggers/utils'
 import { clearEventsAndActions, getEventAndActions, renderNonCustomEventFields } from '../utils'
+import WebhookSecretInputWithDialog from './WebhookSecretInputWithDialog'
 import css from './WebhookTriggerConfigPanel.module.scss'
 
 export interface WebhookTriggerConfigPanelPropsInterface {
@@ -130,17 +131,17 @@ const WebhookTriggerConfigPanel: React.FC<WebhookTriggerConfigPanelPropsInterfac
             items={getSourceRepoOptions(getString)}
             disabled={true}
           />
-          {sourceRepo !== GitSourceProviders.CUSTOM.value
-            ? renderNonCustomEventFields({
-                sourceRepo,
-                formikProps,
-                event,
-                eventOptions,
-                getString,
-                actionsOptions,
-                actions
-              })
-            : null}
+          {sourceRepo !== GitSourceProviders.CUSTOM.value &&
+            renderNonCustomEventFields({
+              sourceRepo,
+              formikProps,
+              event,
+              eventOptions,
+              getString,
+              actionsOptions,
+              actions
+            })}
+          {sourceRepo === GitSourceProviders.GITHUB.value && <WebhookSecretInputWithDialog formikProps={formikProps} />}
         </section>
       </div>
     </Layout.Vertical>

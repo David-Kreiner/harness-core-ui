@@ -112,7 +112,8 @@ export const Connectors: ConnectorType = {
   JENKINS: 'Jenkins',
   CUSTOM_SECRET_MANAGER: 'CustomSecretManager',
   ELK: 'ELK',
-  GcpSecretManager: 'GcpSecretManager'
+  GcpSecretManager: 'GcpSecretManager',
+  SPOT: 'Spot'
 }
 
 export const ConnectorInfoText = {

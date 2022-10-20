@@ -47,6 +47,7 @@ export interface StringsMap {
   'common.advanced': string
   'common.agent': string
   'common.agents': string
+  'common.allClusters': string
   'common.allEnvironments': string
   'common.allErrors': string
   'common.allServices': string
@@ -118,6 +119,7 @@ export interface StringsMap {
   'common.byType': string
   'common.capsAll': string
   'common.cardNumber': string
+  'common.cdAndGitops': string
   'common.ce.autostopping': string
   'common.ce.cost': string
   'common.ce.optimization': string
@@ -517,6 +519,7 @@ export interface StringsMap {
   'common.newName': string
   'common.newVersion': string
   'common.noAPIKeys': string
+  'common.noAvailableTags': string
   'common.noConnectorAvailable': string
   'common.noDelegateForTask': string
   'common.noDeployments': string
@@ -833,6 +836,7 @@ export interface StringsMap {
   'common.startTrial': string
   'common.state': string
   'common.stepName': string
+  'common.stoText': string
   'common.submittingRequest': string
   'common.submittingRequestToGitViaDelegate': string
   'common.subscribed': string
@@ -1311,6 +1315,7 @@ export interface StringsMap {
   'defaultSettings.allowOverrides': string
   'defaultSettings.harnessDefault': string
   'defaultSettings.inheritedFrom': string
+  'defaultSettings.mandateWebhookSecretsGithubTriggers': string
   'defaultSettings.noSettingToDisplay': string
   'defaultSettings.restoreToDefault': string
   'governance.permissions.governancePolicies': string
@@ -2152,6 +2157,7 @@ export interface StringsMap {
   'connectors.ceAzure.billing.subscriptionId': string
   'connectors.ceAzure.billing.tooltipBtn': string
   'connectors.ceAzure.billing.tooltipInstruction': string
+  'connectors.ceAzure.chooseRequirements.atleastOneError': string
   'connectors.ceAzure.chooseRequirements.billing.feat1': string
   'connectors.ceAzure.chooseRequirements.billing.feat2': string
   'connectors.ceAzure.chooseRequirements.billing.feat3': string
@@ -2422,6 +2428,7 @@ export interface StringsMap {
   'connectors.hashiCorpVault.readOnly': string
   'connectors.hashiCorpVault.readOnlyVault': string
   'connectors.hashiCorpVault.renewal': string
+  'connectors.hashiCorpVault.renewalIntervalWarningMessage': string
   'connectors.hashiCorpVault.root': string
   'connectors.hashiCorpVault.saveInProgress': string
   'connectors.hashiCorpVault.secretEngine': string
@@ -3745,6 +3752,7 @@ export interface StringsMap {
   'pipeline.noRegions': string
   'pipeline.nodes': string
   'pipeline.nodesLabel': string
+  'pipeline.numOfServicesAndEnv': string
   'pipeline.numOfStage': string
   'pipeline.numOfStages': string
   'pipeline.onlyPositiveInteger': string
@@ -3855,6 +3863,7 @@ export interface StringsMap {
   'pipeline.rightBar.mergeCommit': string
   'pipeline.runAPipeline': string
   'pipeline.runAllParallelstages': string
+  'pipeline.runDisabledOnFreeze': string
   'pipeline.runFailedStages': string
   'pipeline.runModalNoPipelineText': string
   'pipeline.runPipeline.ciCodebaseConfig': string
@@ -3987,7 +3996,14 @@ export interface StringsMap {
   'pipeline.stepDescription.CustomApproval': string
   'pipeline.stepDescription.DockerHub': string
   'pipeline.stepDescription.ECR': string
+  'pipeline.stepDescription.ECSBlueGreenCreateService': string
+  'pipeline.stepDescription.ECSBlueGreenRollback': string
+  'pipeline.stepDescription.ECSBlueGreenSwapTargetGroups': string
+  'pipeline.stepDescription.ECSCanaryDelete': string
+  'pipeline.stepDescription.ECSCanaryDeploy': string
   'pipeline.stepDescription.ECSRollingDeploy': string
+  'pipeline.stepDescription.ECSRollingRollback': string
+  'pipeline.stepDescription.ECSRunTask': string
   'pipeline.stepDescription.FlagConfiguration': string
   'pipeline.stepDescription.GCR': string
   'pipeline.stepDescription.GCS': string
@@ -4183,6 +4199,7 @@ export interface StringsMap {
   'pipeline.verification.waitForAnalysis': string
   'pipeline.verificationResult': string
   'pipeline.viewExecution': string
+  'pipeline.viewFreeze': string
   'pipeline.viewLatestExecution': string
   'pipeline.viewPipeline': string
   'pipeline.waitStep.validation.duration10SecMinimum': string
@@ -4379,6 +4396,8 @@ export interface StringsMap {
   'triggers.triggerConfigurationPanel.autoAbortIssueComment': string
   'triggers.triggerConfigurationPanel.autoAbortPR': string
   'triggers.triggerConfigurationPanel.autoAbortPush': string
+  'triggers.triggerConfigurationPanel.copySecretDialogContent': string
+  'triggers.triggerConfigurationPanel.copySecretDialogTitle': string
   'triggers.triggerConfigurationPanel.event': string
   'triggers.triggerConfigurationPanel.eventPlaceholder': string
   'triggers.triggerConfigurationPanel.listenOnNewWebhook': string
@@ -4394,6 +4413,7 @@ export interface StringsMap {
   'triggers.updateTrigger': string
   'triggers.updateTriggerDetails': string
   'triggers.validation.actions': string
+  'triggers.validation.configureSecret': string
   'triggers.validation.connector': string
   'triggers.validation.cronExpression': string
   'triggers.validation.event': string
@@ -4680,8 +4700,12 @@ export interface StringsMap {
   'cd.pipelineSteps.environmentTab.allClustersSelected': string
   'cd.pipelineSteps.environmentTab.allInfrastructures': string
   'cd.pipelineSteps.environmentTab.clusterIsRequired': string
+  'cd.pipelineSteps.environmentTab.deleteClusterFromListConfirmationText': string
+  'cd.pipelineSteps.environmentTab.deleteClusterFromListDialogTitleText': string
   'cd.pipelineSteps.environmentTab.deleteEnvironmentFromListConfirmationText': string
   'cd.pipelineSteps.environmentTab.deleteEnvironmentFromListDialogTitleText': string
+  'cd.pipelineSteps.environmentTab.deleteEnvironmentGroupFromListConfirmationText': string
+  'cd.pipelineSteps.environmentTab.deleteEnvironmentGroupFromListDialogTitleText': string
   'cd.pipelineSteps.environmentTab.deleteInfrastructureFromListConfirmationText': string
   'cd.pipelineSteps.environmentTab.deleteInfrastructureFromListDialogTitleText': string
   'cd.pipelineSteps.environmentTab.deployToAll': string
@@ -4697,7 +4721,7 @@ export interface StringsMap {
   'cd.pipelineSteps.environmentTab.hideInfrastructureInputs': string
   'cd.pipelineSteps.environmentTab.infrastructureIsRequired': string
   'cd.pipelineSteps.environmentTab.infrastructuresAreRequired': string
-  'cd.pipelineSteps.environmentTab.multiEnvInfraToggleText': string
+  'cd.pipelineSteps.environmentTab.multiEnvToggleText': string
   'cd.pipelineSteps.environmentTab.multiEnvironmentsConfirmationText': string
   'cd.pipelineSteps.environmentTab.multiEnvironmentsDialogTitleText': string
   'cd.pipelineSteps.environmentTab.multiEnvironmentsParallelDeployLabel': string
@@ -4712,6 +4736,7 @@ export interface StringsMap {
   'cd.pipelineSteps.environmentTab.singleEnvironmentConfirmationText': string
   'cd.pipelineSteps.environmentTab.singleEnvironmentDialogTitleText': string
   'cd.pipelineSteps.environmentTab.specifyEnvironmentOrGroup': string
+  'cd.pipelineSteps.environmentTab.specifyGitOpsCluster': string
   'cd.pipelineSteps.environmentTab.specifyGitOpsClusters': string
   'cd.pipelineSteps.environmentTab.specifyYourEnvironment': string
   'cd.pipelineSteps.environmentTab.specifyYourEnvironmentGroup': string
@@ -4950,7 +4975,6 @@ export interface StringsMap {
   'cd.whatIsHarnessAdapter': string
   'cd.whatIsHarnessManagedGitOpsServer': string
   'cd.workloadRequired': string
-  'ce.allClusters': string
   'ce.allRegions': string
   'ce.anomalyDetection.addAnoamlyAlertDesc': string
   'ce.anomalyDetection.addNewAnomalyAlert': string
@@ -6347,6 +6371,7 @@ export interface StringsMap {
   'cf.noEnvironment.message': string
   'cf.noEnvironment.title': string
   'cf.noResultMatch': string
+  'cf.onboarding.android': string
   'cf.onboarding.backToStart': string
   'cf.onboarding.clientKey': string
   'cf.onboarding.createAFlag': string
@@ -6364,6 +6389,7 @@ export interface StringsMap {
   'cf.onboarding.help.heading2': string
   'cf.onboarding.help.text1': string
   'cf.onboarding.help.text2': string
+  'cf.onboarding.ios': string
   'cf.onboarding.keyDescriptionClient': string
   'cf.onboarding.keyDescriptionServer': string
   'cf.onboarding.letsGetStarted': string
@@ -6372,12 +6398,18 @@ export interface StringsMap {
   'cf.onboarding.otherTypes': string
   'cf.onboarding.readme.android': string
   'cf.onboarding.readme.dotnet': string
+  'cf.onboarding.readme.flutter': string
   'cf.onboarding.readme.golang': string
   'cf.onboarding.readme.ios': string
   'cf.onboarding.readme.java': string
   'cf.onboarding.readme.javascript': string
   'cf.onboarding.readme.nodejs': string
+  'cf.onboarding.readme.php': string
   'cf.onboarding.readme.python': string
+  'cf.onboarding.readme.reactNative': string
+  'cf.onboarding.readme.ruby': string
+  'cf.onboarding.readme.xamarinAndroid': string
+  'cf.onboarding.readme.xamarinIOS': string
   'cf.onboarding.sdkKeyLabel': string
   'cf.onboarding.secret': string
   'cf.onboarding.selectLanguage': string
@@ -6575,6 +6607,7 @@ export interface StringsMap {
   'chaos.chaosGameday': string
   'chaos.chaosHub': string
   'chaos.chaosInfrastructure': string
+  'chaos.chaosTrialHomePage.description': string
   'chaos.environments.create.description': string
   'chaos.environments.create.duplicateName': string
   'chaos.environments.create.envTypeLabel': string
@@ -6590,6 +6623,14 @@ export interface StringsMap {
   'chaos.navLabels.chaosHubs': string
   'chaos.noEnvironment.message': string
   'chaos.noEnvironment.title': string
+  'chaos.pipelineStep.description': string
+  'chaos.pipelineStep.expectedResiliencyScoreLabel': string
+  'chaos.pipelineStep.experimentRefLabel': string
+  'chaos.selectChaosExperiment': string
+  'chaos.trial.modal.description': string
+  'chaos.trial.modal.title': string
+  'chaos.trial.modal.welcome': string
+  'chaos.viewDetailedExecution': string
   'ci.advancedLabel': string
   'ci.annotations': string
   'ci.artifactoryConnectorLabel': string

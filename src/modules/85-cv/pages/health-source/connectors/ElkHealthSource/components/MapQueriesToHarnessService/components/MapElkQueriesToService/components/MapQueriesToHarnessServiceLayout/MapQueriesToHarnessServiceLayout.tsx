@@ -26,7 +26,7 @@ export default function MapQueriesToHarnessServiceLayout(props: MapQueriesToHarn
   const { getString } = useStrings()
   const { showError } = useToaster()
   const values = formikProps?.values
-  const { serviceInstance, identifyTimestamp, messageIdentifier } = values || {}
+  const { serviceInstance, identifyTimestamp, messageIdentifier, logIndexes } = values || {}
   const query = useMemo(() => (values?.query?.length ? values.query : ''), [values])
   const queryParams = useMemo(
     () => ({
@@ -81,9 +81,9 @@ export default function MapQueriesToHarnessServiceLayout(props: MapQueriesToHarn
     queryParams?.tracingId,
     showError
   ])
+
   const postFetchingRecords = useCallback(() => {
     // resetting values of service once fetch records button is clicked.
-    onChange(MapElkToServiceFieldNames.SERVICE_INSTANCE, '')
     // eslint-disable-next-line react-hooks/exhaustive-deps
     onChange(MapElkToServiceFieldNames.IS_STALE_RECORD, false)
   }, [onChange])
@@ -99,6 +99,7 @@ export default function MapQueriesToHarnessServiceLayout(props: MapQueriesToHarn
               details={
                 <ElkMetricNameAndHostIdentifier
                   serviceInstance={serviceInstance}
+                  logIndexes={logIndexes}
                   identifyTimestamp={identifyTimestamp}
                   messageIdentifier={messageIdentifier}
                   sampleRecord={elkSampleData?.[0] || null}

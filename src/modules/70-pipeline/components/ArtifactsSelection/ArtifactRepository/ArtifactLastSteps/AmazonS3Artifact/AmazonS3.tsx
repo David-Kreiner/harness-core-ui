@@ -5,13 +5,12 @@
  * https://polyformproject.org/wp-content/uploads/2020/06/PolyForm-Shield-1.0.0.txt.
  */
 
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import type { FormikProps } from 'formik'
 import { useParams } from 'react-router-dom'
-import { defaultTo, get, memoize, merge } from 'lodash-es'
+import { defaultTo, get, memoize, merge, omit } from 'lodash-es'
 import * as Yup from 'yup'
 import { Menu } from '@blueprintjs/core'
-
 import {
   Button,
   ButtonVariation,
@@ -26,7 +25,9 @@ import {
   StepProps,
   Text
 } from '@harness/uicore'
+
 import { useStrings } from 'framework/strings'
+import { useListAwsRegions } from 'services/portal'
 import { BucketResponse, ConnectorConfigDTO, useGetV2BucketListForS3 } from 'services/cd-ng'
 import { ConfigureOptions } from '@common/components/ConfigureOptions/ConfigureOptions'
 import type { ProjectPathProps } from '@common/interfaces/RouteInterfaces'
@@ -42,10 +43,12 @@ import {
   tagOptions
 } from '@pipeline/components/ArtifactsSelection/ArtifactHelper'
 import {
+  checkIfQueryParamsisNotEmpty,
   defaultArtifactInitialValues,
-  getConnectorIdValue
+  getConnectorIdValue,
+  shouldFetchTags
 } from '@pipeline/components/ArtifactsSelection/ArtifactUtils'
-import { useListAwsRegions } from 'services/portal'
+import { EXPRESSION_STRING } from '@pipeline/utils/constants'
 import { ArtifactSourceIdentifier, SideCarArtifactIdentifier } from '../ArtifactIdentifier'
 import css from '../../ArtifactConnector.module.scss'
 
@@ -70,6 +73,8 @@ export function AmazonS3(props: StepProps<ConnectorConfigDTO> & AmazonS3Artifact
   const isIdentifierAllowed = context === ModalViewFor.SIDECAR || !!isMultiArtifactSource
 
   const [regions, setRegions] = React.useState<SelectOption[]>([])
+  const [lastQueryData, setLastQueryData] = React.useState({ region: undefined })
+  const [bucketList, setBucketList] = React.useState<BucketResponse[] | undefined>([])
 
   const {
     data: regionData,
@@ -90,38 +95,68 @@ export function AmazonS3(props: StepProps<ConnectorConfigDTO> & AmazonS3Artifact
     setRegions(regionValues as SelectOption[])
   }, [regionData?.resource])
 
+  const getConnectorRefQueryData = (): string => {
+    return prevStepData?.connectorId?.value || prevStepData?.connectorId?.connector?.value || prevStepData?.identifier
+  }
+
   const {
     data: bucketData,
     error,
     loading,
     refetch: refetchBuckets
   } = useGetV2BucketListForS3({
+    queryParams: {
+      accountIdentifier: accountId,
+      orgIdentifier,
+      projectIdentifier,
+      connectorRef: getConnectorRefQueryData(),
+      region: lastQueryData.region
+    },
     lazy: true
   })
 
-  const fetchBuckets = (region: string): void => {
-    refetchBuckets({
-      queryParams: {
-        accountIdentifier: accountId,
-        orgIdentifier,
-        projectIdentifier,
-        connectorRef: prevStepData?.connectorId?.value || prevStepData?.identifier,
-        region: region
+  React.useEffect(() => {
+    if (checkIfQueryParamsisNotEmpty(Object.values(omit(lastQueryData, ['region'])))) {
+      refetchBuckets()
+    }
+  }, [lastQueryData, refetchBuckets])
+
+  React.useEffect(() => {
+    if (error) {
+      setBucketList([])
+    } else if (Array.isArray(bucketData?.data)) {
+      setBucketList(bucketData?.data)
+    }
+  }, [bucketData?.data, error])
+
+  const canFetchBuckets = useCallback(
+    (region: string): boolean => {
+      return !!(lastQueryData.region !== region && shouldFetchTags(prevStepData, []))
+    },
+    [lastQueryData, prevStepData]
+  )
+
+  const fetchBuckets = useCallback(
+    (region = ''): void => {
+      if (canFetchBuckets(region)) {
+        setLastQueryData({ region })
       }
-    })
+    },
+    [canFetchBuckets]
+  )
+
+  const isBucketNameDisabled = (): boolean => {
+    return !checkIfQueryParamsisNotEmpty([getConnectorRefQueryData()])
   }
 
-  const selectItems = useMemo(() => {
-    return defaultTo(
-      bucketData?.data?.map((bucket: BucketResponse) => ({
-        value: defaultTo(bucket.bucketName, ''),
-        label: defaultTo(bucket.bucketName, '')
-      })),
-      []
-    )
-  }, [bucketData?.data])
+  const selectItems = React.useMemo(() => {
+    return bucketList?.map(currBucket => ({
+      label: currBucket.bucketName as string,
+      value: currBucket.bucketName as string
+    }))
+  }, [bucketList])
 
-  const bucketList = React.useMemo((): { label: string; value: string }[] => {
+  const buckets = React.useMemo((): { label: string; value: string }[] => {
     if (loading) {
       return [{ label: 'Loading Buckets...', value: 'Loading Buckets...' }]
     }
@@ -153,7 +188,7 @@ export function AmazonS3(props: StepProps<ConnectorConfigDTO> & AmazonS3Artifact
   const primarySchema = Yup.object().shape(schemaObject)
 
   const getValidationSchema = useCallback(() => {
-    if (context === ModalViewFor.SIDECAR) {
+    if (isIdentifierAllowed) {
       return sidecarSchema
     }
     return primarySchema
@@ -245,7 +280,8 @@ export function AmazonS3(props: StepProps<ConnectorConfigDTO> & AmazonS3Artifact
     return (
       <div className={css.imagePathContainer}>
         <FormInput.MultiTypeInput
-          selectItems={bucketList}
+          selectItems={buckets}
+          disabled={isBucketNameDisabled()}
           label={getString('pipeline.manifestType.bucketName')}
           placeholder={getString('pipeline.manifestType.bucketPlaceHolder')}
           name="bucketName"
@@ -260,10 +296,18 @@ export function AmazonS3(props: StepProps<ConnectorConfigDTO> & AmazonS3Artifact
                 </Text>
               ),
               itemRenderer: itemRenderer,
-              items: bucketList,
-              allowCreatingNewItems: true
+              items: buckets,
+              allowCreatingNewItems: true,
+              addClearBtn: true,
+              addTooltip: true
             },
-            onFocus: () => {
+            onFocus: (e: React.FocusEvent<HTMLInputElement>) => {
+              if (
+                e?.target?.type !== 'text' ||
+                (e?.target?.type === 'text' && e?.target?.placeholder === EXPRESSION_STRING)
+              ) {
+                return
+              }
               if (!loading) {
                 fetchBuckets(formik.values.region)
               }
@@ -294,7 +338,7 @@ export function AmazonS3(props: StepProps<ConnectorConfigDTO> & AmazonS3Artifact
       <Text font={{ variation: FontVariation.H3 }} margin={{ bottom: 'medium' }}>
         {getString('pipeline.artifactsSelection.artifactDetails')}
       </Text>
-      <Formik
+      <Formik<AmazonS3InitialValuesType>
         initialValues={getInitialValues()}
         formName="artifactoryArtifact"
         validationSchema={getValidationSchema()}

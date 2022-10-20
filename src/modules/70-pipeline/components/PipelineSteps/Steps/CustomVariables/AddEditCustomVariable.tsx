@@ -45,7 +45,7 @@ export default function AddEditCustomVariable(props: AddEditCustomVariableProps)
   } = props
   const { getString } = useStrings()
 
-  const existingNames: string[] = Array.isArray(existingVariables) ? existingVariables.map(v => v.name || '') : []
+  const existingNames: string[] = Array.isArray(existingVariables) ? existingVariables.map(v => v?.name || '') : []
   const isEdit = selectedVariable && typeof selectedVariable.index === 'number' && selectedVariable.index > -1
 
   // remove current variable name in case of edit

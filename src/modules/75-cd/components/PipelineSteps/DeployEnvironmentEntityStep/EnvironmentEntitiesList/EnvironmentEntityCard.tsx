@@ -24,6 +24,7 @@ import {
 } from '@harness/uicore'
 
 import { useStrings } from 'framework/strings'
+import type { ServiceSpec } from 'services/cd-ng'
 
 import { ResourceType } from '@rbac/interfaces/ResourceType'
 import { PermissionIdentifier } from '@rbac/interfaces/PermissionIdentifier'
@@ -31,14 +32,16 @@ import RbacButton from '@rbac/components/Button/Button'
 
 import factory from '@pipeline/components/PipelineSteps/PipelineStepFactory'
 import { StepViewType } from '@pipeline/components/AbstractSteps/Step'
+import { StepWidget } from '@pipeline/components/AbstractSteps/StepWidget'
+import { getStepTypeByDeploymentType } from '@pipeline/utils/stageHelpers'
 
 import type {
   DeployEnvironmentEntityCustomStepProps,
   DeployEnvironmentEntityFormState,
   EnvironmentData
 } from '../types'
-import { GenericServiceSpecInputSetMode } from '../../Common/GenericServiceSpec/GenericServiceSpecInputSetMode'
 import DeployInfrastructure from '../DeployInfrastructure/DeployInfrastructure'
+import DeployCluster from '../DeployCluster/DeployCluster'
 
 import css from './EnvironmentEntitiesList.module.scss'
 
@@ -60,7 +63,8 @@ export function EnvironmentEntityCard({
   initialValues,
   stageIdentifier,
   deploymentType,
-  customDeploymentRef
+  customDeploymentRef,
+  gitOpsEnabled
 }: EnvironmentEntityCardProps): React.ReactElement {
   const { getString } = useStrings()
   const { values } = useFormikContext<DeployEnvironmentEntityFormState>()
@@ -141,21 +145,47 @@ export function EnvironmentEntityCard({
             />
           </Container>
           <Collapse keepChildrenMounted={false} isOpen={showInputs}>
-            <Container border={{ top: true }} margin={{ top: 'medium' }} padding={{ top: 'large' }}>
-              <Text color={Color.GREY_800} font={{ size: 'normal', weight: 'bold' }} margin={{ bottom: 'medium' }}>
-                {getString('common.environmentInputs')}
-              </Text>
-              <GenericServiceSpecInputSetMode
-                factory={factory}
-                stageIdentifier={stageIdentifier}
-                initialValues={values.environmentInputs?.[identifier] || {}}
-                stepViewType={StepViewType.TemplateUsage}
-                template={environmentInputs}
-                path={`environmentInputs.${identifier}`}
-                readonly={readonly}
-                allowableTypes={allowableTypes}
-              />
-            </Container>
+            {!isEmpty(environmentInputs.variables) && (
+              <Container border={{ top: true }} margin={{ top: 'medium' }} padding={{ top: 'large' }}>
+                <Text color={Color.GREY_800} font={{ size: 'normal', weight: 'bold' }} margin={{ bottom: 'medium' }}>
+                  {getString('common.environmentInputs')}
+                </Text>
+                <StepWidget<ServiceSpec>
+                  factory={factory}
+                  initialValues={values.environmentInputs?.[identifier] || {}}
+                  allowableTypes={allowableTypes}
+                  template={environmentInputs}
+                  type={getStepTypeByDeploymentType(deploymentType)}
+                  stepViewType={StepViewType.TemplateUsage}
+                  path={`environmentInputs.${identifier}`}
+                  readonly={readonly}
+                  customStepProps={{
+                    stageIdentifier
+                  }}
+                />
+              </Container>
+            )}
+
+            {!isEmpty(environmentInputs.overrides) && (
+              <Container border={{ top: true }} margin={{ top: 'medium' }} padding={{ top: 'large' }}>
+                <Text color={Color.GREY_800} font={{ size: 'normal', weight: 'bold' }} margin={{ bottom: 'medium' }}>
+                  {getString('common.environmentOverrides')}
+                </Text>
+                <StepWidget<ServiceSpec>
+                  factory={factory}
+                  initialValues={values.environmentInputs?.[identifier]?.overrides || {}}
+                  allowableTypes={allowableTypes}
+                  template={environmentInputs.overrides}
+                  type={getStepTypeByDeploymentType(deploymentType)}
+                  stepViewType={StepViewType.TemplateUsage}
+                  path={`environmentInputs.${identifier}.overrides`}
+                  readonly={readonly}
+                  customStepProps={{
+                    stageIdentifier
+                  }}
+                />
+              </Container>
+            )}
           </Collapse>
         </>
       ) : null}
@@ -165,16 +195,25 @@ export function EnvironmentEntityCard({
           <Container margin={{ top: 'medium', bottom: 'medium' }}>
             <Divider />
           </Container>
-          <DeployInfrastructure
-            initialValues={initialValues}
-            readonly={readonly}
-            allowableTypes={allowableTypes}
-            environmentIdentifier={identifier}
-            isMultiInfrastructure
-            stageIdentifier={stageIdentifier}
-            deploymentType={deploymentType}
-            customDeploymentRef={customDeploymentRef}
-          />
+          {gitOpsEnabled ? (
+            <DeployCluster
+              initialValues={initialValues}
+              readonly={readonly}
+              allowableTypes={allowableTypes}
+              environmentIdentifier={identifier}
+              isMultiCluster
+            />
+          ) : (
+            <DeployInfrastructure
+              initialValues={initialValues}
+              readonly={readonly}
+              allowableTypes={allowableTypes}
+              environmentIdentifier={identifier}
+              isMultiInfrastructure
+              deploymentType={deploymentType}
+              customDeploymentRef={customDeploymentRef}
+            />
+          )}
         </>
       )}
     </Card>

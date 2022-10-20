@@ -11,6 +11,11 @@
     border: 1px solid var(--grey-200);
     border-radius: var(--spacing-2);
 
+    input {
+      height: 30px !important;
+      border: 0 !important;
+    }
+
     &.hasError {
       border-color: var(--red-500);
     }
@@ -21,10 +26,18 @@
     margin-right: 28px;
   }
 
-  :global(.MultiSelectDropDown--dropdownButton) {
-    background-color: var(--white) !important;
-    border: none !important;
-    height: 30px;
+  :global {
+    .MultiSelectDropDown--dropdownButton {
+      border: none !important;
+      height: 30px;
+      background-color: var(--white) !important;
+    }
+
+    .MultiSelectDropDown--disabled {
+      & .MultiSelectDropDown--dropdownButton {
+        background-color: var(--grey-50) !important;
+      }
+    }
   }
 
   :global(.MultiTypeInput--btn) {

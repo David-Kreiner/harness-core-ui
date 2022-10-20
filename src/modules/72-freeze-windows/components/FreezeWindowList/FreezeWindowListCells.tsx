@@ -18,7 +18,7 @@ import { useStrings } from 'framework/strings'
 import { getReadableDateTime } from '@common/utils/dateUtils'
 import { killEvent } from '@common/utils/eventUtils'
 import type { FreezeSummaryResponse, FreezeWindow, UpdateFreezeStatusQueryParams } from 'services/cd-ng'
-import { useCurrentActiveTime } from '@freeze-windows/hooks/useCurrentActiveTime'
+import { FreezeStatus } from '@freeze-windows/utils/freezeWindowUtils'
 import css from './FreezeWindowList.module.scss'
 
 export interface FreezeWindowListColumnActions {
@@ -29,6 +29,7 @@ export interface FreezeWindowListColumnActions {
   getViewFreezeRowLink: (freezeWindow: FreezeSummaryResponse) => string
   selectedItems: string[]
   disabled: boolean
+  freezeStatusMap: Record<string, FreezeStatus>
 }
 
 type CellTypeWithActions<D extends Record<string, any>, V = any> = TableInstance<D> & {
@@ -58,7 +59,7 @@ export const FreezeNameCell: CellType = ({ row, column }) => {
         </Link>
 
         {data.description && (
-          <Popover className={Classes.DARK} position={Position.LEFT} interactionKind={PopoverInteractionKind.HOVER}>
+          <Popover className={Classes.DARK} position={Position.TOP} interactionKind={PopoverInteractionKind.HOVER}>
             <Icon name="description" width={16} height={20} />
             <Layout.Vertical spacing="medium" padding="medium" style={{ maxWidth: 400 }}>
               <Text color={Color.GREY_200} font={{ variation: FontVariation.SMALL_SEMI }}>
@@ -119,19 +120,18 @@ export const FreezeTimeCell: CellType = ({ row }) => {
   )
 }
 
-export const StatusCell: CellType = ({ row }) => {
+export const StatusCell: CellType = ({ row, column }) => {
   const { getString } = useStrings()
   const data = row.original
-  const { startTime, endTime } = data.currentOrUpcomingActiveWindow || {}
-  const isActive = useCurrentActiveTime(startTime, endTime, data.status === 'Enabled')
+  const status = column.freezeStatusMap[data.identifier!]
 
   return (
     <Text
       font={{ variation: FontVariation.TINY_SEMI }}
-      color={isActive ? Color.PRIMARY_7 : Color.GREY_700}
-      className={cx(css.status, isActive ? css.active : css.inactive)}
+      color={status === FreezeStatus.ACTIVE ? Color.PRIMARY_7 : Color.GREY_700}
+      className={cx(css.status, status === FreezeStatus.ACTIVE ? css.active : css.inactive)}
     >
-      {isActive ? getString('active') : getString('inactive')}
+      {status || getString('inactive')}
     </Text>
   )
 }

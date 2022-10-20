@@ -134,8 +134,8 @@ jenkinsStep:
     jobName: Jobname is a required field
   jobNamePlaceholder: Select Job Name
   jobParameter: Job Parameters
-  unstableStatusAsSuccess: Treat unstable Jenkins status as success
-  useConnectorUrlForJobExecution: Use this URL for job execution
+  unstableStatusAsSuccess: Treat unstable Job status as success
+  useConnectorUrlForJobExecution: Use Connector URL for job execution
   captureEnvironmentVariable: Capture environment variables from Jenkins build
 jiraApprovalStep:
   connectToJira: Connect to Jira
@@ -1055,7 +1055,14 @@ stepDescription:
   AzureSlotDeployment: Select the Web App and source and target deployment slots for the deployment.
   CustomApproval: Custom Approval
   AzureTrafficShift: Shift network traffic to the new Web App version in the deployment slot.
-  ECSRollingDeploy: Use a rolling update to schedule new aws instances on nodes with available resources. This step uses the number of replicas you specified in the Deployment manifest.
+  ECSRollingDeploy: Roll out a new ECS service version.
+  ECSRollingRollback: Roll back the ECS service version deployed using the ECS Rolling Deploy step.
+  ECSCanaryDeploy: Deploy a new ECS service version to one instance for validation.
+  ECSCanaryDelete: Delete the ECS service version deployed by the ECS Canary Deploy step.
+  ECSBlueGreenCreateService: Stage a new service version to a target group.
+  ECSBlueGreenSwapTargetGroups: Swap stage and prod routes for a Blue/Green deployment.
+  ECSBlueGreenRollback: Roll back the new ECS service version and upscale the old version to its previous task number.
+  ECSRunTask: Run one-time or periodic batch job tasks using placement constraints and strategies.
   GitClone: Clone a Git repository to a directory in addition to the codebase Git clone
   Background: Set commands to run in the background. The execution will immediately proceed to the subsequent step rather than waiting for the background commands to finish.
 executionStrategy:
@@ -1160,6 +1167,7 @@ runstageError: '{{count}} Error(s): Unable to run stages.'
 stageDependencyError: 'Stage {{stageId}} has a ‘useFromStage’ dependency on Stage {{dependentStage}}. Please select Stage {{dependentStage}} to run Stage {{stageId}}.'
 noApprovalInstanceCreated: Approval instance not created, no details to display
 approvalTypeRequired: Approval type is required
+numOfServicesAndEnv: '{{numOfServices}} Service(s), {{numOfEnvironment}} Environment(s)'
 executionList:
   servicesDeployedText: 'Services deployed ({{size}})'
   servicesDeployed: 'Services deployed'
@@ -1423,3 +1431,5 @@ customDeployment:
 step:
   validation:
     namePatternIsNotValid: 'Name can only contain alphanumerics, _ and -'
+runDisabledOnFreeze: Cannot run pipeline due to an active freeze
+viewFreeze: View freeze details

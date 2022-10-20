@@ -62,7 +62,8 @@ export default function L1Nav(): React.ReactElement {
     const root = document.querySelector(':root') as HTMLElement
     root.style.setProperty('--main-nav-height', `${minNavHeight}px`)
 
-    NEW_LEFT_NAVBAR_SETTINGS && document.getElementsByClassName(css.active)[0]?.scrollIntoView({ block: 'nearest' })
+    NEW_LEFT_NAVBAR_SETTINGS &&
+      document.getElementsByClassName(css.active)[0]?.scrollIntoView({ inline: 'nearest', block: 'start' })
   })
 
   useEffect(() => {
@@ -210,7 +211,14 @@ export default function L1Nav(): React.ReactElement {
         </ul>
       </nav>
       {NEW_LEFT_NAVBAR_SETTINGS ? (
-        <ModuleList isOpen={isModuleListOpen} close={closeModuleList} onConfigIconClick={toggleModuleConfig} />
+        <ModuleList
+          isOpen={isModuleListOpen}
+          close={() => {
+            closeModuleList()
+            closeModuleConfig()
+          }}
+          onConfigIconClick={toggleModuleConfig}
+        />
       ) : null}
       {isModuleConfigOpen ? (
         <ModuleConfigurationScreen

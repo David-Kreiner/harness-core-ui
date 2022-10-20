@@ -172,14 +172,16 @@ export const getStatus = (
 
   const connectorScope = getScopeFromValue(connectorRef)
   const connector = getIdentifierFromValue(connectorRef)
-  const filteredConnector = fetchedConnectorResponse?.content?.find(item => item.connector?.identifier === connector)
-  const scope = getScopeFromDTO({
-    accountIdentifier: accountId,
-    orgIdentifier: filteredConnector?.connector?.orgIdentifier,
-    projectIdentifier: filteredConnector?.connector?.projectIdentifier
+  const filteredConnector = fetchedConnectorResponse?.content?.find(item => {
+    const scope = getScopeFromDTO({
+      accountIdentifier: accountId,
+      orgIdentifier: item?.connector?.orgIdentifier,
+      projectIdentifier: item?.connector?.projectIdentifier
+    })
+    return item.connector?.identifier === connector && scope === connectorScope
   })
 
-  const status = scope === connectorScope ? filteredConnector?.status?.status : ''
+  const status = filteredConnector?.status?.status ?? ''
   const color = status && status === 'FAILURE' ? Color.RED_500 : status ? Color.GREEN_500 : ''
   return { status, color }
 }

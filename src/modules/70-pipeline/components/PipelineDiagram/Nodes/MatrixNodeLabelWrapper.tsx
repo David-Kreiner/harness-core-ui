@@ -8,19 +8,26 @@
 import { Color, Icon, Layout, Text } from '@harness/uicore'
 import React from 'react'
 import cx from 'classnames'
+import { isMultiSvcOrMultiEnv } from '@pipeline/utils/executionUtils'
 import css from './MatrixNodeLabelWrapper.module.scss'
+
+export interface MatrixNodeLabelWrapperProps {
+  nodeType: string
+  isParallelNode?: boolean
+  subType?: string
+}
 
 export default function MatrixNodeLabelWrapper({
   nodeType,
-  isParallelNode
-}: {
-  nodeType: string
-  isParallelNode?: boolean
-}): JSX.Element {
+  isParallelNode,
+  subType
+}: MatrixNodeLabelWrapperProps): JSX.Element {
+  const isMultiSvcEnv = isMultiSvcOrMultiEnv(subType)
   return (
     <Layout.Horizontal
       className={cx(css.matrixLabel, {
-        [css.marginTop]: isParallelNode
+        [css.marginTop]: isParallelNode,
+        [css.multiSvcEnv]: isMultiSvcEnv
       })}
     >
       <Icon size={16} name="looping" style={{ marginRight: '5px' }} color={Color.WHITE} />

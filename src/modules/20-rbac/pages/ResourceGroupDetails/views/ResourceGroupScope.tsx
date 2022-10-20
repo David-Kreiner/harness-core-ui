@@ -27,12 +27,18 @@ import ProjectSelectionRenderer from './ProjectSelectionRenderer'
 import css from './ResourceGroupScope.module.scss'
 interface ResourceGroupScopeProps {
   resourceGroup: ResourceGroupV2
+  isHarnessManaged?: boolean
   includedScopes: ScopeSelector[]
   onSuccess: (scopes: ScopeSelector[]) => void
   setIsUpdated: (updated: boolean) => void
 }
 
-const ResourceGroupScope: React.FC<ResourceGroupScopeProps> = ({ includedScopes, onSuccess, setIsUpdated }) => {
+const ResourceGroupScope: React.FC<ResourceGroupScopeProps> = ({
+  includedScopes,
+  isHarnessManaged,
+  onSuccess,
+  setIsUpdated
+}) => {
   const { accountId, projectIdentifier, orgIdentifier } = useParams<ResourceGroupDetailsPathProps & ModulePathParams>()
   const { getString } = useStrings()
   const [isOpen, setIsOpen] = useState(false)
@@ -49,8 +55,9 @@ const ResourceGroupScope: React.FC<ResourceGroupScopeProps> = ({ includedScopes,
   })
 
   useEffect(() => {
-    setSelectedScope(getSelectedScopeType(scope, includedScopes))
-  }, [includedScopes])
+    setSelectedScope(getSelectedScopeType(scope, includedScopes, isHarnessManaged))
+  }, [includedScopes, isHarnessManaged])
+
   const header = (
     <Layout.Horizontal flex={{ justifyContent: 'flex-start' }} spacing="small">
       {scope === Scope.ACCOUNT ? (
@@ -102,6 +109,7 @@ const ResourceGroupScope: React.FC<ResourceGroupScopeProps> = ({ includedScopes,
           <DropDown
             items={getScopeDropDownItems(scope, getString)}
             value={selectedScope}
+            disabled={isHarnessManaged}
             filterable={false}
             onChange={item => {
               setIsUpdated(true)

@@ -14,4 +14,4 @@ export type HostControlTestData = Omit<HostTestData, 'risk' | 'name'> & {
   name?: string | null
 }
 
-export const widthPercentagePerGraph = 3.1
+export const widthPercentagePerGraph = 1

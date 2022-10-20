@@ -6,7 +6,14 @@
  */
 
 import React, { useState } from 'react'
-import { FormInput, Icon, ModalErrorHandler, ModalErrorHandlerBinding, SelectOption } from '@wings-software/uicore'
+import {
+  FormInput,
+  Icon,
+  ModalErrorHandler,
+  ModalErrorHandlerBinding,
+  SelectOption,
+  Text
+} from '@wings-software/uicore'
 import type { FormikContextType } from 'formik'
 import { Color } from '@harness/design-system'
 import { useParams } from 'react-router-dom'
@@ -132,7 +139,16 @@ const VaultConnectorFormFields: React.FC<VaultConnectorFormFieldsProps> = ({ for
       {formik?.values['accessType'] !== HashiCorpVaultAccessTypes.VAULT_AGENT &&
       formik?.values['accessType'] !== HashiCorpVaultAccessTypes.AWS_IAM &&
       formik?.values['accessType'] !== HashiCorpVaultAccessTypes.K8s_AUTH ? (
-        <FormInput.Text name="renewalIntervalMinutes" label={getString('connectors.hashiCorpVault.renewal')} />
+        <>
+          <FormInput.Text
+            name="renewalIntervalMinutes"
+            label={getString('connectors.hashiCorpVault.renewal')}
+            inputGroup={{ type: 'number' }}
+          />
+          {formik?.values['renewalIntervalMinutes'] === 0 && (
+            <Text intent="warning">{getString('connectors.hashiCorpVault.renewalIntervalWarningMessage')}</Text>
+          )}
+        </>
       ) : null}
 
       <FormInput.CheckBox

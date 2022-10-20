@@ -13,6 +13,8 @@ import routes from '@common/RouteDefinitions'
 import type { AccountPathProps } from '@common/interfaces/RouteInterfaces'
 import { SidebarLink } from '@common/navigation/SideNav/SideNav'
 import { useStrings } from 'framework/strings'
+import { isEnterprisePlan, useLicenseStore } from 'framework/LicenseStore/LicenseStoreContext'
+import { ModuleName } from 'framework/types/ModuleName'
 import { returnLaunchUrl } from '@common/utils/routeUtils'
 import { useAnyEnterpriseLicense } from '@common/hooks/useModuleLicenses'
 import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
@@ -24,6 +26,9 @@ export default function AccountSideNav(): React.ReactElement {
   const { accountId } = useParams<AccountPathProps>()
   const { NG_LICENSES_ENABLED, OPA_PIPELINE_GOVERNANCE, OPA_FF_GOVERNANCE, NG_DEPLOYMENT_FREEZE } = useFeatureFlags()
   const canUsePolicyEngine = useAnyEnterpriseLicense()
+  const { licenseInformation } = useLicenseStore()
+  const isEnterpriseEdition = isEnterprisePlan(licenseInformation, ModuleName.CD)
+  const showDeploymentFreeze = isEnterpriseEdition && NG_DEPLOYMENT_FREEZE
   const { data: accountData } = useGetAccountNG({
     accountIdentifier: accountId,
     queryParams: { accountIdentifier: accountId }
@@ -36,7 +41,7 @@ export default function AccountSideNav(): React.ReactElement {
       {canUsePolicyEngine && (OPA_PIPELINE_GOVERNANCE || OPA_FF_GOVERNANCE) && (
         <SidebarLink label={getString('common.governance')} to={routes.toGovernance({ accountId })} />
       )}
-      {NG_DEPLOYMENT_FREEZE ? (
+      {showDeploymentFreeze ? (
         <SidebarLink label={getString('common.freezeWindows')} to={routes.toFreezeWindows({ accountId })} />
       ) : null}
       <SidebarLink to={routes.toAccessControl({ accountId })} label={getString('accessControl')} />

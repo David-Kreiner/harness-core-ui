@@ -7,6 +7,7 @@
 
 import type { SelectOption } from '@harness/uicore'
 import type {
+  ClusterResponse,
   DeploymentStageConfig,
   EnvironmentGroupResponseDTO,
   InfrastructureDefinitionConfig,
@@ -31,11 +32,11 @@ export interface DeployEnvironmentEntityFormState {
   infrastructures?: Record<string, SelectOption[]>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   infrastructureInputs?: Record<string, Record<string, any>>
-  // ? Check if required
-  deployToAllInfrastructures?: boolean
+  cluster?: string
+  clusters?: Record<string, SelectOption[]>
   environmentGroup?: string
-  deployToAllEnvironments?: boolean
-  gitOpsEnabled?: DeploymentStageConfig['gitOpsEnabled']
+  /** category is required to handle runtime input to fixed changes as well as cleaner identification during validation */
+  category?: 'single' | 'multi' | 'group'
 }
 
 export interface DeployEnvironmentEntityCustomStepProps {
@@ -90,8 +91,9 @@ export interface InfrastructureWithInputs {
   infrastructures: Record<string, SelectOption[]>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   infrastructureInputs: Record<string, any>
-  deployToAllInfrastructures?: boolean
 }
+
+export type ClusterData = Required<Pick<ClusterResponse, 'name' | 'clusterRef'>>
 
 export interface EnvironmentGroupConfig extends EnvironmentGroupResponseDTO {
   name: string

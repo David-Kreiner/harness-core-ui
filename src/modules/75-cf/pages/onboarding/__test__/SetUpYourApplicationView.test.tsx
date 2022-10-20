@@ -95,7 +95,7 @@ describe('SetUpYourApplicationView', () => {
     )
     expect(screen.getByText('cf.onboarding.setupLabel')).toBeVisible()
     expect(screen.getByText('cf.onboarding.selectLanguage')).toBeVisible()
-    expect(screen.getAllByTestId('selectLanguageBtn')).toHaveLength(8)
+    expect(screen.getAllByTestId('selectLanguageBtn')).toHaveLength(13)
 
     // should not show until environment selected
     expect(screen.queryByText('cf.onboarding.selectYourEnvironment')).not.toBeInTheDocument()
@@ -110,7 +110,7 @@ describe('SetUpYourApplicationView', () => {
     )
     expect(screen.getByText('cf.onboarding.setupLabel')).toBeVisible()
     expect(screen.getByText('cf.onboarding.selectLanguage')).toBeVisible()
-    expect(screen.getAllByTestId('selectLanguageBtn')).toHaveLength(8)
+    expect(screen.getAllByTestId('selectLanguageBtn')).toHaveLength(13)
 
     expect(screen.getByText('cf.onboarding.selectYourEnvironment')).toBeVisible()
     expect(document.querySelector('input[name="environmentSelectEl"]')).toBeVisible()

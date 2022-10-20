@@ -12,7 +12,7 @@
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-gap: var(--spacing-medium);
-    margin-top: var(--spacing-7) !important;
+    margin-top: var(--spacing-xlarge) !important;
     margin-left: var(--spacing-4) !important;
   }
 
@@ -44,6 +44,13 @@
 
 .executionWidgetWrapper {
   padding: var(--spacing-none) var(--spacing-13) var(--spacing-huge) var(--spacing-xxlarge) !important;
+  .margin-left {
+    margin-left: var(--spacing-medium) !important;
+  }
+  .addButton {
+    border: 1px solid var(--primary-7) !important;
+    border-radius: 4px !important;
+  }
 }
 
 .headerText {

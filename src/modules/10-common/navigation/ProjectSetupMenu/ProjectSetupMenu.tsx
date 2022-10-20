@@ -14,6 +14,8 @@ import { useHostedBuilds } from '@common/hooks/useHostedBuild'
 import type { GovernancePathProps, Module, PipelineType, ProjectPathProps } from '@common/interfaces/RouteInterfaces'
 import { useAppStore } from 'framework/AppStore/AppStoreContext'
 import { useStrings } from 'framework/strings'
+import { isEnterprisePlan, useLicenseStore } from 'framework/LicenseStore/LicenseStoreContext'
+import { ModuleName } from 'framework/types/ModuleName'
 import { useAnyEnterpriseLicense } from '@common/hooks/useModuleLicenses'
 import { useSideNavContext } from 'framework/SideNavStore/SideNavContext'
 import { SidebarLink } from '../SideNav/SideNav'
@@ -25,7 +27,11 @@ interface ProjectSetupMenuProps {
 
 const ProjectSetupMenu: React.FC<ProjectSetupMenuProps> = ({ module }) => {
   const { getString } = useStrings()
-  const { accountId, orgIdentifier, projectIdentifier } = useParams<PipelineType<ProjectPathProps>>()
+  const {
+    accountId,
+    orgIdentifier: orgIdentifierFromParams,
+    projectIdentifier: projectIdentifierFromParams
+  } = useParams<PipelineType<ProjectPathProps>>()
 
   const {
     OPA_PIPELINE_GOVERNANCE,
@@ -39,11 +45,23 @@ const ProjectSetupMenu: React.FC<ProjectSetupMenuProps> = ({ module }) => {
   } = useFeatureFlags()
   const { showGetStartedTabInMainMenu } = useSideNavContext()
   const { enabledHostedBuildsForFreeUsers } = useHostedBuilds()
-  const { isGitSimplificationEnabled, isGitSyncEnabled, gitSyncEnabledOnlyForFF } = useAppStore()
-  const params = { accountId, orgIdentifier, projectIdentifier, module }
-  const isCIorCDorSTO = module === 'ci' || module === 'cd' || module === 'sto'
-  const isCIorCD = module === 'ci' || module === 'cd'
+  const { isGitSimplificationEnabled, isGitSyncEnabled, gitSyncEnabledOnlyForFF, selectedProject } = useAppStore()
+  const { orgIdentifier = orgIdentifierFromParams, identifier: projectIdentifier = projectIdentifierFromParams } =
+    selectedProject || {}
+  const params = {
+    accountId,
+    orgIdentifier,
+    projectIdentifier,
+    module
+  }
+  const isCD = module === 'cd'
+  const isCIorCDorSTO = module === 'ci' || isCD || module === 'sto'
+  const isCIorCD = module === 'ci' || isCD
   const isCV = module === 'cv'
+  const { licenseInformation } = useLicenseStore()
+  const isEnterpriseEdition = isEnterprisePlan(licenseInformation, ModuleName.CD)
+  const showDeploymentFreeze = isEnterpriseEdition && NG_DEPLOYMENT_FREEZE && isCD
+
   const canUsePolicyEngine = useAnyEnterpriseLicense()
   //Supporting GIT_SIMPLIFICATION by default, old GitSync will be selected only for selected accounts
   // isGitSimplificationEnabled will true if any customers using old GitSync enabled Git SImplification using API
@@ -82,7 +100,7 @@ const ProjectSetupMenu: React.FC<ProjectSetupMenuProps> = ({ module }) => {
         {OPA_PIPELINE_GOVERNANCE && isCV && canUsePolicyEngine && (
           <SidebarLink label={getString('common.governance')} to={routes.toGovernance(params as GovernancePathProps)} />
         )}
-        {NG_DEPLOYMENT_FREEZE ? (
+        {showDeploymentFreeze ? (
           <SidebarLink
             label={getString('common.freezeWindows')}
             to={routes.toFreezeWindows({ ...params, module: params.module || 'cd' })}

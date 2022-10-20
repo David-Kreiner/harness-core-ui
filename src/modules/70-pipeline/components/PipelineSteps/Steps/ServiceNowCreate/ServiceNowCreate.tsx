@@ -33,7 +33,7 @@ export class ServiceNowCreate extends PipelineStep<ServiceNowCreateData> {
   }
 
   protected referenceId = 'serviceNowCreateStep'
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
   protected type = StepType.ServiceNowCreate
   protected stepName = 'ServiceNow Create'
   protected stepIcon: IconName = 'servicenow-create'

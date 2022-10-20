@@ -192,7 +192,7 @@ export class HttpStep extends PipelineStep<HttpStepData> {
     }
   }
 
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
 
   private processInitialValues(initialValues: HttpStepData, forInpuSet?: boolean): HttpStepFormData {
     const type = getMultiTypeFromValue(initialValues.spec?.method as string)

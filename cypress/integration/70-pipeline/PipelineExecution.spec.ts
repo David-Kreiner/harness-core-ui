@@ -6,6 +6,7 @@ import {
   pipelinesRoute,
   serviceStepAPI,
   serviceStepStageID,
+  shouldDisableDeploymentAPI,
   updatedPipelineExecutionEndpoint
 } from '../../support/70-pipeline/constants'
 
@@ -20,6 +21,10 @@ describe('Pipeline Execution', () => {
     cy.intercept('POST', updatedPipelineExecutionEndpoint, {
       fixture: 'pipeline/api/pipelineExecution/executePipeline'
     }).as('executePipeline')
+
+    cy.intercept('GET', shouldDisableDeploymentAPI, {
+      fixture: 'pipeline/api/pipelineExecution/shouldDisableDeployment'
+    }).as('shouldDisableDeployment')
 
     cy.intercept('GET', serviceStepAPI, { fixture: 'pipeline/api/pipelineExecution/serviceStep' }).as('serviceStep')
     cy.intercept('GET', serviceStepStageID, { fixture: 'pipeline/api/pipelineExecution/serviceStepStageID' })

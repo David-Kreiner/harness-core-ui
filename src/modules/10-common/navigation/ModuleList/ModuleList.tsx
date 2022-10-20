@@ -114,7 +114,10 @@ const ModuleList: React.FC<ModuleListProps> = ({ isOpen, close, usePortal = true
     <>
       <Drawer
         isOpen={isOpen}
-        onClose={close}
+        onClose={() => {
+          close()
+          setActiveModuleCarousel(undefined)
+        }}
         position={Position.LEFT}
         size={Drawer.SIZE_SMALL}
         className={css.modulesList}
@@ -138,7 +141,7 @@ const ModuleList: React.FC<ModuleListProps> = ({ isOpen, close, usePortal = true
             >
               <Icon
                 name="customize"
-                size={20}
+                size={24}
                 className={cx(css.blue, css.clickable)}
                 padding={'small'}
                 onClick={() => {

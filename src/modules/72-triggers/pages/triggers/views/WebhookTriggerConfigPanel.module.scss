@@ -77,4 +77,12 @@
   .bottomMarginZero {
     margin: 0 !important;
   }
+
+  .secret {
+    margin-top: var(--spacing-medium);
+
+    [class*='bp3-form-group'] {
+      margin-bottom: 0;
+    }
+  }
 }

@@ -21,4 +21,5 @@ export interface MapElkQueriesToServiceProps {
   connectorIdentifier?: string
   messageIdentifier: string
   formikProps: FormikProps<any>
+  logIndexes?: string
 }

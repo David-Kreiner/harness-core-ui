@@ -91,8 +91,8 @@ describe('Monitored Service list', () => {
   })
 
   // TestCase for Checking Title + Chart + HealthScore + Tags render
-  test('Test HealthSourceCard values and document title', async () => {
-    const { getByText } = render(
+  test('Test HealthSourceCard values, document title and tags for MS', async () => {
+    const { getByText, container } = render(
       <TestWrapper {...testWrapperProps}>
         <CVMonitoredService />
       </TestWrapper>
@@ -102,6 +102,9 @@ describe('Monitored Service list', () => {
     expect(getByText(getRiskLabelStringId(RiskValues.NEED_ATTENTION))).toBeDefined()
     expect(getByText(getRiskLabelStringId(RiskValues.HEALTHY))).toBeDefined()
     expect(document.title).toBe('cv.srmTitle | cv.monitoredServices.title | harness')
+
+    expect(container.querySelector('.tags')).toBeInTheDocument()
+    expect(container.querySelector('.tags p')?.textContent).toBe('6')
   })
 
   test('Test Service and Environment names renders', async () => {

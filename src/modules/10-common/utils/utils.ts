@@ -141,3 +141,18 @@ export const getUserName = (user: UserMetadataDTO): string => {
 export const REFERER_URL = 'refererURL'
 
 export const getSavedRefererURL = (): string => localStorage.getItem(REFERER_URL) || ''
+export const getGaClientID = (): string => {
+  try {
+    return defaultTo(
+      document?.cookie
+        ?.split('; ')
+        ?.find((key: string) => key.includes('_ga='))
+        ?.split('.')
+        ?.slice(2)
+        ?.join('.'),
+      ''
+    )
+  } catch (e) {
+    return ''
+  }
+}

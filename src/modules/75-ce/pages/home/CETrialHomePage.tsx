@@ -18,6 +18,7 @@ import { useToaster } from '@common/components'
 import { handleUpdateLicenseStore, useLicenseStore } from 'framework/LicenseStore/LicenseStoreContext'
 import type { AccountPathProps, Module } from '@common/interfaces/RouteInterfaces'
 import { Editions, ModuleLicenseType } from '@common/constants/SubscriptionTypes'
+import { getGaClientID, getSavedRefererURL } from '@common/utils/utils'
 import { useFeatureFlag } from '@common/hooks/useFeatureFlag'
 import { FeatureFlag } from '@common/featureFlags'
 import { useQueryParams } from '@common/hooks'
@@ -49,11 +50,14 @@ const CETrialHomePage: React.FC = () => {
       accountIdentifier: accountId
     }
   })
-
+  const refererURL = getSavedRefererURL()
+  const gaClientID = getGaClientID()
   const { mutate: startFreePlan } = useStartFreeLicense({
     queryParams: {
       accountIdentifier: accountId,
-      moduleType
+      moduleType,
+      ...(refererURL ? { referer: refererURL } : {}),
+      ...(gaClientID ? { gaClientID } : {})
     },
     requestOptions: {
       headers: {

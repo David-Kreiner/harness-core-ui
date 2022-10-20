@@ -29,7 +29,7 @@ export function RunningIcon(): React.ReactElement {
   )
 }
 
-export interface StageNodeProps extends Omit<IPopoverProps, 'content'>, PipelinePathProps, ModulePathParams {
+export interface StageNodeProps extends Omit<IPopoverProps, 'content'>, PipelinePathProps, Partial<ModulePathParams> {
   stage: GraphLayoutNode
   planExecutionId: string
   source: ExecutionPathProps['source']

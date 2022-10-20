@@ -67,7 +67,6 @@ import { memoizedParse, yamlStringify } from '@common/utils/YamlHelperMethods'
 import { useConfirmAction, useMutateAsGet, useDeepCompareEffect, useQueryParams } from '@common/hooks'
 import type { FormikEffectProps } from '@common/components/FormikEffect/FormikEffect'
 import type { InputSetValue } from '@pipeline/components/InputSetSelector/utils'
-import { useAppStore } from 'framework/AppStore/AppStoreContext'
 import type {
   ConnectorRefInterface,
   FlatInitialValuesInterface,
@@ -100,7 +99,7 @@ import {
   EventConditionTypes,
   getTriggerArtifactInitialSource
 } from './TriggersWizardPageUtils'
-
+import useGitAwareForTriggerEnabled from '../useGitAwareForTriggerEnabled'
 import css from '@triggers/pages/triggers/TriggersWizardPage.module.scss'
 
 type ResponseNGTriggerResponseWithMessage = ResponseNGTriggerResponse & { message?: string }
@@ -163,13 +162,7 @@ const ArtifactTriggerWizard = (props: { children: JSX.Element[] }): JSX.Element 
     }
   })
 
-  const isGitSyncEnabled = useMemo(() => !!pipelineResponse?.data?.gitDetails?.branch, [pipelineResponse])
-  const { supportingGitSimplification } = useAppStore()
-
-  const gitAwareForTriggerEnabled = useMemo(
-    () => isGitSyncEnabled && supportingGitSimplification,
-    [isGitSyncEnabled, supportingGitSimplification]
-  )
+  const gitAwareForTriggerEnabled = useGitAwareForTriggerEnabled()
 
   const [connectorScopeParams] = useState<GetConnectorQueryParams | undefined>(undefined)
   const [ignoreError, setIgnoreError] = useState<boolean>(false)

@@ -298,7 +298,7 @@ exports[`WebhookTriggerConfigPanel Triggers tests Renders/snapshots Initial Rend
 </div>
 `;
 
-exports[`WebhookTriggerConfigPanel Triggers tests Renders/snapshots Initial Render - Github Trigger Configuration Panel 1`] = `
+exports[`WebhookTriggerConfigPanel Triggers tests Renders/snapshots Initial Render - Github Trigger Configuration Panel with SPG_NG_GITHUB_WEBHOOK_AUTHENTICATION FF false 1`] = `
 <div>
   <div
     class="OverlaySpinner--overlaySpinner"
@@ -720,6 +720,510 @@ exports[`WebhookTriggerConfigPanel Triggers tests Renders/snapshots Initial Rend
                             </svg>
                           </span>
                         </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`WebhookTriggerConfigPanel Triggers tests Renders/snapshots Initial Render - Github Trigger Configuration Panel with SPG_NG_GITHUB_WEBHOOK_AUTHENTICATION FF true 1`] = `
+<div>
+  <div
+    class="OverlaySpinner--overlaySpinner"
+  >
+    <form
+      action="#"
+      class="FormikForm--main"
+    >
+      <div>
+        <div
+          class="Layout--vertical StyledProps--main webhookConfigurationContainer StyledProps--padding-xxlarge"
+        >
+          <span
+            class="StyledProps--font StyledProps--main formContentTitle StyledProps--inline"
+            data-tooltip-id="triggerConfigurationLabel"
+          >
+            triggers.triggerConfigurationLabel
+            : triggers.onNewWebhookTitle
+          </span>
+          <div
+            class="formContent"
+          >
+            <div
+              class="StyledProps--font StyledProps--main main nameIdDescriptionTags bottomMarginZero"
+            >
+              <div
+                class="InputWithIdentifier--txtNameContainer TextInput--main"
+              >
+                <div
+                  class="Layout--horizontal Layout--layout-spacing-xsmall StyledProps--main InputWithIdentifier--txtIdContainer"
+                >
+                  <div
+                    class="Text--withDocsTooltip"
+                    data-tooltip-id="universalInputNameWithId"
+                  >
+                    <p
+                      class="StyledProps--font StyledProps--main"
+                    >
+                      Id
+                    </p>
+                  </div>
+                  <p
+                    class="StyledProps--font StyledProps--main"
+                  >
+                    :
+                  </p>
+                  <span
+                    class="bp3-popover-wrapper"
+                  >
+                    <span
+                      class="bp3-popover-target"
+                    >
+                      <div
+                        class="bp3-editable-text bp3-editable-text-placeholder InputWithIdentifier--idValue"
+                        tabindex="0"
+                      >
+                        <span
+                          class="bp3-editable-text-content"
+                          style="height: 1px; line-height: 1px; min-width: 0;"
+                        />
+                      </div>
+                    </span>
+                  </span>
+                  <span
+                    class="bp3-icon StyledProps--main"
+                    data-icon="Edit"
+                    style="vertical-align: middle; cursor: pointer;"
+                  >
+                    <svg
+                      height="12"
+                      viewBox="0 0 16 16"
+                      width="12"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M11.207.485a.5.5 0 01.354-.146 3.5 3.5 0 013.5 3.5.5.5 0 01-.146.353l-11 11a.5.5 0 01-.354.147h-3a.5.5 0 01-.5-.5v-3a.5.5 0 01.146-.354l11-11zm.553.862L1.061 12.046v2.293h2.293l10.7-10.7a2.5 2.5 0 00-2.294-2.292z"
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                      />
+                      <path
+                        clip-rule="evenodd"
+                        d="M11.89 2.646a.5.5 0 010 .708L8.353 6.889a.5.5 0 01-.708-.707l3.536-3.536a.5.5 0 01.707 0z"
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        opacity="0.3"
+                      />
+                    </svg>
+                  </span>
+                </div>
+                <div
+                  class="bp3-form-group"
+                  data-id="name-0"
+                >
+                  <label
+                    class="bp3-label"
+                    for="name"
+                  >
+                    <span
+                      class="Tooltip--acenter"
+                      data-tooltip-id="wrapperComponentTestForm_name"
+                    >
+                      name
+                    </span>
+                     
+                    <span
+                      class="bp3-text-muted"
+                    />
+                  </label>
+                  <div
+                    class="bp3-form-content"
+                  >
+                    <div
+                      class="bp3-input-group"
+                    >
+                      <input
+                        autocomplete="off"
+                        class="bp3-input"
+                        name="name"
+                        placeholder="common.namePlaceholder"
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="StyledProps--font StyledProps--main"
+              >
+                <label
+                  class="Label--main bp3-label descriptionLabel"
+                  data-tooltip-id="webhookTrigger_description"
+                >
+                  optionalField
+                  <span
+                    class="bp3-icon StyledProps--main editOpen"
+                    data-icon="Edit"
+                    data-name="edit"
+                    data-testid="description-edit"
+                  >
+                    <svg
+                      height="12"
+                      viewBox="0 0 16 16"
+                      width="12"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M11.207.485a.5.5 0 01.354-.146 3.5 3.5 0 013.5 3.5.5.5 0 01-.146.353l-11 11a.5.5 0 01-.354.147h-3a.5.5 0 01-.5-.5v-3a.5.5 0 01.146-.354l11-11zm.553.862L1.061 12.046v2.293h2.293l10.7-10.7a2.5 2.5 0 00-2.294-2.292z"
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                      />
+                      <path
+                        clip-rule="evenodd"
+                        d="M11.89 2.646a.5.5 0 010 .708L8.353 6.889a.5.5 0 01-.708-.707l3.536-3.536a.5.5 0 01.707 0z"
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        opacity="0.3"
+                      />
+                    </svg>
+                  </span>
+                </label>
+              </div>
+              <div
+                class="StyledProps--font StyledProps--main"
+              >
+                <label
+                  class="Label--main bp3-label descriptionLabel"
+                  data-tooltip-id="webhookTrigger_tags"
+                >
+                  optionalField
+                  <span
+                    class="bp3-icon StyledProps--main editOpen"
+                    data-icon="Edit"
+                    data-name="edit"
+                    data-testid="tags-edit"
+                  >
+                    <svg
+                      height="12"
+                      viewBox="0 0 16 16"
+                      width="12"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M11.207.485a.5.5 0 01.354-.146 3.5 3.5 0 013.5 3.5.5.5 0 01-.146.353l-11 11a.5.5 0 01-.354.147h-3a.5.5 0 01-.5-.5v-3a.5.5 0 01.146-.354l11-11zm.553.862L1.061 12.046v2.293h2.293l10.7-10.7a2.5 2.5 0 00-2.294-2.292z"
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                      />
+                      <path
+                        clip-rule="evenodd"
+                        d="M11.89 2.646a.5.5 0 010 .708L8.353 6.889a.5.5 0 01-.708-.707l3.536-3.536a.5.5 0 01.707 0z"
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        opacity="0.3"
+                      />
+                    </svg>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <span
+            class="StyledProps--font StyledProps--main formContentTitle StyledProps--inline"
+            data-tooltip-id="listenOnNewWebhook"
+          >
+            triggers.triggerConfigurationPanel.listenOnNewWebhook
+          </span>
+          <div
+            class="formContent"
+          >
+            <section
+              style="width: 650px;"
+            >
+              <div
+                class="bp3-form-group bp3-disabled"
+                data-id="sourceRepo-1"
+              >
+                <label
+                  class="bp3-label"
+                  for="sourceRepo"
+                >
+                  <span
+                    class="Tooltip--acenter"
+                    data-tooltip-id="wrapperComponentTestForm_sourceRepo"
+                  >
+                    <p
+                      class="StyledProps--font StyledProps--main StyledProps--color StyledProps--color-grey600 StyledProps--font-variation-form-input-text StyledProps--font-weight-semi-bold"
+                    >
+                      triggers.triggerConfigurationPanel.payloadType
+                    </p>
+                  </span>
+                   
+                  <span
+                    class="bp3-text-muted"
+                  />
+                </label>
+                <div
+                  class="bp3-form-content"
+                >
+                  <div
+                    class="bp3-popover-wrapper Select--main bp3-fill"
+                  >
+                    <div
+                      class="bp3-popover-target"
+                    >
+                      <div
+                        class="bp3-input-group bp3-disabled"
+                      >
+                        <input
+                          autocomplete="off"
+                          class="bp3-input"
+                          disabled=""
+                          name="sourceRepo"
+                          placeholder="- Select -"
+                          style="padding-right: 0px;"
+                          type="text"
+                          value="common.repo_provider.githubLabel"
+                        />
+                        <span
+                          class="bp3-input-action"
+                        >
+                          <span
+                            class="bp3-icon bp3-icon-chevron-down StyledProps--main StyledProps--padding-small"
+                            icon="chevron-down"
+                          >
+                            <svg
+                              data-icon="chevron-down"
+                              height="14"
+                              viewBox="0 0 16 16"
+                              width="14"
+                            >
+                              <desc>
+                                chevron-down
+                              </desc>
+                              <path
+                                d="M12 5c-.28 0-.53.11-.71.29L8 8.59l-3.29-3.3a1.003 1.003 0 00-1.42 1.42l4 4c.18.18.43.29.71.29s.53-.11.71-.29l4-4A1.003 1.003 0 0012 5z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <section
+                class="main"
+              >
+                <div
+                  class="bp3-form-group"
+                  data-id="null-2"
+                  style="display: inline-block;"
+                >
+                  <label
+                    class="bp3-label"
+                  >
+                    <span
+                      class="Tooltip--acenter"
+                      data-tooltip-id="wrapperComponentTestForm_connectorRef"
+                    >
+                      connector
+                    </span>
+                     
+                    <span
+                      class="bp3-text-muted"
+                    />
+                  </label>
+                  <div
+                    class="bp3-form-content"
+                  >
+                    <button
+                      class="bp3-button bp3-minimal Button--button StyledProps--font StyledProps--main container Button--iconOnly Button--without-shadow Button--withRightIcon"
+                      data-testid="cr-field-connectorRef"
+                      style="width: 324px;"
+                      type="button"
+                    >
+                      <span
+                        class="bp3-button-text"
+                      >
+                        <span
+                          class="placeholder"
+                        >
+                          connectors.selectConnector
+                        </span>
+                      </span>
+                      <span
+                        class="bp3-icon bp3-icon-chevron-down StyledProps--main"
+                        icon="chevron-down"
+                      >
+                        <svg
+                          data-icon="chevron-down"
+                          height="14"
+                          viewBox="0 0 16 16"
+                          width="14"
+                        >
+                          <desc>
+                            chevron-down
+                          </desc>
+                          <path
+                            d="M12 5c-.28 0-.53.11-.71.29L8 8.59l-3.29-3.3a1.003 1.003 0 00-1.42 1.42l4 4c.18.18.43.29.71.29s.53-.11.71-.29l4-4A1.003 1.003 0 0012 5z"
+                            fill-rule="evenodd"
+                          />
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                <p
+                  class="StyledProps--font StyledProps--main addButton StyledProps--color StyledProps--color-primary7"
+                  data-name="plusAdd"
+                  style="width: 43px;"
+                >
+                  plusAdd
+                </p>
+              </section>
+              <div
+                class="bp3-form-group bottomMarginZero"
+                data-id="event-3"
+              >
+                <label
+                  class="bp3-label"
+                  for="event"
+                >
+                  <span
+                    class="Tooltip--acenter"
+                    data-tooltip-id="wrapperComponentTestForm_event"
+                  >
+                    triggers.triggerConfigurationPanel.event
+                  </span>
+                   
+                  <span
+                    class="bp3-text-muted"
+                  />
+                </label>
+                <div
+                  class="bp3-form-content"
+                >
+                  <div
+                    class="bp3-popover-wrapper Select--main bp3-fill"
+                  >
+                    <div
+                      class="bp3-popover-target"
+                    >
+                      <div
+                        class="bp3-input-group"
+                      >
+                        <input
+                          autocomplete="off"
+                          class="bp3-input"
+                          name="event"
+                          placeholder="- triggers.triggerConfigurationPanel.eventPlaceholder -"
+                          style="padding-right: 0px;"
+                          type="text"
+                          value=""
+                        />
+                        <span
+                          class="bp3-input-action"
+                        >
+                          <span
+                            class="bp3-icon bp3-icon-chevron-down StyledProps--main StyledProps--padding-small"
+                            icon="chevron-down"
+                          >
+                            <svg
+                              data-icon="chevron-down"
+                              height="14"
+                              viewBox="0 0 16 16"
+                              width="14"
+                            >
+                              <desc>
+                                chevron-down
+                              </desc>
+                              <path
+                                d="M12 5c-.28 0-.53.11-.71.29L8 8.59l-3.29-3.3a1.003 1.003 0 00-1.42 1.42l4 4c.18.18.43.29.71.29s.53-.11.71-.29l4-4A1.003 1.003 0 0012 5z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="nameIdDescriptionTags secret"
+              >
+                <div
+                  class="bp3-form-group"
+                  data-id="null-4"
+                >
+                  <div
+                    class="bp3-form-content"
+                  >
+                    <div
+                      class="Layout--vertical StyledProps--main"
+                    >
+                      <label
+                        class="bp3-label"
+                      >
+                        <span
+                          class="Tooltip--acenter"
+                          data-tooltip-id="wrapperComponentTestForm_encryptedWebhookSecretIdentifier"
+                        >
+                          secrets.secret.configureSecret
+                        </span>
+                      </label>
+                      <div
+                        class="StyledProps--font StyledProps--main container StyledProps--flex StyledProps--flex-alignItems-center StyledProps--flex-justifyContent-space-between"
+                      >
+                        <a
+                          class="containerLink"
+                          data-testid="encryptedWebhookSecretIdentifier"
+                          href="/account/testAcc/cd/orgs/testOrg/projects/test/pipelines/pipeline/triggers/triggerIdentifier"
+                        >
+                          <span
+                            class="bp3-icon StyledProps--main"
+                            data-icon="key-main"
+                            style="height: 12px;"
+                          >
+                            <svg
+                              height="24"
+                              width="24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g
+                                fill="none"
+                                stroke="#1C1C28"
+                                stroke-width="0.5"
+                              >
+                                <path
+                                  d="M5.444 1A4.45 4.45 0 001 5.444c0 2.459 1.994 4.46 4.444 4.46 1.939 0 3.613-1.542 4.202-2.995a.393.393 0 01.23-.223.39.39 0 01.322.015l1.032.507.757-.72a.402.402 0 01.552-.007l.543.493.547-.556a.404.404 0 01.572-.005l.527.516.528-.53a.406.406 0 01.571-.002l.522.522.524-.523a.406.406 0 01.571 0l.522.522.523-.522a.414.414 0 01.315-.118.41.41 0 01.294.16l.277.369c.116-.153.234-.311.312-.396a.412.412 0 01.3-.134c.693 0 .927-.37.927-1.465 0-1.018-.636-1.381-1.23-1.381H9.638a.408.408 0 01-.35-.202A4.448 4.448 0 005.444 1h0z"
+                                />
+                                <path
+                                  d="M3.828 3.99c.403 0 .769.163 1.034.428a1.458 1.458 0 010 2.067 1.458 1.458 0 01-2.067 0 1.458 1.458 0 010-2.067c.265-.265.63-.428 1.033-.428z"
+                                />
+                              </g>
+                            </svg>
+                          </span>
+                          <p
+                            class="StyledProps--font StyledProps--main containerLinkText StyledProps--color StyledProps--color-primary7 StyledProps--flex StyledProps--flex-alignItems-center StyledProps--flex-justifyContent-flex-start StyledProps--flex-inline StyledProps--padding-small"
+                          >
+                            <div>
+                              createOrSelectSecret
+                            </div>
+                          </p>
+                        </a>
                       </div>
                     </div>
                   </div>

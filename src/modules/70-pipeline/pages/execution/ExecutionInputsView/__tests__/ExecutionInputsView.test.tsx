@@ -43,6 +43,13 @@ jest.mock('services/pipeline-ng', () => ({
   useValidateTemplateInputs: jest.fn(() => ({ data: null }))
 }))
 
+jest.mock('services/cd-ng', () => ({
+  useShouldDisableDeployment: jest.fn().mockReturnValue({
+    loading: false,
+    data: {}
+  })
+}))
+
 const TEST_PATH = routes.toExecutionInputsView({
   ...accountPathProps,
   ...executionPathProps,

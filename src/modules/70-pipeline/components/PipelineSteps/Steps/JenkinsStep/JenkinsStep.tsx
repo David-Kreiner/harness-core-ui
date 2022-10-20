@@ -77,7 +77,7 @@ export class JenkinsStep extends PipelineStep<JenkinsStepData> {
       jobParameter: [],
       delegateSelectors: [],
       unstableStatusAsSuccess: false,
-      captureEnvironmentVariable: false
+      useConnectorUrlForJobExecution: false
     }
   }
 

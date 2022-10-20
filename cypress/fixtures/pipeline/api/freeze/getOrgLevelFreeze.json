@@ -1,0 +1,18 @@
+{
+  "status": "SUCCESS",
+  "data": {
+    "accountId": "accountId",
+    "type": "MANUAL",
+    "status": "Disabled",
+    "name": "org level freeze",
+    "tags": {},
+    "orgIdentifier": "orgId",
+    "identifier": "org_level_freeze",
+    "yaml": "freeze:\n  name: org level freeze\n  identifier: org_level_freeze\n  entityConfigs:\n    - name: Org Level Rule Number 1\n      entities:\n        - type: Project\n          filterType: All\n        - type: Service\n          filterType: All\n        - type: EnvType\n          filterType: All\n    - name: Rule Number 2\n      entities:\n        - type: Project\n          filterType: Equals\n          entityRefs:\n            - ishant_project_1\n            - freeze_windows_2\n        - type: Service\n          filterType: All\n        - type: EnvType\n          filterType: All\n    - name: Rule Number 3\n      entities:\n        - type: Project\n          filterType: NotEquals\n          entityRefs:\n            - default_org_project\n            - freeze_windows_2\n        - type: Service\n          filterType: All\n        - type: EnvType\n          filterType: All\n  status: Disabled\n",
+    "createdAt": 1665864127516,
+    "lastUpdatedAt": 1665864127516,
+    "freezeScope": "org"
+  },
+  "metaData": null,
+  "correlationId": "aeea4087-cb4e-4e04-82a5-6cb1409056e4"
+}

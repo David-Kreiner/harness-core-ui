@@ -11,13 +11,15 @@ import { Formik, FormikForm } from '@wings-software/uicore'
 import { renderHook } from '@testing-library/react-hooks'
 import { InputTypes, setFieldValue, fillAtForm } from '@common/utils/JestFormHelper'
 import * as pipelineNg from 'services/pipeline-ng'
+import * as cdng from 'services/cd-ng'
 import { defaultAppStoreValues } from '@common/utils/DefaultAppStoreData'
 import routes from '@common/RouteDefinitions'
 import { TestWrapper } from '@common/utils/testUtils'
 import { accountPathProps, pipelineModuleParams, triggerPathProps } from '@common/utils/routeUtils'
 import { useStrings } from 'framework/strings'
+import * as FeatureFlag from '@common/hooks/useFeatureFlag'
 import { getTriggerConfigDefaultProps, getTriggerConfigInitialValues } from './webhookMockConstants'
-import { GetGitTriggerEventDetailsResponse } from './webhookMockResponses'
+import { GetGitTriggerEventDetailsResponse, GetSecretV2PromiseResponse } from './webhookMockResponses'
 import WebhookTriggerConfigPanel from '../views/WebhookTriggerConfigPanel'
 
 const params = {
@@ -55,14 +57,28 @@ function WrapperComponent(props: { initialValues: any; isEdit?: boolean }): JSX.
 
 describe('WebhookTriggerConfigPanel Triggers tests', () => {
   describe('Renders/snapshots', () => {
-    test('Initial Render - Github Trigger Configuration Panel', async () => {
-      const getGitTriggerEventDetails = jest.spyOn(pipelineNg, 'useGetGitTriggerEventDetails')
-      getGitTriggerEventDetails.mockReturnValue(GetGitTriggerEventDetailsResponse as any)
+    test('Initial Render - Github Trigger Configuration Panel with SPG_NG_GITHUB_WEBHOOK_AUTHENTICATION FF false', async () => {
+      jest.spyOn(cdng, 'getSecretV2Promise').mockReturnValue(GetSecretV2PromiseResponse as any)
+      jest.spyOn(pipelineNg, 'useGetGitTriggerEventDetails').mockReturnValue(GetGitTriggerEventDetailsResponse as any)
+      jest.spyOn(FeatureFlag, 'useFeatureFlag').mockReturnValue(false)
 
       const { container } = render(<WrapperComponent initialValues={getTriggerConfigInitialValues({})} />)
       await waitFor(() =>
         queryByText(container, result.current.getString('triggers.triggerConfigurationPanel.listenOnNewWebhook'))
       )
+      expect(queryByText(container, result.current.getString('secrets.secret.configureSecret'))).not.toBeInTheDocument()
+      expect(container).toMatchSnapshot()
+    })
+    test('Initial Render - Github Trigger Configuration Panel with SPG_NG_GITHUB_WEBHOOK_AUTHENTICATION FF true', async () => {
+      jest.spyOn(cdng, 'getSecretV2Promise').mockReturnValue(GetSecretV2PromiseResponse as any)
+      jest.spyOn(pipelineNg, 'useGetGitTriggerEventDetails').mockReturnValue(GetGitTriggerEventDetailsResponse as any)
+      jest.spyOn(FeatureFlag, 'useFeatureFlag').mockReturnValue(true)
+
+      const { container } = render(<WrapperComponent initialValues={getTriggerConfigInitialValues({})} />)
+      await waitFor(() =>
+        queryByText(container, result.current.getString('triggers.triggerConfigurationPanel.listenOnNewWebhook'))
+      )
+      expect(queryByText(container, result.current.getString('secrets.secret.configureSecret'))).toBeInTheDocument()
       expect(container).toMatchSnapshot()
     })
     test('Initial Render - Custom Trigger Configuration Panel', async () => {

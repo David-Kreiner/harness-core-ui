@@ -191,6 +191,18 @@
               }
             ],
             "stepCategories": []
+          },
+          {
+            "name": "Shell Script Provisioner",
+            "stepsData": [
+              {
+                "name": "Shell Script Provision",
+                "type": "ShellScriptProvision",
+                "disabled": false,
+                "featureRestrictionName": "SHELL_SCRIPT_PROVISION"
+              }
+            ],
+            "stepCategories": []
           }
         ]
       },

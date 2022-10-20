@@ -7,7 +7,7 @@
 
 import React, { useMemo } from 'react'
 import type { FormikValues } from 'formik'
-import { defaultTo, get, isEmpty, memoize } from 'lodash-es'
+import { defaultTo, get, isEmpty, isNil, memoize } from 'lodash-es'
 import { Menu } from '@blueprintjs/core'
 
 import {
@@ -23,12 +23,14 @@ import { useListAwsRegions } from 'services/portal'
 import { useStrings } from 'framework/strings'
 import { useMutateAsGet } from '@common/hooks'
 import { Scope } from '@common/interfaces/SecretsInterface'
+import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
 import type { ConnectorReferenceDTO } from '@connectors/components/ConnectorReferenceField/ConnectorReferenceField'
 import { FormMultiTypeConnectorField } from '@connectors/components/ConnectorReferenceField/FormMultiTypeConnectorField'
 import useRBACError, { RBACError } from '@rbac/utils/useRBACError/useRBACError'
 import { ArtifactToConnectorMap, ENABLED_ARTIFACT_TYPES } from '@pipeline/components/ArtifactsSelection/ArtifactHelper'
 import { useVariablesExpression } from '@pipeline/components/PipelineStudio/PiplineHooks/useVariablesExpression'
 import type { StepViewType } from '@pipeline/components/AbstractSteps/Step'
+import { EXPRESSION_STRING } from '@pipeline/utils/constants'
 import { ArtifactSourceBase, ArtifactSourceRenderProps } from '@cd/factory/ArtifactSourceFactory/ArtifactSourceBase'
 import { isFieldRuntime } from '../../K8sServiceSpecHelper'
 import {
@@ -37,7 +39,8 @@ import {
   getFqnPath,
   getYamlData,
   isFieldfromTriggerTabDisabled,
-  isNewServiceEnvEntity
+  isNewServiceEnvEntity,
+  shouldFetchTagsSource
 } from '../artifactSourceUtils'
 import css from '../../../Common/GenericServiceSpec/GenericServiceSpec.module.scss'
 
@@ -80,6 +83,7 @@ const Content = (props: AmazonS3ContentProps): JSX.Element => {
   const { getString } = useStrings()
   const { expressions } = useVariablesExpression()
   const { getRBACErrorMessage } = useRBACError()
+  const { NG_SVC_ENV_REDESIGN } = useFeatureFlags()
 
   const isPropagatedStage = path?.includes('serviceConfig.stageOverrides')
   const fixedConnectorValue = defaultTo(
@@ -96,6 +100,10 @@ const Content = (props: AmazonS3ContentProps): JSX.Element => {
   )
 
   const [regions, setRegions] = React.useState<SelectOption[]>([])
+  const [lastQueryData, setLastQueryData] = React.useState({
+    connectorRef: '',
+    region: ''
+  })
 
   const {
     data: regionData,
@@ -157,10 +165,6 @@ const Content = (props: AmazonS3ContentProps): JSX.Element => {
     debounce: 300
   })
 
-  const fetchBuckets = (): void => {
-    refetchBuckets()
-  }
-
   const selectItems = useMemo(() => {
     return defaultTo(
       bucketData?.data?.map((bucket: BucketResponse) => ({
@@ -177,6 +181,42 @@ const Content = (props: AmazonS3ContentProps): JSX.Element => {
     }
     return defaultTo(selectItems, [])
   }, [loading, selectItems])
+
+  const canFetchBuckets = React.useCallback((): boolean => {
+    if (NG_SVC_ENV_REDESIGN) {
+      let shouldFetchBuckets = false
+      if (isFieldRuntime(`artifacts.${artifactPath}.spec.connectorRef`, template)) {
+        shouldFetchBuckets = !!(
+          lastQueryData.connectorRef !== fixedConnectorValue && shouldFetchTagsSource([fixedConnectorValue])
+        )
+      }
+      if (!shouldFetchBuckets && isFieldRuntime(`artifacts.${artifactPath}.spec.region`, template)) {
+        // Checking if fixedRegionValue is empty because region is not required to get buckets
+        if (!isEmpty(fixedRegionValue)) {
+          shouldFetchBuckets = !!(
+            lastQueryData.region !== fixedRegionValue && shouldFetchTagsSource([fixedRegionValue])
+          )
+        }
+      }
+      return shouldFetchBuckets || isNil(bucketData?.data)
+    } else {
+      return !!(
+        (lastQueryData.connectorRef != fixedConnectorValue || lastQueryData.region !== fixedRegionValue) &&
+        shouldFetchTagsSource([fixedConnectorValue])
+      )
+    }
+    return true
+  }, [NG_SVC_ENV_REDESIGN, template, lastQueryData, fixedConnectorValue, fixedRegionValue, bucketData?.data])
+
+  const fetchBuckets = React.useCallback((): void => {
+    if (canFetchBuckets()) {
+      setLastQueryData({
+        connectorRef: fixedConnectorValue,
+        region: fixedRegionValue
+      })
+      refetchBuckets()
+    }
+  }, [canFetchBuckets, refetchBuckets, fixedConnectorValue, fixedRegionValue])
 
   const isFieldDisabled = (fieldName: string, isBucket = false): boolean => {
     /* instanbul ignore else */
@@ -287,7 +327,7 @@ const Content = (props: AmazonS3ContentProps): JSX.Element => {
               label={getString('pipeline.manifestType.bucketName')}
               placeholder={loading ? getString('loading') : getString('pipeline.manifestType.bucketPlaceHolder')}
               name={`${path}.artifacts.${artifactPath}.spec.bucketName`}
-              disabled={(!fromTrigger && isFieldDisabled(`artifacts.${artifactPath}.spec.bucketName`, true)) || loading}
+              disabled={!fromTrigger && isFieldDisabled(`artifacts.${artifactPath}.spec.bucketName`, true)}
               helperText={
                 !get(formik, `values.${path}.artifacts.${artifactPath}.spec.connectorRef`)?.length &&
                 getMultiTypeFromValue(artifact?.spec?.connectorRef) === MultiTypeInputType.RUNTIME &&
@@ -307,20 +347,15 @@ const Content = (props: AmazonS3ContentProps): JSX.Element => {
                   items: getBuckets(),
                   allowCreatingNewItems: true
                 },
-                onFocus: () => {
+                onFocus: (e: React.FocusEvent<HTMLInputElement>) => {
+                  if (
+                    e?.target?.type !== 'text' ||
+                    (e?.target?.type === 'text' && e?.target?.placeholder === EXPRESSION_STRING)
+                  ) {
+                    return
+                  }
                   if (!loading) {
-                    if (isNewServiceEnvEntity(path as string)) {
-                      if (
-                        isFieldRuntime(`artifacts.${artifactPath}.spec.connectorRef`, template) &&
-                        !isEmpty(fixedConnectorValue)
-                      ) {
-                        fetchBuckets()
-                      } else if (!isFieldRuntime(`artifacts.${artifactPath}.spec.connectorRef`, template)) {
-                        fetchBuckets()
-                      }
-                    } else if (!isNewServiceEnvEntity(path as string) && !isEmpty(fixedConnectorValue)) {
-                      fetchBuckets()
-                    }
+                    fetchBuckets()
                   }
                 }
               }}

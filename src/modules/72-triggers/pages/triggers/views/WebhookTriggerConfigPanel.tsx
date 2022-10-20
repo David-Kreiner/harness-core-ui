@@ -15,6 +15,7 @@ import { NameIdDescriptionTags } from '@common/components'
 import { useStrings } from 'framework/strings'
 import { useFeatureFlag } from '@common/hooks/useFeatureFlag'
 import { FeatureFlag } from '@common/featureFlags'
+import WebhookSecretInputWithDialog from '@triggers/components/steps/WebhookTriggerConfigPanel/WebhookSecretInputWithDialog'
 import { GitSourceProviders, getSourceRepoOptions } from '../utils/TriggersListUtils'
 import {
   renderNonCustomEventFields,
@@ -137,18 +138,18 @@ const WebhookTriggerConfigPanel: React.FC<WebhookTriggerConfigPanelPropsInterfac
             items={getSourceRepoOptions(getString)}
             disabled={true}
           />
-          {sourceRepo !== GitSourceProviders.CUSTOM.value
-            ? renderNonCustomEventFields({
-                sourceRepo,
-                formikProps,
-                event,
-                eventOptions,
-                getString,
-                actionsOptions,
-                actions,
-                isGitWebhookPollingEnabled
-              })
-            : null}
+          {sourceRepo !== GitSourceProviders.CUSTOM.value &&
+            renderNonCustomEventFields({
+              sourceRepo,
+              formikProps,
+              event,
+              eventOptions,
+              getString,
+              actionsOptions,
+              actions,
+              isGitWebhookPollingEnabled
+            })}
+          {sourceRepo === GitSourceProviders.GITHUB.value && <WebhookSecretInputWithDialog formikProps={formikProps} />}
         </section>
       </div>
     </Layout.Vertical>

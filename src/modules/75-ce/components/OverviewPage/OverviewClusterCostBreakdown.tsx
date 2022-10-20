@@ -135,7 +135,7 @@ const OverviewClusterCostBreakdown = (props: ClusterCostBreakdownProps) => {
         <SustainabilityCard
           title={getString('ce.overview.sustainability.fromClusterTitle')}
           firstColValue={getEmissionsValue(totalCost.value || 0)}
-          firstColText={getString('ce.allClusters')}
+          firstColText={getString('common.allClusters')}
           secondColValue={getEmissionsValue(defaultTo(chartData[0]?.value, 0) + defaultTo(chartData[2]?.value, 0))}
           secondColText={getString('ce.overview.sustainability.idleAndUnallocatedClusters')}
         />

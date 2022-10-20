@@ -9,9 +9,7 @@ import React from 'react'
 
 import TriggerDetailsV1 from '@triggers/pages/trigger-details/TriggerDetails'
 import TriggersWizardPage from '@triggers/pages/triggers/TriggersWizardPage'
-
-import { useFeatureFlag } from '@common/hooks/useFeatureFlag'
-import { FeatureFlag } from '@common/featureFlags'
+import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
 
 import type { AbstractTriggerFactory } from '../../factory/AbstractTriggerFactory'
 import type { TriggerProps } from './Trigger'
@@ -29,11 +27,12 @@ export function TriggerWidget<T>({
   isNewTrigger,
   triggerData
 }: TriggerWidgetProps<T>): JSX.Element {
-  const isTriggersRefactor = useFeatureFlag(FeatureFlag.CD_TRIGGERS_REFACTOR)
+  const { NG_SVC_ENV_REDESIGN, CD_TRIGGERS_REFACTOR } = useFeatureFlags()
 
-  // isTriggersRefactor check can be removed once triggers refactoring is complete.
+  // CD_TRIGGERS_REFACTOR check can be removed once triggers refactoring is complete.
   // Until then it gives us the freedom to selectively render only those triggers that have been refactored.
-  const trigger = isTriggersRefactor && factory.getTrigger<T>(type)
+  // Show triggers V2 for NG_SVC_ENV_REDESIGN or CD_TRIGGERS_REFACTOR
+  const trigger = (NG_SVC_ENV_REDESIGN || CD_TRIGGERS_REFACTOR) && factory.getTrigger<T>(type)
 
   if (!trigger) {
     return (

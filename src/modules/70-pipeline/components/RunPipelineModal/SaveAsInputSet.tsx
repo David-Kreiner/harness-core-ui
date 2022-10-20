@@ -9,7 +9,7 @@ import React, { Dispatch, SetStateAction } from 'react'
 import { useParams } from 'react-router-dom'
 import * as Yup from 'yup'
 import type { FormikErrors } from 'formik'
-import { defaultTo, isUndefined, omit, omitBy, isNull } from 'lodash-es'
+import { defaultTo, isUndefined, omit, omitBy, isNull, set } from 'lodash-es'
 import type { MutateMethod } from 'restful-react'
 import { Button, ButtonVariation, Container, Formik, Layout, Popover } from '@wings-software/uicore'
 import { Classes } from '@blueprintjs/core'
@@ -238,6 +238,14 @@ function SaveAsInputSet({
         'filePath',
         'storeType'
       )
+
+      // This removes the pseudo fields set for handling multiple fields in the form at once
+      set(
+        inputSetObj,
+        'pipeline',
+        omitBy(inputSetObjWithGitInfo.pipeline, (_val, key) => key.startsWith('_'))
+      )
+
       setSavedInputSetObj(inputSetObj)
       setInitialGitDetails(gitDetails as EntityGitDetails)
       setInitialStoreMetadata(defaultTo(storeMetadata, {}))

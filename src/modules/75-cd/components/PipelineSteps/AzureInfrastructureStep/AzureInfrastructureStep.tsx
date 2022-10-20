@@ -133,20 +133,26 @@ const AzureInfrastructureSpecInputForm: React.FC<AzureInfrastructureSpecEditable
   const resetForm = (parent: string): void => {
     switch (parent) {
       case 'connectorRef':
-        set(initialValues, 'subscriptionId', '')
-        set(initialValues, 'resourceGroup', '')
-        set(initialValues, 'cluster', '')
+        resetInitialValuesField('subscriptionId')
+        resetInitialValuesField('resourceGroup')
+        resetInitialValuesField('cluster')
         onUpdate?.(initialValues)
         break
       case 'subscriptionId':
-        set(initialValues, 'resourceGroup', '')
-        set(initialValues, 'cluster', '')
+        resetInitialValuesField('resourceGroup')
+        resetInitialValuesField('cluster')
         onUpdate?.(initialValues)
         break
       case 'resourceGroup':
-        set(initialValues, 'cluster', '')
+        resetInitialValuesField('cluster')
         onUpdate?.(initialValues)
         break
+    }
+  }
+
+  const resetInitialValuesField = (field: string): void => {
+    if (initialValues[field]) {
+      initialValues[field] = ''
     }
   }
 
@@ -1478,6 +1484,9 @@ export class AzureInfrastructureSpec extends PipelineStep<AzureInfrastructureSpe
   renderStep(props: StepProps<K8sAzureInfrastructure>): JSX.Element {
     const { initialValues, onUpdate, stepViewType, inputSetData, customStepProps, readonly, allowableTypes } = props
     if (this.isTemplatizedView(stepViewType)) {
+      if (initialValues?.deploymentType) {
+        delete initialValues.deploymentType
+      }
       return (
         <AzureInfrastructureSpecInputForm
           {...(customStepProps as AzureInfrastructureSpecEditableProps)}

@@ -213,7 +213,7 @@ export class ShellScriptStep extends PipelineStep<ShellScriptData> {
   protected stepIconColor = Color.GREY_700
   protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.SHELLSCRIPT'
   protected referenceId = 'shellScriptHelpPanel'
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
   protected invocationMap: Map<
     RegExp,
     (path: string, yaml: string, params: Record<string, unknown>) => Promise<CompletionItemInterface[]>

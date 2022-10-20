@@ -34,7 +34,7 @@ export class ServiceNowUpdate extends PipelineStep<ServiceNowUpdateData> {
   }
 
   protected referenceId = 'serviceNowUpdateStep'
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
   protected type = StepType.ServiceNowUpdate
   protected stepName = 'ServiceNow Update'
   protected stepIcon: IconName = 'servicenow-update'

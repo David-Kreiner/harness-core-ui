@@ -7,7 +7,7 @@
 
 import React from 'react'
 import { deleteDB, IDBPDatabase, openDB } from 'idb'
-import { cloneDeep, defaultTo, get, isEmpty, isEqual, isNil, omit, pick, merge, map } from 'lodash-es'
+import { cloneDeep, defaultTo, get, isEmpty, isEqual, isNil, omit, pick, merge, map, omitBy } from 'lodash-es'
 import {
   AllowedTypes,
   AllowedTypesWithRunTime,
@@ -61,6 +61,7 @@ import {
 } from '@pipeline/utils/templateUtils'
 import { StoreMetadata, StoreType } from '@common/constants/GitSyncTypes'
 import type { Pipeline } from '@pipeline/utils/types'
+import { useAppStore } from 'framework/AppStore/AppStoreContext'
 import {
   ActionReturnType,
   DefaultNewPipelineId,
@@ -344,6 +345,8 @@ export interface FetchPipelineBoundProps {
   queryParams: GetPipelineQueryParams
   pipelineIdentifier: string
   gitDetails: EntityGitDetails
+  storeMetadata?: StoreMetadata
+  supportingTemplatesGitx?: boolean
 }
 
 export interface FetchPipelineUnboundProps {
@@ -385,7 +388,12 @@ const getResolvedCustomDeploymentDetailsMap = (pipeline: PipelineInfoConfig, que
   )
 }
 
-const getTemplateType = (pipeline: PipelineInfoConfig, queryParams: GetPipelineQueryParams) => {
+const getTemplateType = (
+  pipeline: PipelineInfoConfig,
+  queryParams: GetPipelineQueryParams,
+  storeMetadata?: StoreMetadata,
+  supportingTemplatesGitx?: boolean
+) => {
   const templateRefs = findAllByKey('templateRef', pipeline)
   return getTemplateTypesByRef(
     {
@@ -397,7 +405,9 @@ const getTemplateType = (pipeline: PipelineInfoConfig, queryParams: GetPipelineQ
       branch: queryParams.branch,
       getDefaultFromOtherRepo: true
     },
-    templateRefs
+    templateRefs,
+    storeMetadata,
+    supportingTemplatesGitx
   )
 }
 
@@ -406,7 +416,14 @@ const getRepoIdentifierName = (gitDetails?: EntityGitDetails) => {
 }
 
 const _fetchPipeline = async (props: FetchPipelineBoundProps, params: FetchPipelineUnboundProps): Promise<void> => {
-  const { dispatch, queryParams, pipelineIdentifier: identifier, gitDetails } = props
+  const {
+    dispatch,
+    queryParams,
+    pipelineIdentifier: identifier,
+    gitDetails,
+    supportingTemplatesGitx,
+    storeMetadata
+  } = props
   const { forceFetch = false, forceUpdate = false, newPipelineId, signal, repoIdentifier, branch } = params
   const pipelineId = defaultTo(newPipelineId, identifier)
   let id = getId(
@@ -534,7 +551,7 @@ const _fetchPipeline = async (props: FetchPipelineBoundProps, params: FetchPipel
     }
     if (data && !forceUpdate) {
       const { templateTypes, templateServiceData } = data.pipeline
-        ? await getTemplateType(data.pipeline, templateQueryParams)
+        ? await getTemplateType(data.pipeline, templateQueryParams, storeMetadata, supportingTemplatesGitx)
         : { templateTypes: {}, templateServiceData: {} }
 
       const { resolvedCustomDeploymentDetailsByRef } = data.pipeline
@@ -574,7 +591,12 @@ const _fetchPipeline = async (props: FetchPipelineBoundProps, params: FetchPipel
       } catch (_) {
         logger.info(DBNotFoundErrorMessage)
       }
-      const { templateTypes, templateServiceData } = await getTemplateType(pipeline, templateQueryParams)
+      const { templateTypes, templateServiceData } = await getTemplateType(
+        pipeline,
+        templateQueryParams,
+        storeMetadata,
+        supportingTemplatesGitx
+      )
       const { resolvedCustomDeploymentDetailsByRef } = await getResolvedCustomDeploymentDetailsMap(
         pipeline,
         templateQueryParams
@@ -1014,6 +1036,7 @@ export function PipelineProvider({
   ]
   const { repoIdentifier, branch } = useQueryParams<GitQueryParams>()
   const abortControllerRef = React.useRef<AbortController | null>(null)
+  const { supportingTemplatesGitx } = useAppStore()
   const isMounted = React.useRef(false)
   const [state, dispatch] = React.useReducer(
     PipelineReducer,
@@ -1043,7 +1066,9 @@ export function PipelineProvider({
     gitDetails: {
       repoIdentifier,
       branch
-    }
+    },
+    storeMetadata: state.storeMetadata,
+    supportingTemplatesGitx
   })
 
   const updatePipelineStoreMetadata = _updateStoreMetadata.bind(null, {
@@ -1161,7 +1186,9 @@ export function PipelineProvider({
         branch: state.gitDetails.branch,
         getDefaultFromOtherRepo: true
       },
-      templateRefs
+      templateRefs,
+      state.storeMetadata,
+      supportingTemplatesGitx
     ).then(({ templateTypes, templateServiceData }) => {
       setTemplateTypes(merge(state.templateTypes, templateTypes))
       setTemplateServiceData(merge(state.templateServiceData, templateServiceData))
@@ -1233,7 +1260,8 @@ export function PipelineProvider({
       function _updateStages(stages: StageElementWrapperConfig[]): StageElementWrapperConfig[] {
         return stages.map(node => {
           if (node.stage?.identifier === newStage.identifier) {
-            return { stage: newStage }
+            // This omitBy condition is required to remove any pseudo fields used in the stage
+            return { stage: omitBy(newStage, (_val, key) => key.startsWith('_')) as StageElementConfig }
           } else if (node.parallel) {
             return {
               parallel: _updateStages(node.parallel)

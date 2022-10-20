@@ -281,7 +281,7 @@ describe('Deploy service stage specifications', () => {
   test('when deploymentType is ECS, ECS related UI should appear', async () => {
     getOverrideContextValue().state.selectionState.selectedStageId = 'st1'
     const { findAllByText, getByText, getAllByText } = render(
-      <TestWrapper defaultFeatureFlagValues={{ ECS_NG: true }}>
+      <TestWrapper defaultFeatureFlagValues={{ NG_SVC_ENV_REDESIGN: true }}>
         <PipelineContext.Provider value={getOverrideContextValue()}>
           <DeployServiceSpecifications setDefaultServiceSchema={setDefaultServiceSchema}>
             {mockchildren}

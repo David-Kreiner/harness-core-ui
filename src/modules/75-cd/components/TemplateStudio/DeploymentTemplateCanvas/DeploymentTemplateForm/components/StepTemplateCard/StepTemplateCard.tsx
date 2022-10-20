@@ -80,7 +80,7 @@ export function StepTemplateCard(props: StepTemplateCardProps): React.ReactEleme
   )
 
   return (
-    <Layout.Vertical spacing="small">
+    <Layout.Vertical spacing="small" flex={{ alignItems: 'center' }}>
       <Card
         interactive={!isNil(step)}
         selected={false}
@@ -104,9 +104,11 @@ export function StepTemplateCard(props: StepTemplateCardProps): React.ReactEleme
           <Icon name={step.getIconName?.()} size={defaultTo(step.getIconSize?.(), 25)} color={step.getIconColor?.()} />
         ) : null}
       </Card>
-      <Text lineClamp={1} className={css.stepTemplateCardText} width={64} font="small" color={Color.GREY_600}>
-        {templateDetails?.name || templateRef}
-      </Text>
+      <div className={css.stepTemplateCardText}>
+        <Text width={100} font={{ size: 'small', align: 'center' }} lineClamp={3} color={Color.GREY_600}>
+          {templateDetails?.name || templateRef}
+        </Text>
+      </div>
     </Layout.Vertical>
   )
 }

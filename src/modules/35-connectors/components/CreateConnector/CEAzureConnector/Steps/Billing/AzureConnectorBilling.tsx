@@ -56,12 +56,13 @@ const BillingExport: React.FC<StepProps<CEAzureDTO>> = props => {
     const nextStepData: CEAzureDTO = {
       ...((prevStepData || {}) as CEAzureDTO),
       spec: {
-        ...((prevStepData?.spec || {}) as CEAzureConnector),
-        billingExportSpec: { ...formData }
+        ...((prevStepData?.spec || {}) as CEAzureConnector)
       }
     }
 
     if (showBillingExportForm) {
+      nextStepData.spec.billingExportSpec = { ...formData }
+
       const features = [...(prevStepData!.spec?.featuresEnabled || [])]
       if (!features.includes('BILLING')) {
         nextStepData.spec.featuresEnabled = features.concat('BILLING')
@@ -114,7 +115,11 @@ const BillingExport: React.FC<StepProps<CEAzureDTO>> = props => {
         <Layout.Vertical className={css.existingReportsWrapper}>
           <ShowExistingBillingExports existingBillingExports={prevStepData?.existingBillingExports || []} />
           <ul>
-            <li className={css.hintsLineItem}>{getString('connectors.ceAzure.existingExports.hints.nextStepHint1')}</li>
+            <li className={css.hintsLineItem}>
+              {getString('connectors.ceAzure.existingExports.hints.nextStepHint1', {
+                subscriptionId: prevStepData?.spec.subscriptionId
+              })}
+            </li>
             <li className={css.hintsLineItem}>
               {getString('connectors.ceAzure.existingExports.hints.nextStepHint2')}
               <Button

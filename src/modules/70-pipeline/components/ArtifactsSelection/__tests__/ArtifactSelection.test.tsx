@@ -598,7 +598,7 @@ describe('ArtifactsSelection tests', () => {
     const { container } = render(
       <TestWrapper
         defaultAppStoreValues={{
-          featureFlags: { ECS_NG: true, CUSTOM_ARTIFACT_NG: true }
+          featureFlags: { NG_SVC_ENV_REDESIGN: true, CUSTOM_ARTIFACT_NG: true }
         }}
       >
         <PipelineContext.Provider value={context}>
@@ -628,7 +628,7 @@ describe('ArtifactsSelection tests', () => {
     const { container } = render(
       <TestWrapper
         defaultAppStoreValues={{
-          featureFlags: { ECS_NG: true, CUSTOM_ARTIFACT_NG: true }
+          featureFlags: { NG_SVC_ENV_REDESIGN: true, CUSTOM_ARTIFACT_NG: true }
         }}
       >
         <PipelineContext.Provider value={context}>

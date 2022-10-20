@@ -29,6 +29,7 @@ import PipelineStageNode from '@pipeline/components/PipelineDiagram/Nodes/Defaul
 import { DiamondNodeWidget } from '@pipeline/components/PipelineDiagram/Nodes/DiamondNode/DiamondNode'
 import EndNodeStage from '@pipeline/components/PipelineDiagram/Nodes/EndNode/EndNodeStage'
 import StartNodeStage from '@pipeline/components/PipelineDiagram/Nodes/StartNode/StartNodeStage'
+import { useAppStore } from 'framework/AppStore/AppStoreContext'
 import css from './TemplatePipelineCanvas.module.scss'
 
 export function TemplatePipelineCanvas(): React.ReactElement {
@@ -42,6 +43,7 @@ export function TemplatePipelineCanvas(): React.ReactElement {
   const [resolvedPipeline, setResolvedPipeline] = React.useState<PipelineInfoConfig>()
   const templateScope = getScopeFromValue(defaultTo(pipeline.template?.templateRef, ''))
   const queryParams = useParams<ProjectPathProps>()
+  const { supportingTemplatesGitx } = useAppStore()
 
   const diagram = new DiagramFactory('graph')
   const CDPipelineStudioNew = diagram.render()
@@ -89,7 +91,9 @@ export function TemplatePipelineCanvas(): React.ReactElement {
         branch: gitDetails.branch,
         getDefaultFromOtherRepo: true
       },
-      templateRefs
+      templateRefs,
+      storeMetadata,
+      supportingTemplatesGitx
     ).then(resp => {
       setTemplateTypes(merge(templateTypes, resp.templateTypes))
       setTemplateServiceData(merge(templateServiceData, resp.templateServiceData))

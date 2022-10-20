@@ -1,0 +1,368 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Freeze Window Studio Sub Header it should render CreateNewFreezeWindow, when windowIdentifier is "-1": CreateNewFreezeWindow Modal Dialog 1`] = `
+<div
+  class="bp3-dialog"
+>
+  <div
+    class="bp3-dialog-header"
+  >
+    <h4
+      class="bp3-heading"
+    >
+      <div
+        class="StyledProps--font StyledProps--main StyledProps--padding-left-xlarge StyledProps--padding-top-xlarge"
+      >
+        <p
+          class="StyledProps--font StyledProps--main StyledProps--font-variation-h3 StyledProps--color StyledProps--color-grey800"
+        >
+          freezeWindows.freezeWindowsPage.editFreezeWindow
+        </p>
+      </div>
+    </h4>
+    <button
+      aria-label="Close"
+      class="bp3-button bp3-minimal bp3-dialog-close-button"
+      type="button"
+    >
+      <span
+        class="bp3-icon bp3-icon-small-cross"
+        icon="small-cross"
+      >
+        <svg
+          data-icon="small-cross"
+          height="20"
+          viewBox="0 0 20 20"
+          width="20"
+        >
+          <desc>
+            small-cross
+          </desc>
+          <path
+            d="M11.41 10l3.29-3.29c.19-.18.3-.43.3-.71a1.003 1.003 0 00-1.71-.71L10 8.59l-3.29-3.3a1.003 1.003 0 00-1.42 1.42L8.59 10 5.3 13.29c-.19.18-.3.43-.3.71a1.003 1.003 0 001.71.71l3.29-3.3 3.29 3.29c.18.19.43.3.71.3a1.003 1.003 0 00.71-1.71L11.41 10z"
+            fill-rule="evenodd"
+          />
+        </svg>
+      </span>
+    </button>
+  </div>
+  <div
+    class="OverlaySpinner--overlaySpinner"
+  >
+    <form
+      action="#"
+      class="FormikForm--main createNewFreezeForm"
+    >
+      <div>
+        <div
+          class="StyledProps--font StyledProps--main StyledProps--padding-top-small StyledProps--padding-right-xxlarge StyledProps--padding-bottom-xxlarge StyledProps--padding-left-xxlarge"
+        >
+          <div
+            class="StyledProps--font StyledProps--main main"
+          >
+            <div
+              class="InputWithIdentifier--txtNameContainer TextInput--main"
+            >
+              <div
+                class="Layout--horizontal Layout--layout-spacing-xsmall StyledProps--main InputWithIdentifier--txtIdContainer"
+              >
+                <div
+                  class="Text--withDocsTooltip"
+                  data-tooltip-id="universalInputNameWithId"
+                >
+                  <p
+                    class="StyledProps--font StyledProps--main"
+                  >
+                    Id
+                  </p>
+                </div>
+                <p
+                  class="StyledProps--font StyledProps--main"
+                >
+                  :
+                </p>
+                <span
+                  class="bp3-popover-wrapper"
+                >
+                  <span
+                    class="bp3-popover-target"
+                  >
+                    <div
+                      class="bp3-editable-text bp3-disabled bp3-editable-text-placeholder InputWithIdentifier--idValue"
+                    >
+                      <span
+                        class="bp3-editable-text-content"
+                        style="height: 1px; line-height: 1px; min-width: 0;"
+                      />
+                    </div>
+                  </span>
+                </span>
+              </div>
+              <div
+                class="bp3-form-group"
+                data-id="name-0"
+              >
+                <label
+                  class="bp3-label"
+                  for="name"
+                >
+                  <span
+                    class="Tooltip--acenter"
+                    data-tooltip-id="createNewFreezeWindow_name"
+                  >
+                    name
+                  </span>
+                   
+                  <span
+                    class="bp3-text-muted"
+                  />
+                </label>
+                <div
+                  class="bp3-form-content"
+                >
+                  <div
+                    class="bp3-input-group"
+                  >
+                    <input
+                      autocomplete="off"
+                      class="bp3-input"
+                      name="name"
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="StyledProps--font StyledProps--main"
+            >
+              <label
+                class="Label--main bp3-label descriptionLabel"
+              >
+                optionalField
+                <span
+                  class="bp3-icon StyledProps--main editOpen"
+                  data-icon="Edit"
+                  data-name="edit"
+                  data-testid="description-edit"
+                >
+                  <svg
+                    height="12"
+                    viewBox="0 0 16 16"
+                    width="12"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M11.207.485a.5.5 0 01.354-.146 3.5 3.5 0 013.5 3.5.5.5 0 01-.146.353l-11 11a.5.5 0 01-.354.147h-3a.5.5 0 01-.5-.5v-3a.5.5 0 01.146-.354l11-11zm.553.862L1.061 12.046v2.293h2.293l10.7-10.7a2.5 2.5 0 00-2.294-2.292z"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M11.89 2.646a.5.5 0 010 .708L8.353 6.889a.5.5 0 01-.708-.707l3.536-3.536a.5.5 0 01.707 0z"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                      opacity="0.3"
+                    />
+                  </svg>
+                </span>
+              </label>
+            </div>
+            <div
+              class="StyledProps--font StyledProps--main"
+            >
+              <label
+                class="Label--main bp3-label descriptionLabel"
+              >
+                optionalField
+                <span
+                  class="bp3-icon StyledProps--main editOpen"
+                  data-icon="Edit"
+                  data-name="edit"
+                  data-testid="tags-edit"
+                >
+                  <svg
+                    height="12"
+                    viewBox="0 0 16 16"
+                    width="12"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M11.207.485a.5.5 0 01.354-.146 3.5 3.5 0 013.5 3.5.5.5 0 01-.146.353l-11 11a.5.5 0 01-.354.147h-3a.5.5 0 01-.5-.5v-3a.5.5 0 01.146-.354l11-11zm.553.862L1.061 12.046v2.293h2.293l10.7-10.7a2.5 2.5 0 00-2.294-2.292z"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M11.89 2.646a.5.5 0 010 .708L8.353 6.889a.5.5 0 01-.708-.707l3.536-3.536a.5.5 0 01.707 0z"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                      opacity="0.3"
+                    />
+                  </svg>
+                </span>
+              </label>
+            </div>
+          </div>
+          <div
+            class="Layout--horizontal Layout--layout-spacing-small StyledProps--main StyledProps--margin-top-xxlarge"
+          >
+            <button
+              class="bp3-button Button--button StyledProps--font StyledProps--main Button--with-current-color Button--variation Button--variation-primary"
+              type="submit"
+            >
+              <span
+                class="bp3-button-text"
+              >
+                start
+              </span>
+            </button>
+            <button
+              class="bp3-button Button--button StyledProps--font StyledProps--main Button--with-current-color Button--variation Button--variation-secondary"
+              type="button"
+            >
+              <span
+                class="bp3-button-text"
+              >
+                cancel
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`Freeze Window Studio Sub Header it should render CreateNewFreezeWindow, when windowIdentifier is "-1": Freeze Window Sub Header 1`] = `
+<div>
+  <div
+    class="StyledProps--font StyledProps--main subHeader StyledProps--padding-right-xlarge StyledProps--padding-left-xlarge StyledProps--border StyledProps--border-bottom StyledProps--border-color-grey200 StyledProps--background-white"
+    style="height: 49px;"
+  >
+    <div
+      class="Layout--horizontal StyledProps--main StyledProps--flex StyledProps--flex-alignItems-center StyledProps--flex-justifyContent-space-between"
+      style="height: 100%;"
+    >
+      <div
+        class="Layout--horizontal StyledProps--main freezeNameContainer StyledProps--flex StyledProps--flex-alignItems-center"
+      >
+        <label
+          class="bp3-control bp3-switch freezeToggler"
+        >
+          <input
+            aria-label="Toggle freeze"
+            type="checkbox"
+          />
+          <span
+            class="bp3-control-indicator"
+          />
+        </label>
+        <p
+          class="StyledProps--font Text--lineclamp StyledProps--main freezeName"
+          style="--text-line-clamp: 1;"
+        />
+        <button
+          class="bp3-button Button--button StyledProps--font StyledProps--main Button--with-current-color Button--iconOnly Button--withLeftIcon Button--variation Button--variation-icon"
+          type="button"
+        >
+          <span
+            class="bp3-icon StyledProps--main"
+            data-icon="Edit"
+          >
+            <svg
+              height="16"
+              viewBox="0 0 16 16"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M11.207.485a.5.5 0 01.354-.146 3.5 3.5 0 013.5 3.5.5.5 0 01-.146.353l-11 11a.5.5 0 01-.354.147h-3a.5.5 0 01-.5-.5v-3a.5.5 0 01.146-.354l11-11zm.553.862L1.061 12.046v2.293h2.293l10.7-10.7a2.5 2.5 0 00-2.294-2.292z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+              <path
+                clip-rule="evenodd"
+                d="M11.89 2.646a.5.5 0 010 .708L8.353 6.889a.5.5 0 01-.708-.707l3.536-3.536a.5.5 0 01.707 0z"
+                fill="currentColor"
+                fill-rule="evenodd"
+                opacity="0.3"
+              />
+            </svg>
+          </span>
+        </button>
+      </div>
+      <div
+        class="StyledProps--font StyledProps--main"
+      >
+        <div
+          class="PillToggle--optionBtns visualYamlToggle"
+        >
+          <div
+            class="PillToggle--item PillToggle--selected"
+            data-name="toggle-option-one"
+            role="button"
+            tabindex="0"
+          >
+            VISUAL
+          </div>
+          <div
+            class="PillToggle--item"
+            data-name="toggle-option-two"
+            role="button"
+            tabindex="0"
+          >
+            YAML
+          </div>
+        </div>
+      </div>
+      <div
+        style="display: flex; align-items: center;"
+      >
+        <div
+          class="headerSaveBtnWrapper"
+        >
+          <button
+            class="bp3-button bp3-disabled Button--button StyledProps--font StyledProps--main Button--with-current-color Button--withLeftIcon Button--variation Button--variation-primary"
+            disabled=""
+            tabindex="-1"
+            type="button"
+          >
+            <span
+              class="bp3-icon StyledProps--main StyledProps--padding-right-xsmall"
+              data-icon="send-data"
+            >
+              <svg
+                fill="none"
+                height="16"
+                viewBox="0 0 9 12"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M3.533 5.013L2.279 6.301a.653.653 0 01-.94 0 .696.696 0 010-.966l2.394-2.46a.655.655 0 01.94 0l2.394 2.46c.127.13.194.302.194.48a.7.7 0 01-.194.48.655.655 0 01-.94 0l-1.26-1.282v5.94c0 .377-.3.686-.668.686a.678.678 0 01-.666-.685v-5.94z"
+                  fill="#25A6F7"
+                />
+                <path
+                  d="M.5.775h7.005v.2H.5v-.2z"
+                  stroke="#25A6F7"
+                />
+              </svg>
+            </span>
+            <span
+              class="bp3-button-text"
+            >
+              save
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

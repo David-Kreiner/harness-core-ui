@@ -12,21 +12,19 @@ import { Color, FontVariation, Layout, Switch, Text, VisualYamlSelectedView as S
 import { useStrings } from 'framework/strings'
 
 interface TitleWithSwitchProps {
-  isNewTrigger: boolean
   isTriggerRbacDisabled: boolean
   selectedView: SelectedView
   enabledStatus: boolean
   setEnabledStatus: (enabledStatus: boolean) => void
-  triggerName?: string
+  triggerHeading: string
 }
 
 export default function TitleWithSwitch({
-  isNewTrigger,
+  triggerHeading,
   isTriggerRbacDisabled,
   selectedView,
   enabledStatus,
-  setEnabledStatus,
-  triggerName
+  setEnabledStatus
 }: TitleWithSwitchProps): JSX.Element {
   const { getString } = useStrings()
 
@@ -46,7 +44,7 @@ export default function TitleWithSwitch({
         padding={{ right: 'small' }}
         lineClamp={1}
       >
-        {isNewTrigger ? getString('triggers.onNewWebhookTitle') : `Trigger: ${triggerName}`}
+        {triggerHeading}
       </Text>
       {selectedView !== SelectedView.YAML && (
         <Switch

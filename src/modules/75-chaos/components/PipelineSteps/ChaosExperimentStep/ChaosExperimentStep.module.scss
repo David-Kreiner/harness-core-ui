@@ -1,0 +1,26 @@
+/*
+ * Copyright 2022 Harness Inc. All rights reserved.
+ * Use of this source code is governed by the PolyForm Shield 1.0.0 license
+ * that can be found in the licenses directory at the root of this repository, also available at
+ * https://polyformproject.org/wp-content/uploads/2020/06/PolyForm-Shield-1.0.0.txt.
+ */
+
+.chaosExperimentStep {
+  #chaosExperimentReferenceField {
+    background: var(--white);
+    justify-content: space-between;
+    border: 1px solid var(--bp3-intent-color, var(--grey-200));
+    padding: 0 10px;
+    border-radius: var(--spacing-2);
+    width: 100%;
+
+    &:hover {
+      border-color: var(--primary-6);
+    }
+  }
+
+  .expectedResilienceScoreField {
+    margin: 16px 0;
+    width: 100%;
+  }
+}

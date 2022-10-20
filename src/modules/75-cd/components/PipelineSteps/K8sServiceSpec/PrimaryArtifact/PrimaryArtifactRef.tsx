@@ -102,7 +102,8 @@ function PrimaryArtifactRef({
     }
     const sourceIdentifierToSourceInputMap = get(
       artifactSourceResponse?.data?.sourceIdentifierToSourceInputMap,
-      `${value.value as string}`
+      value?.value as string,
+      ''
     )
 
     if (sourceIdentifierToSourceInputMap) {

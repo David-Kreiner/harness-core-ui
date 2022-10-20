@@ -9,5 +9,6 @@
 declare const styles: {
   readonly marginTop: string
   readonly matrixLabel: string
+  readonly multiSvcEnv: string
 }
 export default styles

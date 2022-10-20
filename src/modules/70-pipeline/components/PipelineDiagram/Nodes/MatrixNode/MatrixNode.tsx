@@ -11,7 +11,7 @@ import { Icon, Layout, Text, Button, ButtonVariation } from '@wings-software/uic
 import { Color } from '@harness/design-system'
 import { debounce, defaultTo, get, isEmpty } from 'lodash-es'
 import { Event, DiagramDrag, DiagramType } from '@pipeline/components/Diagram'
-import { STATIC_SERVICE_GROUP_NAME } from '@pipeline/utils/executionUtils'
+import { isMultiSvcOrMultiEnv, STATIC_SERVICE_GROUP_NAME } from '@pipeline/utils/executionUtils'
 import { useStrings } from 'framework/strings'
 import { usePipelineContext } from '@pipeline/components/PipelineStudio/PipelineContext/PipelineContext'
 import { useValidationErrors } from '@pipeline/components/PipelineStudio/PiplineHooks/useValidationErrors'
@@ -85,6 +85,17 @@ export function MatrixNode(props: any): JSX.Element {
   const defaultNode = props.getDefaultNode()?.component
   const { selectedStageExecutionId } = useExecutionContext()
   const isNestedStepGroup = Boolean(get(props, 'data.step.data.isNestedGroup'))
+  const subType = get(props, 'data.data.moduleInfo.stepParameters.subType')
+  const numOfServices = get(
+    props,
+    'data.data.moduleInfo.stepParameters.services.values.__encodedValue.valueDoc.value.length',
+    1
+  )
+  const numOfEnvironment = get(
+    props,
+    'data.data.moduleInfo.stepParameters.environments.values.__encodedValue.valueDoc.value.length',
+    1
+  )
   const updateTreeRect = (): void => {
     const treeContainer = document.getElementById('tree-container')
     const rectBoundary = treeContainer?.getBoundingClientRect()
@@ -172,10 +183,19 @@ export function MatrixNode(props: any): JSX.Element {
           className={cx(css.matrixNode, {
             [css.firstnode]: !props?.isParallelNode,
             [css.marginBottom]: props?.isParallelNode,
-            [css.nestedGroup]: isNestedStepGroup
+            [css.nestedGroup]: isNestedStepGroup,
+            [css.multiSvcEnv]: isMultiSvcOrMultiEnv(subType)
           })}
         >
-          <MatrixNodeLabelWrapper isParallelNode={props?.isParallelNode} nodeType={props?.data?.nodeType} />
+          <MatrixNodeLabelWrapper
+            isParallelNode={props?.isParallelNode}
+            nodeType={
+              isMultiSvcOrMultiEnv(subType)
+                ? getString('pipeline.numOfServicesAndEnv', { numOfServices, numOfEnvironment })
+                : props?.data?.nodeType
+            }
+            subType={subType}
+          />
           <div id={props?.id} className={css.horizontalBar}></div>
           {props.data?.skipCondition && (
             <div className={css.conditional}>

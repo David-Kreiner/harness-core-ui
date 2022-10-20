@@ -169,6 +169,9 @@ export function CustomVariablesEditableStage(props: CustomVariableEditableProps)
                     }
                     const key = uids.current[index]
                     const yamlData = yamlProperties?.[index] || {}
+                    if (!variable) {
+                      return null
+                    }
 
                     return (
                       <div key={key} className={cx(css.tableRow, 'variablesTableRow')}>

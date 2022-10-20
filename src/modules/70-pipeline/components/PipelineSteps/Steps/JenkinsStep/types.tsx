@@ -29,7 +29,7 @@ export interface JenkinsStepSpec {
   jobParameter: jobParameterInterface[] | string
   delegateSelectors: string[]
   unstableStatusAsSuccess?: boolean
-  captureEnvironmentVariable?: boolean
+  useConnectorUrlForJobExecution?: boolean
 }
 
 export interface JenkinsStepData {

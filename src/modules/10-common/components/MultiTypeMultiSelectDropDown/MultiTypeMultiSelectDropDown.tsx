@@ -24,7 +24,7 @@ import {
   Layout,
   Container
 } from '@harness/uicore'
-import { get } from 'lodash-es'
+import { get, isEqual } from 'lodash-es'
 import cx from 'classnames'
 
 import { ConfigureOptions } from '@common/components/ConfigureOptions/ConfigureOptions'
@@ -55,7 +55,10 @@ export function MultiSelectDropDownFixed(props: MultiSelectDropDownFixedProps): 
   }
 
   function handleChange(opts: MultiSelectOption[]): void {
-    onChange?.(opts as SelectOption[], MultiTypeInputValue.MULTI_SELECT_OPTION, MultiTypeInputType.FIXED)
+    // only call the onChange function if the selected options have changed
+    if (!isEqual(opts, value)) {
+      onChange?.(opts as SelectOption[], MultiTypeInputValue.MULTI_SELECT_OPTION, MultiTypeInputType.FIXED)
+    }
     rest.onPopoverClose?.(opts)
   }
 

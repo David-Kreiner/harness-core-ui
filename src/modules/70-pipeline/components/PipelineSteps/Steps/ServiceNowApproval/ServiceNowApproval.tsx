@@ -52,7 +52,7 @@ export class ServiceNowApproval extends PipelineStep<ServiceNowApprovalData> {
     RegExp,
     (path: string, yaml: string, params: Record<string, unknown>) => Promise<CompletionItemInterface[]>
   > = new Map()
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
   protected type = StepType.ServiceNowApproval
   protected stepName = 'ServiceNow Approval'
   protected stepIcon: IconName = 'servicenow-approve'

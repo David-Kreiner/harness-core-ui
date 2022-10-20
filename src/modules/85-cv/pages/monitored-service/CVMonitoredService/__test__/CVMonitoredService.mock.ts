@@ -75,7 +75,8 @@ const MSListContent: MonitoredServiceListItemDTO[] = [
     historicalTrend: {
       healthScores: [{ riskStatus: RiskValues.NO_DATA }]
     },
-    currentHealthScore: { riskStatus: RiskValues.HEALTHY, healthScore: 100 }
+    currentHealthScore: { riskStatus: RiskValues.HEALTHY, healthScore: 100 },
+    tags: { hi: '', new: '', yes: '', again: '', now: '', why: '' }
   },
   {
     name: 'Monitoring service 102 new',
@@ -89,7 +90,8 @@ const MSListContent: MonitoredServiceListItemDTO[] = [
     historicalTrend: {
       healthScores: [{ riskStatus: RiskValues.NO_DATA }]
     },
-    currentHealthScore: { riskStatus: RiskValues.NEED_ATTENTION, healthScore: 40 }
+    currentHealthScore: { riskStatus: RiskValues.NEED_ATTENTION, healthScore: 40 },
+    tags: {}
   },
   {
     name: 'new monitored service 101',
@@ -103,7 +105,8 @@ const MSListContent: MonitoredServiceListItemDTO[] = [
     historicalTrend: {
       healthScores: [{ riskStatus: RiskValues.NO_DATA }]
     },
-    currentHealthScore: { riskStatus: RiskValues.UNHEALTHY, healthScore: 10 }
+    currentHealthScore: { riskStatus: RiskValues.UNHEALTHY, healthScore: 10 },
+    tags: {}
   }
 ]
 

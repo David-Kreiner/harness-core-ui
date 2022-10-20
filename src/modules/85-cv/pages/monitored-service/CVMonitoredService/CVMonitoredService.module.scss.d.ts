@@ -18,6 +18,7 @@ declare const styles: {
   readonly noServiceAvailableImage: string
   readonly pageBody: string
   readonly pageContainer: string
+  readonly tags: string
   readonly tagsText: string
 }
 export default styles

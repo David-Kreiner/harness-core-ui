@@ -86,7 +86,13 @@ const WinRmAuthFormFields: React.FC<WinRmAuthFormFieldsProps> = props => {
           <FormInput.Text name="principal" label={getString('secrets.sshAuthFormFields.labelPrincipal')} />
           <FormInput.Text name="realm" label={getString('secrets.sshAuthFormFields.labelRealm')} />
           <Layout.Horizontal margin={{ bottom: 'medium' }} flex>
-            <FormInput.CheckBox name="useSSL" label={getString('common.useSSL')} />
+            <FormInput.CheckBox
+              name="useSSL"
+              label={getString('common.useSSL')}
+              onChange={event => {
+                event.currentTarget.checked ? formik.setFieldValue('port', 5986) : formik.setFieldValue('port', 5985)
+              }}
+            />
             <FormInput.CheckBox name="skipCertChecks" label={getString('secrets.winRmAuthFormFields.skipCertCheck')} />
             <FormInput.CheckBox name="useNoProfile" label={getString('secrets.winRmAuthFormFields.useNoProfile')} />
           </Layout.Horizontal>

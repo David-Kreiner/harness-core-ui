@@ -1243,3 +1243,7 @@ export const processForCIData = ({
 
   return newNodeMap
 }
+
+export function isMultiSvcOrMultiEnv(type?: string): boolean {
+  return !!type && ['MULTI_SERVICE_DEPLOYMENT', 'MULTI_ENV_DEPLOYMENT', 'MULTI_SERVICE_ENV_DEPLOYMENT'].includes(type)
+}

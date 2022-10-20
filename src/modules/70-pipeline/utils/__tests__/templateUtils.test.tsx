@@ -15,6 +15,37 @@ import { replaceDefaultValues } from '../templateUtils'
 
 jest.mock('uuid')
 
+const mockYaml =
+  'template:\n  name: testTemplate123\n  identifier: testTemplate123\n  versionLabel: v1\n  type: Stage\n  projectIdentifier: Depanshu_gitx\n  orgIdentifier: default\n  tags: {}\n  spec:\n    type: Custom\n    spec:\n      execution:\n        steps:\n          - step:\n              name: vcxvv\n              identifier: vcxvv\n              template:\n                templateRef: account.RemoteStep1\n                versionLabel: v1\n                templateInputs:\n                  type: ShellScript\n                  spec:\n                    source:\n                      type: Inline\n                      spec:\n                        script: <+input>\n          - step:\n              name: s\n              identifier: s\n              template:\n                templateRef: account.Step12Oct\n                versionLabel: v1\n                templateInputs:\n                  type: ShellScript\n                  spec:\n                    source:\n                      type: Inline\n                      spec:\n                        script: <+input>\n'
+
+jest.mock('services/template-ng', () => {
+  return {
+    ...jest.requireActual('services/template-ng'),
+    getTemplateListPromise: jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        status: 'SUCCESS',
+        data: {
+          content: [
+            {
+              identifier: 'testTemplate123',
+              yaml: mockYaml
+            }
+          ]
+        }
+      })
+    ),
+    getTemplatePromise: jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        status: 'SUCCESS',
+        data: {
+          identifier: 'testTemplate123',
+          yaml: mockYaml
+        }
+      })
+    )
+  }
+})
+
 describe('templateUtils', () => {
   describe('createStepNodeFromTemplate tests', () => {
     const template: TemplateSummaryResponse = {
@@ -193,6 +224,75 @@ describe('templateUtils', () => {
     expect(utils.getTemplateRefVersionLabelObject(template2)).toStrictEqual({
       templateRef: 'account.Test_Http_Step',
       versionLabel: 'v2'
+    })
+  })
+
+  test('getScopedTemplatesFromTemplateRefs', () => {
+    expect(
+      utils.getScopedTemplatesFromTemplateRefs(['account.T1', 'account.T2', 'org.T3', 'org.T4', 'T5', 'T6'])
+    ).toStrictEqual({ account: ['T1', 'T2'], org: ['T3', 'T4'], project: ['T5', 'T6'] })
+  })
+
+  test('getTemplateTypesByRefV1', async () => {
+    expect(
+      await utils.getTemplateTypesByRef(
+        {
+          accountIdentifier: '123'
+        },
+        ['account.testTemplate123']
+      )
+    ).toStrictEqual({ templateTypes: { account: { testTemplate123: 'Custom' } }, templateServiceData: {} })
+  })
+
+  test('getTemplateTypesByRefV2', async () => {
+    expect(
+      await utils.getTemplateTypesByRef(
+        {
+          accountIdentifier: '123'
+        },
+        ['account.testTemplate123'],
+        {
+          storeType: 'REMOTE'
+        },
+        true
+      )
+    ).toStrictEqual({ templateTypes: { account: { testTemplate123: 'Custom' } }, templateServiceData: {} })
+  })
+
+  test('createTemplate', () => {
+    expect(
+      utils.createTemplate(
+        {
+          name: 'temp1',
+          identifier: 'temp1'
+        },
+        {
+          identifier: 'tempInner',
+          versionLabel: 'v1'
+        }
+      )
+    ).toStrictEqual({
+      identifier: 'temp1',
+      name: 'temp1',
+      template: {
+        templateInputs: undefined,
+        templateRef: 'account.tempInner',
+        versionLabel: 'v1'
+      }
+    })
+  })
+
+  test('getResolvedTemplateDetailsByRef', async () => {
+    expect(
+      await utils.getResolvedTemplateDetailsByRef(
+        {
+          accountIdentifier: '123',
+          templateListType: 'Stable'
+        },
+        ['account.testTemplate123']
+      )
+    ).toStrictEqual({
+      templateDetailsByRef: { account: { testTemplate123: { identifier: 'testTemplate123', yaml: mockYaml } } }
     })
   })
 })

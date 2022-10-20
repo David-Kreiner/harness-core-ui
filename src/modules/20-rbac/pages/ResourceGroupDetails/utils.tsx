@@ -244,19 +244,18 @@ export const getSelectionType = (resourceGroup?: ResourceGroupV2): SelectionType
   }
   return SelectionType.SPECIFIED
 }
-export const getScopeType = (resourceGroup?: ResourceGroupV2): SelectorScope => {
-  return resourceGroup
-    ? getSelectedScopeType(getScopeFromDTO(resourceGroup), resourceGroup?.includedScopes)
-    : SelectorScope.CURRENT
-}
 
-export const getSelectedScopeType = (scopeOfResourceGroup: Scope, scopes?: ScopeSelector[]): SelectorScope => {
+export const getSelectedScopeType = (
+  scopeOfResourceGroup: Scope,
+  scopes?: ScopeSelector[],
+  isHarnessManaged?: boolean
+): SelectorScope => {
   if (scopes?.length) {
     if (scopes.length > 1) {
       return SelectorScope.CUSTOM
     }
     for (const scope of scopes) {
-      if (scopeOfResourceGroup === getScopeFromDTO(scope)) {
+      if (scopeOfResourceGroup === getScopeFromDTO(scope) || isHarnessManaged) {
         return scope.filter === 'INCLUDING_CHILD_SCOPES' ? SelectorScope.INCLUDE_CHILD_SCOPES : SelectorScope.CURRENT
       } else {
         return SelectorScope.CUSTOM

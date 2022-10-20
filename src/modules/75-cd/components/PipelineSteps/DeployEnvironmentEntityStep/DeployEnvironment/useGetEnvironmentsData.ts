@@ -27,7 +27,6 @@ import type { EnvironmentData } from '../types'
 
 export interface UseGetEnvironmentsDataProps {
   envIdentifiers: string[]
-  specificIdentifiers?: string[]
   envGroupIdentifier?: string
 }
 
@@ -48,8 +47,7 @@ export interface UseGetEnvironmentsDataReturn {
 
 export function useGetEnvironmentsData({
   envIdentifiers,
-  envGroupIdentifier,
-  specificIdentifiers
+  envGroupIdentifier
 }: UseGetEnvironmentsDataProps): UseGetEnvironmentsDataReturn {
   const { accountId, projectIdentifier, orgIdentifier } = useParams<PipelinePathProps>()
   const { showError } = useToaster()
@@ -69,8 +67,7 @@ export function useGetEnvironmentsData({
       accountIdentifier: accountId,
       orgIdentifier,
       projectIdentifier,
-      ...(Boolean(envGroupIdentifier) && { envGroupIdentifier }),
-      ...(Boolean(specificIdentifiers) && { envIdentifiers: specificIdentifiers })
+      ...(Boolean(envGroupIdentifier) && { envGroupIdentifier })
     }
   })
 

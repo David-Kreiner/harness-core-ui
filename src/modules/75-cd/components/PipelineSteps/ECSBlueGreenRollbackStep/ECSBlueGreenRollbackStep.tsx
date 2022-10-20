@@ -34,8 +34,8 @@ export class ECSBlueGreenRollbackStep extends PipelineStep<StepElementConfig> {
   protected type = StepType.EcsBlueGreenRollback
   protected stepName = 'ECS Blue Green Rollback'
   protected stepIcon: IconName = 'undo'
-  protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.K8sRollingRollback'
-  protected isHarnessSpecific = true
+  protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.ECSBlueGreenRollback'
+  protected isHarnessSpecific = false
   protected defaultValues: StepElementConfig = {
     identifier: '',
     name: '',

@@ -328,7 +328,8 @@ export class SshWinRmAzureInfrastructureSpec extends PipelineStep<AzureInfrastru
   }
 
   renderStep(props: StepProps<SshWinRmAzureInfrastructure>): JSX.Element {
-    const { initialValues, onUpdate, stepViewType, customStepProps, readonly, allowableTypes, inputSetData } = props
+    const { initialValues, onUpdate, stepViewType, customStepProps, readonly, allowableTypes, inputSetData, path } =
+      props
 
     if (this.isTemplatizedView(stepViewType)) {
       return (
@@ -364,6 +365,7 @@ export class SshWinRmAzureInfrastructureSpec extends PipelineStep<AzureInfrastru
         {...(customStepProps as AzureInfrastructureSpecEditableProps)}
         initialValues={initialValues}
         allowableTypes={allowableTypes}
+        path={path}
       />
     )
   }

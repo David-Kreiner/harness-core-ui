@@ -34,7 +34,8 @@ import {
   GetManifestTriggerResponse,
   GetParseableManifestTriggerResponse,
   GetTriggerWithEventConditionsResponse,
-  GetParseableArtifactTriggerResponse
+  GetParseableArtifactTriggerResponse,
+  GetSettingValueResponse
 } from './webhookMockResponses'
 
 import {
@@ -160,6 +161,7 @@ describe('Manifest Trigger Tests', () => {
     jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
       mutate: mockUpdate as unknown
     } as UseMutateReturn<any, any, any, any, any>)
+    jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
     const { container } = render(<WrapperComponent />)
     await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
     await waitFor(() =>
@@ -217,6 +219,7 @@ describe('Manifest Trigger Tests', () => {
     jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
       mutate: mockUpdate as unknown
     } as UseMutateReturn<any, any, any, any, any>)
+    jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
     const { container } = render(<WrapperComponent />)
     await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
 
@@ -270,6 +273,7 @@ describe('Manifest Trigger Tests', () => {
     jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
       mutate: mockUpdate as unknown
     } as UseMutateReturn<any, any, any, any, any>)
+    jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
     const { container } = render(<WrapperComponent />)
     await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
 
@@ -325,6 +329,7 @@ describe('Manifest Trigger Tests', () => {
     jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
       mutate: mockUpdate as unknown
     } as UseMutateReturn<any, any, any, any, any>)
+    jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
     const { container } = render(<WrapperComponent />)
     await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
 
@@ -402,6 +407,7 @@ describe('Manifest Trigger Tests', () => {
     jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
       mutate: mockUpdate as unknown
     } as UseMutateReturn<any, any, any, any, any>)
+    jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
     const { container } = render(<WrapperComponent />)
     await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
 
@@ -486,6 +492,7 @@ describe('Manifest Trigger Tests', () => {
     jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
       mutate: mockUpdate as unknown
     } as UseMutateReturn<any, any, any, any, any>)
+    jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
     const { container } = render(<WrapperComponent />)
     await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
 
@@ -532,6 +539,7 @@ describe('Manifest Trigger Tests', () => {
     jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
       mutate: mockUpdate as unknown
     } as UseMutateReturn<any, any, any, any, any>)
+    jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
     const { container } = render(<WrapperComponent />)
     await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
 

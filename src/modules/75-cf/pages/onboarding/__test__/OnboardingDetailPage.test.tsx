@@ -10,14 +10,13 @@ import React from 'react'
 import { render, RenderResult, screen, waitFor } from '@testing-library/react'
 import userEvent, { TargetElement } from '@testing-library/user-event'
 import { TestWrapper } from '@common/utils/testUtils'
-import { PlatformEntryType, SupportPlatforms } from '@cf/components/LanguageSelection/LanguageSelection'
+import { PlatformEntryType } from '@cf/components/LanguageSelection/LanguageSelection'
 import mockEnvironments from '@cf/pages/environments/__tests__/mockEnvironments'
 import mockImport from 'framework/utils/mockImport'
 import * as ffServices from 'services/cf'
 import mockFeatureFlags from '@cf/pages/feature-flags/__tests__/mockFeatureFlags'
 import { CF_DEFAULT_PAGE_SIZE } from '@cf/utils/CFUtils'
 import { OnboardingDetailPage } from '../OnboardingDetailPage'
-import { SetUpYourApplicationView } from '../views/SetUpYourApplicationView'
 import { SelectEnvironmentView } from '../views/SelectEnvironmentView'
 
 const renderComponent = (): RenderResult => {
@@ -218,61 +217,6 @@ describe('OnboardingDetailPage', () => {
       expect(barsCompleted.length).toEqual(1)
       expect(document.querySelector(barInProgress)).toBeInTheDocument()
     })
-  })
-
-  test('SetUpYourApplicationView', () => {
-    mockImport('@cf/hooks/useEnvironmentSelectV2', {
-      useEnvironmentSelectV2: () => ({
-        loading: true,
-        refetch: jest.fn(),
-        EnvironmentSelect: <div />,
-        environments: [
-          {
-            accountId: 'harness',
-            identifier: 'foo',
-            name: 'bar',
-            type: 'Production'
-          }
-        ]
-      })
-    })
-
-    const { container } = render(
-      <TestWrapper
-        path="/account/:accountId/cf/orgs/:orgIdentifier/projects/:projectIdentifier/onboarding/detail"
-        pathParams={{ accountId: 'dummy', orgIdentifier: 'dummy', projectIdentifier: 'dummy' }}
-      >
-        <SetUpYourApplicationView
-          flagInfo={{
-            project: 'dummy',
-            createdAt: 1662647079713,
-            name: 'test-flag',
-            identifier: 'test_flag',
-            kind: 'boolean',
-            archived: false,
-            variations: [
-              { identifier: 'true', name: 'True', value: 'true' },
-              { identifier: 'false', name: 'False', value: 'false' }
-            ],
-            defaultOnVariation: 'true',
-            defaultOffVariation: 'false',
-            permanent: false
-          }}
-          language={SupportPlatforms[1]}
-          setLanguage={jest.fn()}
-          apiKey={{
-            name: 'xxx-xxx-xxx',
-            apiKey: 'xxx-xxx-xxx',
-            identifier: 'xxx-xxx-xxx',
-            type: 'server'
-          }}
-          setApiKey={jest.fn()}
-          setEnvironmentIdentifier={jest.fn()}
-        />
-      </TestWrapper>
-    )
-
-    expect(container).toMatchSnapshot()
   })
 
   test('SelectEnvironmentView should render loading correctly', () => {

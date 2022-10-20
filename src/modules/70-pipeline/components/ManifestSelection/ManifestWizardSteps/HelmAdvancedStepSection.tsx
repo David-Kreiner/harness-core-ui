@@ -136,6 +136,7 @@ function HelmAdvancedStepSection({
                           label={index === 0 ? getString('pipeline.fieldLabels.commandType') : ''}
                           items={commandFlagOptions[helmVersion]}
                           placeholder={getString('pipeline.fieldPlaceholders.commandType')}
+                          className={helmcss.commandTypeSelect}
                         />
                       </div>
                       <div

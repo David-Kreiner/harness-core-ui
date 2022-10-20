@@ -26,7 +26,7 @@ export interface OverviewExecutionListProps {
 }
 
 const getEmptyStateText = (
-  module: Module
+  module?: Module
 ): {
   executionLabel: string
   pipelineOperation1: string

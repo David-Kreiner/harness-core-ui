@@ -6,7 +6,7 @@
  */
 
 import React from 'react'
-import { useParams, Redirect } from 'react-router-dom'
+import { useParams, Redirect, useLocation } from 'react-router-dom'
 import AuditTrailsPage from '@audit-trail/pages/AuditTrails/AuditTrailsPage'
 import AuditTrailFactory, { ResourceScope } from '@audit-trail/factories/AuditTrailFactory'
 import { RouteWithLayout } from '@common/router'
@@ -63,7 +63,7 @@ import UserDetails from '@rbac/pages/UserDetails/UserDetails'
 import DelegateProfileDetails from '@delegates/pages/delegates/DelegateConfigurationDetailPage'
 import CreateSecretFromYamlPage from '@secrets/pages/createSecretFromYaml/CreateSecretFromYamlPage'
 import CreateConnectorFromYamlPage from '@connectors/pages/createConnectorFromYaml/CreateConnectorFromYamlPage'
-import { HomeSideNavProps, AccountSideNavProps, MainDashboardSideNavProps } from '@common/RouteDestinations'
+import { AccountSideNavProps, HomeSideNavProps, MainDashboardSideNavProps } from '@common/RouteDestinations'
 import GitSyncEntityTab from '@gitsync/pages/entities/GitSyncEntityTab'
 import GitSyncPage from '@gitsync/pages/GitSyncPage'
 import GitSyncRepoTab from '@gitsync/pages/repos/GitSyncRepoTab'
@@ -79,7 +79,7 @@ import SettingsList from '@default-settings/pages/SettingsList'
 import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
 import LandingDashboardPage from './pages/LandingDashboardPage/LandingDashboardPage'
 
-const ProjectDetailsSideNavProps: SidebarContext = {
+export const ProjectDetailsSideNavProps: SidebarContext = {
   navComponent: ProjectDetailsSideNav,
   icon: 'nav-project',
   title: 'Projects'
@@ -161,14 +161,18 @@ const RedirectToDelegatesHome = (): React.ReactElement => {
 
 const ProjectsRedirect = (): React.ReactElement => {
   const { accountId } = useParams<ProjectPathProps>()
+  const { search } = useLocation()
   const { NEW_LEFT_NAVBAR_SETTINGS } = useFeatureFlags()
 
   if (NEW_LEFT_NAVBAR_SETTINGS) {
     return (
       <Redirect
-        to={routes.toAllProjects({
-          accountId
-        })}
+        to={{
+          pathname: routes.toAllProjects({
+            accountId
+          }),
+          search
+        }}
       />
     )
   }
@@ -571,7 +575,11 @@ export default (
     >
       <ResourceGroupDetails />
     </RouteWithLayout>
-    <RouteWithLayout sidebarProps={AccountSideNavProps} path={routes.toDefaultSettings({ ...projectPathProps })} exact>
+    <RouteWithLayout
+      sidebarProps={ProjectDetailsSideNavProps}
+      path={routes.toDefaultSettings({ ...projectPathProps })}
+      exact
+    >
       <SettingsList />
     </RouteWithLayout>
     <RouteWithLayout sidebarProps={AccountSideNavProps} path={routes.toDefaultSettings({ ...orgPathProps })} exact>

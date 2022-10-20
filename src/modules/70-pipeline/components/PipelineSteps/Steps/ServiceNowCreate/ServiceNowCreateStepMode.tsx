@@ -482,7 +482,7 @@ function FormContent({
                       value={formik.values.spec.description || ''}
                       type="String"
                       variableName="spec.description"
-                      showRequiredField={true}
+                      showRequiredField={false}
                       showDefaultField={false}
                       showAdvanced={true}
                       onChange={value => formik.setFieldValue('spec.description', value)}
@@ -503,7 +503,7 @@ function FormContent({
                       value={formik.values.spec.shortDescription || ''}
                       type="String"
                       variableName="spec.shortDescription"
-                      showRequiredField={true}
+                      showRequiredField={false}
                       showDefaultField={false}
                       showAdvanced={true}
                       onChange={value => formik.setFieldValue('spec.shortDescription', value)}

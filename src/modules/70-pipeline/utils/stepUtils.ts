@@ -153,40 +153,51 @@ export function getStepPaletteModuleInfosFromStage(
           module: 'cd',
           category: 'Provisioner',
           shouldShowCommonSteps: false
+        },
+        {
+          module: 'cd',
+          category: 'Chaos',
+          shouldShowCommonSteps: false
         }
       ]
-    case StageType.DEPLOY:
-      if (deploymentType === ServiceDeploymentType.CustomDeployment) {
-        return [
-          {
-            module: 'cd',
-            category: category,
-            shouldShowCommonSteps: true
-          },
-          {
-            module: 'cd',
-            category: 'Provisioner',
-            shouldShowCommonSteps: false
-          }
-        ]
-      } else {
-        return [
-          {
-            module: 'cd',
-            category: category,
-            shouldShowCommonSteps: true
-          },
-          {
-            module: 'cd',
-            category: 'Builds',
-            shouldShowCommonSteps: false
-          },
-          {
-            module: 'cv',
-            shouldShowCommonSteps: false
-          }
-        ]
-      }
+    case StageType.DEPLOY: {
+      const stepPalleteInfo =
+        deploymentType === ServiceDeploymentType.CustomDeployment
+          ? [
+              {
+                module: 'cd',
+                category: category,
+                shouldShowCommonSteps: true
+              },
+              {
+                module: 'cd',
+                category: 'Provisioner',
+                shouldShowCommonSteps: false
+              }
+            ]
+          : [
+              {
+                module: 'cd',
+                category: category,
+                shouldShowCommonSteps: true
+              },
+              {
+                module: 'cd',
+                category: 'Builds',
+                shouldShowCommonSteps: false
+              },
+              {
+                module: 'cv',
+                shouldShowCommonSteps: false
+              }
+            ]
+      stepPalleteInfo.push({
+        module: 'cd',
+        category: 'Chaos',
+        shouldShowCommonSteps: false
+      })
+      return stepPalleteInfo
+    }
     default:
       return [
         {

@@ -23,7 +23,7 @@ import { parse } from '@common/utils/YamlHelperMethods'
 
 import factory from '@triggers/factory/TriggerFactory'
 import { TriggerWidget } from '@triggers/components/Triggers/TriggerWidget'
-import type {
+import {
   ScheduleType,
   SourceRepo,
   TriggerBaseType,
@@ -31,6 +31,8 @@ import type {
   ManifestType,
   TriggerSubType
 } from '@triggers/components/Triggers/TriggerInterface'
+import TriggerDetailsV1 from '@triggers/pages/trigger-details/TriggerDetails'
+import TriggersWizardPageV1 from '@triggers/pages/triggers/TriggersWizardPage'
 
 export default function TriggersWizardPage(): JSX.Element {
   const {
@@ -51,6 +53,7 @@ export default function TriggersWizardPage(): JSX.Element {
       (manifestType as ManifestType)
   )
   const [baseType, setBaseType] = useState<TriggerBaseType>(triggerType as TriggerBaseType)
+  const [isV1ArtifactManifestTrigger, setIsV1ArtifactManifestTrigger] = useState(false)
 
   const { data: triggerResponse, loading: loadingTriggerData } = useGetTrigger({
     triggerIdentifier,
@@ -69,21 +72,40 @@ export default function TriggersWizardPage(): JSX.Element {
     if (!loadingTriggerData && triggerResponse?.data?.yaml) {
       const parsedTriggerYaml = parse(triggerResponse.data.yaml) as { trigger: NGTriggerConfigV2RequestBody }
 
+      const triggerBaseType = parsedTriggerYaml?.trigger?.source?.type
       // istanbul ignore else
-      if (parsedTriggerYaml?.trigger?.source?.type) {
-        setBaseType(parsedTriggerYaml?.trigger?.source?.type as TriggerBaseType)
+      if (triggerBaseType) {
+        setBaseType(triggerBaseType as TriggerBaseType)
       }
 
       // istanbul ignore else
       if (parsedTriggerYaml?.trigger?.source?.spec?.type) {
         setType(parsedTriggerYaml?.trigger?.source?.spec?.type)
       }
+
+      // istanbul ignore else
+      if (
+        (triggerBaseType === TriggerBaseType.ARTIFACT || triggerBaseType === TriggerBaseType.MANIFEST) &&
+        parsedTriggerYaml?.trigger?.source?.spec?.stageIdentifier
+      ) {
+        setIsV1ArtifactManifestTrigger(true)
+      }
     }
   }, [loadingTriggerData, triggerResponse?.data])
 
-  return loadingTriggerData ? (
-    <PageSpinner />
-  ) : (
+  if (loadingTriggerData) {
+    return <PageSpinner />
+  }
+
+  if (isV1ArtifactManifestTrigger) {
+    return (
+      <TriggerDetailsV1 wizard={true}>
+        <TriggersWizardPageV1 />
+      </TriggerDetailsV1>
+    )
+  }
+
+  return (
     <TriggerWidget
       factory={factory}
       type={type}

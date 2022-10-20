@@ -133,6 +133,9 @@ const ChooseRequirements: React.FC<StepProps<CEAzureDTO>> = props => {
   const { previousStep, prevStepData, nextStep } = props
   const featuresEnabled = prevStepData?.spec?.featuresEnabled || []
   const { selectedCards, setSelectedCards, FeatureCards } = useSelectedCards(featuresEnabled)
+  const [featuresSelectedError, setFeaturesSelectedError] = useState(
+    !prevStepData?.hasBilling && selectedCards.length === 1
+  )
 
   useStepLoadTelemetry(CE_AZURE_CONNECTOR_CREATION_EVENTS.LOAD_CHOOSE_REQUIREMENT)
 
@@ -142,7 +145,11 @@ const ChooseRequirements: React.FC<StepProps<CEAzureDTO>> = props => {
       connector_type: Connectors.CEAzure
     })
 
-    const features = selectedCards.map(c => c.value)
+    let features = selectedCards.map(c => c.value)
+
+    if (!prevStepData?.hasBilling) {
+      features = features.filter(item => item !== 'BILLING')
+    }
 
     const nextStepData: CEAzureDTO = {
       ...((prevStepData || {}) as CEAzureDTO),
@@ -167,6 +174,7 @@ const ChooseRequirements: React.FC<StepProps<CEAzureDTO>> = props => {
       sc.push(item)
     }
 
+    setFeaturesSelectedError(!prevStepData?.hasBilling && sc.length === 1)
     setSelectedCards(sc)
   }
 
@@ -217,9 +225,14 @@ const ChooseRequirements: React.FC<StepProps<CEAzureDTO>> = props => {
                 cornerSelected={true}
                 renderItem={item => <Card {...item} />}
               />
+              {featuresSelectedError ? (
+                <Text color={Color.RED_600} padding={{ top: 'medium' }}>
+                  {getString('connectors.ceAzure.chooseRequirements.atleastOneError')}
+                </Text>
+              ) : null}
               <Layout.Horizontal spacing="medium" className={css.continueAndPreviousBtns}>
                 <Button text={getString('previous')} icon="chevron-left" onClick={() => previousStep?.(prevStepData)} />
-                <Button type="submit" intent="primary" rightIcon="chevron-right" disabled={false}>
+                <Button type="submit" intent="primary" rightIcon="chevron-right" disabled={featuresSelectedError}>
                   {getString('continue')}
                 </Button>
               </Layout.Horizontal>

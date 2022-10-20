@@ -214,7 +214,6 @@ describe('Jenkins step tests', () => {
 
     expect(queryByDisplayValue('10')).toBeTruthy()
 
-    fireEvent.click(getByText('common.optionalConfig'))
     expect(getByText('pipeline.jenkinsStep.unstableStatusAsSuccess')).toBeTruthy()
 
     await act(() => ref.current?.submitForm()!)
@@ -234,7 +233,7 @@ describe('Jenkins step tests', () => {
         ],
         delegateSelectors: [],
         unstableStatusAsSuccess: false,
-        captureEnvironmentVariable: false,
+        useConnectorUrlForJobExecution: false,
         jobName: '<+input>'
       },
       name: 'jenkins step'

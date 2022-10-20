@@ -27,7 +27,7 @@ export default function PipelineBuildExecutionsChart() {
       startTime: range[0],
       endTime: range[1],
       pipelineIdentifier,
-      moduleInfo: module
+      moduleInfo: module || ''
     }
   })
 

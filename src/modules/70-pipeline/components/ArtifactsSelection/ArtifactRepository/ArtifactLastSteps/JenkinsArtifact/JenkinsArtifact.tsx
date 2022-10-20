@@ -78,7 +78,7 @@ function FormComponent({
     branch
   }
 
-  const connectorRefValue = getGenuineValue(prevStepData?.connectorId?.label)
+  const connectorRefValue = getGenuineValue(prevStepData?.connectorId?.value)
 
   const {
     refetch: refetchJobs,

@@ -19,6 +19,7 @@ import { TestWrapper } from '@common/utils/testUtils'
 import * as usePermission from '@rbac/hooks/usePermission'
 import { branchStatusMock, gitConfigs, sourceCodeManagers } from '@connectors/mocks/mock'
 import * as hooks from '@common/hooks'
+import * as FeatureFlag from '@common/hooks/useFeatureFlag'
 import {
   GetGitTriggerEventDetailsResponse,
   GetTriggerResponse,
@@ -30,7 +31,9 @@ import {
   enabledFalseUpdateTriggerMockResponseYaml,
   GetCustomTriggerWithVariablesResponse,
   GetCustomWebhookTriggerResponse,
-  updateCustomTriggerMockResponseYaml
+  updateCustomTriggerMockResponseYaml,
+  GetSettingValueResponse,
+  GetSecretV2PromiseResponse
 } from './webhookMockResponses'
 
 import {
@@ -152,6 +155,9 @@ describe('TriggersWizardPage Triggers tests', () => {
       jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
         mutate: mockUpdate as unknown
       } as UseMutateReturn<any, any, any, any, any>)
+      jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
+      jest.spyOn(cdng, 'getSecretV2Promise').mockReturnValue(GetSecretV2PromiseResponse as any)
+      jest.spyOn(FeatureFlag, 'useFeatureFlag').mockReturnValue(true)
       const { container } = render(<WrapperComponent />)
       await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
       await waitFor(() =>
@@ -187,6 +193,9 @@ describe('TriggersWizardPage Triggers tests', () => {
       jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
         mutate: mockUpdate as unknown
       } as UseMutateReturn<any, any, any, any, any>)
+      jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
+      jest.spyOn(cdng, 'getSecretV2Promise').mockReturnValue(GetSecretV2PromiseResponse as any)
+      jest.spyOn(FeatureFlag, 'useFeatureFlag').mockReturnValue(true)
       const { container } = render(<WrapperComponent />)
       await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
       await waitFor(() =>
@@ -214,6 +223,7 @@ describe('TriggersWizardPage Triggers tests', () => {
       jest.spyOn(pipelineNg, 'useGetMergeInputSetFromPipelineTemplateWithListInput').mockReturnValue({
         mutate: jest.fn().mockReturnValue(GetMergeInputSetFromPipelineTemplateWithListInputResponse) as unknown
       } as UseMutateReturn<any, any, any, any, any>)
+      jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
       const { container } = render(<WrapperComponent />)
       await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
       await waitFor(() => expect(() => queryByText(document.body, result.current.getString('name'))).not.toBeNull())
@@ -255,6 +265,7 @@ describe('TriggersWizardPage Triggers tests', () => {
       jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
         mutate: mockUpdate as unknown
       } as UseMutateReturn<any, any, any, any, any>)
+      jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
       render(<WrapperComponent />)
       await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
       await waitFor(() =>
@@ -297,6 +308,8 @@ describe('TriggersWizardPage Triggers tests', () => {
       jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
         mutate: mockUpdate as unknown
       } as UseMutateReturn<any, any, any, any, any>)
+      jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
+      jest.spyOn(FeatureFlag, 'useFeatureFlag').mockReturnValue(false)
       const { container } = render(<WrapperComponent />)
       await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
       await waitFor(() =>
@@ -346,6 +359,8 @@ describe('TriggersWizardPage Triggers tests', () => {
       jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
         mutate: mockUpdate as unknown
       } as UseMutateReturn<any, any, any, any, any>)
+      jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
+      jest.spyOn(FeatureFlag, 'useFeatureFlag').mockReturnValue(false)
       const { container } = render(<WrapperComponent />)
       await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
       await waitFor(() =>
@@ -410,6 +425,7 @@ describe('TriggersWizardPage Triggers tests', () => {
       jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
         mutate: mockUpdate as unknown
       } as UseMutateReturn<any, any, any, any, any>)
+      jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
       const { container } = render(<WrapperComponent />)
       await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
       await waitFor(() =>
@@ -475,6 +491,8 @@ describe('TriggersWizardPage Triggers tests', () => {
       jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
         mutate: mockUpdate as unknown
       } as UseMutateReturn<any, any, any, any, any>)
+      jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
+      jest.spyOn(FeatureFlag, 'useFeatureFlag').mockReturnValue(false)
       const { container } = render(<WrapperComponent />)
       await waitFor(() =>
         queryByText(container, result.current.getString('triggers.triggerConfigurationPanel.listenOnNewWebhook'))
@@ -528,6 +546,8 @@ describe('TriggersWizardPage Triggers tests', () => {
       jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
         mutate: mockUpdate as unknown
       } as UseMutateReturn<any, any, any, any, any>)
+      jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
+      jest.spyOn(FeatureFlag, 'useFeatureFlag').mockReturnValue(false)
       const { container } = render(<WrapperComponent />)
 
       await waitFor(() => expect(() => queryByText(document.body, result.current.getString('name'))).not.toBeNull())
@@ -570,6 +590,7 @@ describe('TriggersWizardPage Triggers tests', () => {
       jest.spyOn(pipelineNg, 'useGetMergeInputSetFromPipelineTemplateWithListInput').mockReturnValue({
         mutate: jest.fn().mockReturnValue(GetMergeInputSetFromPipelineTemplateWithListInputResponse) as unknown
       } as UseMutateReturn<any, any, any, any, any>)
+      jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
       const { container } = render(<WrapperComponent />)
       await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
       await waitFor(() => expect(() => queryByText(document.body, result.current.getString('name'))).not.toBeNull())
@@ -639,6 +660,7 @@ describe('TriggersWizardPage Triggers tests', () => {
       jest.spyOn(pipelineNg, 'useGetMergeInputSetFromPipelineTemplateWithListInput').mockReturnValue({
         mutate: jest.fn().mockReturnValue(GetMergeInputSetFromPipelineTemplateWithListInputResponse) as unknown
       } as UseMutateReturn<any, any, any, any, any>)
+      jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
       const { container } = render(<WrapperComponent />)
       await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
       await waitFor(() => expect(() => queryByText(document.body, result.current.getString('name'))).not.toBeNull())
@@ -701,6 +723,7 @@ describe('TriggersWizardPage Triggers tests', () => {
       jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
         mutate: mockUpdate as unknown
       } as UseMutateReturn<any, any, any, any, any>)
+      jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
       render(<WrapperComponent />)
       await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
 
@@ -743,7 +766,7 @@ describe('TriggersWizardPage Triggers tests', () => {
       jest.spyOn(pipelineNg, 'useGetMergeInputSetFromPipelineTemplateWithListInput').mockReturnValue({
         mutate: jest.fn().mockReturnValue(GetMergeInputSetFromPipelineTemplateWithListInputResponse) as unknown
       } as UseMutateReturn<any, any, any, any, any>)
-
+      jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
       const { container, getByText } = render(<WrapperComponent />)
       await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
       await waitFor(() =>
@@ -810,6 +833,9 @@ describe('TriggersWizardPage Triggers tests', () => {
       jest.spyOn(pipelineNg, 'useGetMergeInputSetFromPipelineTemplateWithListInput').mockReturnValue({
         mutate: jest.fn().mockReturnValue(GetMergeInputSetFromPipelineTemplateWithListInputResponse) as unknown
       } as UseMutateReturn<any, any, any, any, any>)
+      jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
+      jest.spyOn(cdng, 'getSecretV2Promise').mockReturnValue(GetSecretV2PromiseResponse as any)
+      jest.spyOn(FeatureFlag, 'useFeatureFlag').mockReturnValue(true)
       const { container } = render(<WrapperComponent />)
       await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
       await waitFor(() =>
@@ -859,6 +885,7 @@ describe('TriggersWizardPage Triggers tests', () => {
       jest.spyOn(pipelineNg, 'useGetMergeInputSetFromPipelineTemplateWithListInput').mockReturnValue({
         mutate: jest.fn().mockReturnValue(GetMergeInputSetFromPipelineTemplateWithListInputResponse) as unknown
       } as UseMutateReturn<any, any, any, any, any>)
+      jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
       const { container } = render(<WrapperComponent />)
       await waitFor(() => expect(() => queryByText(document.body, 'Loading, please wait...')).toBeDefined())
       await waitFor(() =>
@@ -908,6 +935,7 @@ describe('TriggersWizardPage Triggers tests', () => {
       jest.spyOn(pipelineNg, 'useUpdateTrigger').mockReturnValue({
         mutate: mockUpdate as unknown
       } as UseMutateReturn<any, any, any, any, any>)
+      jest.spyOn(cdng, 'useGetSettingValue').mockReturnValue(GetSettingValueResponse as any)
       const { container } = render(<WrapperComponent />)
       setFieldValue({ container, type: InputTypes.SELECT, fieldId: 'event', value: 'PullRequest' })
       const tab3 = document.body.querySelector('[class*="bp3-tab-list"] [data-tab-id="Pipeline Input"]')

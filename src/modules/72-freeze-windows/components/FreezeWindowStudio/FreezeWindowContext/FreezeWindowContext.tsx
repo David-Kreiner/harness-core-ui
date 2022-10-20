@@ -75,7 +75,14 @@ export const FreezeWindowProvider: React.FC = ({ children }) => {
   const [isUpdatingFreeze, setIsUpdatingFreeze] = React.useState<boolean>(false)
 
   React.useEffect(() => {
-    setFreezeWindowLevel(getFreezeWindowLevel({ accountId, projectIdentifier, orgIdentifier }))
+    const _freezeWindowLevel = getFreezeWindowLevel({ accountId, projectIdentifier, orgIdentifier })
+    setFreezeWindowLevel(_freezeWindowLevel)
+    if (_freezeWindowLevel === FreezeWindowLevels.PROJECT) {
+      updateFreeze({ orgIdentifier, projectIdentifier })
+    }
+    if (_freezeWindowLevel === FreezeWindowLevels.ORG) {
+      updateFreeze({ orgIdentifier })
+    }
   }, [accountId, projectIdentifier, orgIdentifier])
 
   const [state, dispatch] = React.useReducer(FreezeReducer, initialState)

@@ -34,6 +34,7 @@ import type { FetchPlansQuery } from 'services/common/services'
 import useRBACError from '@rbac/utils/useRBACError/useRBACError'
 import { useSubscribeModal } from '@auth-settings/modals/Subscription/useSubscriptionModal'
 import { useFeatureFlag } from '@common/hooks/useFeatureFlag'
+import { getSavedRefererURL, getGaClientID } from '@common/utils/utils'
 import { FeatureFlag } from '@common/featureFlags'
 import type { TimeType } from '@common/constants/SubscriptionTypes'
 import { getBtnProps } from './planUtils'
@@ -83,10 +84,14 @@ const PlanContainer: React.FC<PlanProps> = ({ plans, timeType, moduleName }) => 
       accountIdentifier: accountId
     }
   })
+  const refererURL = getSavedRefererURL()
+  const gaClientID = getGaClientID()
   const { mutate: startFreePlan, loading: startingFreePlan } = useStartFreeLicense({
     queryParams: {
       accountIdentifier: accountId,
-      moduleType: moduleType
+      moduleType: moduleType,
+      ...(refererURL ? { referer: refererURL } : {}),
+      ...(gaClientID ? { gaClientID } : {})
     },
     requestOptions: {
       headers: {

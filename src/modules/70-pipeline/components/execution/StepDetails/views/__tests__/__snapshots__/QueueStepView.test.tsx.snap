@@ -193,7 +193,7 @@ exports[`Queue Step View Test test - have resourceConstraints: 2 resource constr
           class="listItemName"
         >
           <a
-            href="/account/undefined/undefined/orgs/ORG_1/projects/PROJ_1/pipelines/undefined/executions/PLAN_EXECUTION_1/pipeline"
+            href="/account/undefined/home/orgs/ORG_1/projects/PROJ_1/pipelines/undefined/executions/PLAN_EXECUTION_1/pipeline"
           >
             ishant pipeline
           </a>
@@ -216,7 +216,7 @@ exports[`Queue Step View Test test - have resourceConstraints: 2 resource constr
           class="listItemName"
         >
           <a
-            href="/account/undefined/undefined/orgs/ORG_2/projects/PROJ_12/pipelines/undefined/executions/PLAN_EXECUTION_2/pipeline"
+            href="/account/undefined/home/orgs/ORG_2/projects/PROJ_12/pipelines/undefined/executions/PLAN_EXECUTION_2/pipeline"
           >
             ishant pipeline_2
           </a>

@@ -7,14 +7,13 @@
 
 import React from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import { Dialog } from '@blueprintjs/core'
+import { Dialog, Switch } from '@blueprintjs/core'
 import {
   Button,
   ButtonVariation,
   Container,
   Layout,
   Text,
-  Toggle,
   VisualYamlSelectedView as SelectedView,
   VisualYamlToggle
 } from '@wings-software/uicore'
@@ -99,15 +98,16 @@ export const FreezeWindowStudioSubHeader: React.FC<FreezeWindowStudioSubHeaderPr
       <Layout.Horizontal height={'100%'} flex={{ alignItems: 'center', justifyContent: 'space-between' }}>
         <Layout.Horizontal className={css.freezeNameContainer} flex={{ alignItems: 'center' }}>
           {isYaml || isReadOnly ? null : (
-            <Toggle
-              className={css.freezeToggler}
-              checked={freezeObj?.status === 'Enabled'}
-              onToggle={checked => {
+            <Switch
+              aria-label="Toggle freeze"
+              onChange={event => {
+                const checked = event.currentTarget.checked
                 updateFreeze({ status: checked ? 'Enabled' : 'Disabled' })
               }}
+              checked={freezeObj?.status === 'Enabled'}
+              className={css.freezeToggler}
             />
           )}
-
           <Text lineClamp={1} className={css.freezeName}>
             {freezeObj.name as string}
           </Text>

@@ -10,7 +10,9 @@ import type { SettingDTO } from 'services/cd-ng'
 export type SettingCategory = SettingDTO['category']
 export enum SettingType {
   TEST_SETTING_ID = 'test_setting_id',
-  DISABLE_HARNESS_BUILT_IN_SECRET_MANAGER = 'disable_harness_built_in_secret_manager'
+  DISABLE_HARNESS_BUILT_IN_SECRET_MANAGER = 'disable_harness_built_in_secret_manager',
+  WEBHOOK_GITHUB_TRIGGERS_AUTHENTICATION_CD = 'mandate_webhook_secrets_for_github_triggers_CD',
+  WEBHOOK_GITHUB_TRIGGERS_AUTHENTICATION_CI = 'mandate_webhook_secrets_for_github_triggers_CI'
 }
 export enum SettingGroups {
   test_group_2 = 'test_group_2'

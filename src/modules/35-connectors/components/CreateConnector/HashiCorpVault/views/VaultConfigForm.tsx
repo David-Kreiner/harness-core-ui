@@ -89,7 +89,7 @@ const VaultConfigForm: React.FC<StepProps<StepDetailsProps> & ConnectorDetailsPr
           renewalIntervalMinutes: Yup.mixed().when('accessType', {
             is: val => val !== HashiCorpVaultAccessTypes.VAULT_AGENT && val !== HashiCorpVaultAccessTypes.AWS_IAM,
             then: Yup.number()
-              .positive(getString('validation.renewalNumber'))
+              .min(0, getString('validation.renewalNumber'))
               .required(getString('validation.renewalInterval'))
           }),
           authToken: Yup.object()

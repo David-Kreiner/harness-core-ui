@@ -65,6 +65,8 @@ export function TemplateCard(props: TemplateCardProps): JSX.Element {
   const gitSyncRepoName = (!loadingRepos && getRepoDetailsByIndentifier(repoIdentifier, gitSyncRepos)?.name) || ''
   const repoLabel = isTemplateRemote ? repoName : gitSyncRepoName
 
+  const isGitTemplate = !isEmpty(repoName) || !isEmpty(repoIdentifier)
+
   return (
     <Container className={cx(css.container, { [css.bordered]: !!onSelect }, { [css.selected]: !!isSelected })}>
       <Card className={css.templateCard} onClick={() => onSelect?.(template)}>
@@ -114,23 +116,20 @@ export function TemplateCard(props: TemplateCardProps): JSX.Element {
         </Container>
         {!!template.tags && !isEmpty(template.tags) && <TemplateTags tags={template.tags} />}
         <Container height={1} background={Color.GREY_100} />
-        {(!isEmpty(repoLabel) || !isEmpty(branch)) && (
+        {isGitTemplate && (
           <>
             <Container className={css.infoContainer}>
-              {!isEmpty(repoLabel) && (
-                <Layout.Horizontal flex={{ justifyContent: 'flex-start' }}>
-                  <Text className={css.label} font="small" width={80} color={Color.GREY_700}>
-                    {getString('pipeline.gitRepo')}
+              <Layout.Horizontal flex={{ justifyContent: 'flex-start' }}>
+                <Text className={css.label} font="small" width={80} color={Color.GREY_700}>
+                  {getString('pipeline.gitRepo')}
+                </Text>
+                <Layout.Horizontal style={{ alignItems: 'center' }} spacing={'small'}>
+                  <Icon name="repository" size={10} color={Color.GREY_600} />
+                  <Text font={{ size: 'small' }} color={Color.BLACK} title={repoLabel} lineClamp={1} width={40}>
+                    {repoLabel}
                   </Text>
-                  <Layout.Horizontal style={{ alignItems: 'center' }} spacing={'small'}>
-                    <Icon name="repository" size={10} color={Color.GREY_600} />
-                    <Text font={{ size: 'small' }} color={Color.BLACK} title={repoIdentifier} lineClamp={1} width={40}>
-                      {repoLabel}
-                    </Text>
-                  </Layout.Horizontal>
                 </Layout.Horizontal>
-              )}
-
+              </Layout.Horizontal>
               {!isEmpty(branch) && (
                 <Layout.Horizontal flex={{ justifyContent: 'flex-start' }}>
                   <Text className={css.label} font="small" width={80} color={Color.GREY_700}>

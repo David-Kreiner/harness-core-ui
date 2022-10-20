@@ -35,7 +35,7 @@ export class ECSRollingDeployStep extends PipelineStep<StepElementConfig> {
   protected stepName = 'ECS Rolling Deploy'
   protected stepIcon: IconName = 'rolling'
   protected stepDescription: keyof StringsMap = 'pipeline.stepDescription.ECSRollingDeploy'
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
   protected defaultValues: StepElementConfig = {
     identifier: '',
     name: '',

@@ -46,7 +46,7 @@ export class HarnessApproval extends PipelineStep<HarnessApprovalData> {
   }
 
   protected referenceId = 'harnessApprovalStep'
-  protected isHarnessSpecific = true
+  protected isHarnessSpecific = false
   protected type = StepType.HarnessApproval
   protected stepName = 'Manual Approval'
   protected stepIcon: IconName = 'harness-with-color'
