@@ -7,7 +7,7 @@
 
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { HarnessDocTooltip, Page, TabNavigation } from '@harness/uicore'
+import { Page, TabNavigation } from '@harness/uicore'
 import { useDocumentTitle } from '@common/hooks/useDocumentTitle'
 import type { ProjectPathProps } from '@common/interfaces/RouteInterfaces'
 import routes from '@common/RouteDefinitions'
@@ -15,7 +15,7 @@ import { NGBreadcrumbs } from '@common/components/NGBreadcrumbs/NGBreadcrumbs'
 import { useFeatureFlag } from '@common/hooks/useFeatureFlag'
 import { FeatureFlag } from '@common/featureFlags'
 import { useStrings } from 'framework/strings'
-import css from './CVCodeErrors.module.scss'
+import ScopedTitle from '@common/components/Title/ScopedTitle'
 
 const CVCodeErrorsAgentsControl: React.FC = ({ children }) => {
   const { getString } = useStrings()
@@ -46,21 +46,10 @@ const CVCodeErrorsAgentsControl: React.FC = ({ children }) => {
       <>
         <Page.Header
           breadcrumbs={<NGBreadcrumbs />}
-          title={
-            <div>
-              <div className="ng-tooltip-native">
-                <h2 data-tooltip-id={'codeErrorsAgentsTitle'}>
-                  {getString('cv.codeErrorsAgents', { projectName: '[' + projectIdentifier + ']' })}
-                </h2>
-                <HarnessDocTooltip tooltipId={'codeErrorsAgentsTitle'} useStandAlone={true} />
-              </div>
-              <p className={css.pageHeaderText}>{getString('cv.codeErrorsAgentsHeading')}</p>
-            </div>
-          }
+          title={<ScopedTitle title={getString('cv.codeErrorsAgents')} />}
           toolbar={
             <TabNavigation size={'small'} links={agentTokenLinks.map(link => ({ label: link.label, to: link.to }))} />
           }
-          className={css.pageHeaderHead}
         />
         <Page.Body>{children}</Page.Body>
       </>

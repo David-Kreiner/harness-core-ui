@@ -1467,18 +1467,18 @@ const routes = {
   ),
 
   toCVCodeErrorsAgents: withAccountId(
-    ({ projectIdentifier, orgIdentifier, module = 'cv' }: Partial<ProjectPathProps & { module?: string }>) =>
-      `/${module}/orgs/${orgIdentifier}/projects/${projectIdentifier}/setup/codeerrors/agents`
+    ({ projectIdentifier, orgIdentifier }: ProjectPathProps) =>
+      `/cv/orgs/${orgIdentifier}/projects/${projectIdentifier}/setup/codeerrors/agents`
   ),
 
   toCVCodeErrorsAgentsTokens: withAccountId(
-    ({ projectIdentifier, orgIdentifier, module = 'cv' }: Partial<ProjectPathProps & { module?: string }>) =>
-      `/${module}/orgs/${orgIdentifier}/projects/${projectIdentifier}/setup/codeerrors/agents-tokens`
+    ({ projectIdentifier, orgIdentifier }: ProjectPathProps) =>
+      `/cv/orgs/${orgIdentifier}/projects/${projectIdentifier}/setup/codeerrors/agents-tokens`
   ),
 
   toCVCodeErrorsAgentsControl: withAccountId(
-    ({ projectIdentifier, orgIdentifier, module = 'cv' }: Partial<ProjectPathProps & { module?: string }>) =>
-      `/${module}/orgs/${orgIdentifier}/projects/${projectIdentifier}/setup/codeerrors`
+    ({ projectIdentifier, orgIdentifier }: ProjectPathProps) =>
+      `/cv/orgs/${orgIdentifier}/projects/${projectIdentifier}/setup/codeerrors`
   ),
 
   toCVMonitoringServicesInputSets: withAccountId(

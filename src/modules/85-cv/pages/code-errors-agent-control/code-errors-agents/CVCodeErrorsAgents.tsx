@@ -12,14 +12,11 @@ import { AgentListProps, ErrorTracking } from '@et/ErrorTrackingApp'
 import ChildAppMounter from 'microfrontends/ChildAppMounter'
 import type { ProjectPathProps } from '@common/interfaces/RouteInterfaces'
 import routes from '@common/RouteDefinitions'
-import { useFeatureFlag } from '@common/hooks/useFeatureFlag'
-import { FeatureFlag } from '@common/featureFlags'
 import { useStrings } from 'framework/strings'
 
 export const CVCodeErrorsAgents = (): JSX.Element => {
   const { getString } = useStrings()
   const { accountId, projectIdentifier, orgIdentifier } = useParams<ProjectPathProps>()
-  const SRM_ET_EXPERIMENTAL = useFeatureFlag(FeatureFlag.SRM_ET_EXPERIMENTAL)
 
   const componentLocation = {
     pathname: '/agents'
@@ -27,23 +24,19 @@ export const CVCodeErrorsAgents = (): JSX.Element => {
 
   useDocumentTitle([getString('cv.srmTitle'), getString('cv.codeErrorsAgents')])
 
-  if (SRM_ET_EXPERIMENTAL) {
-    return (
-      <>
-        <ChildAppMounter<AgentListProps>
-          ChildApp={ErrorTracking}
-          componentLocation={componentLocation}
-          toBaseRouteDefinition={() =>
-            routes.toCVCodeErrorsAgents({
-              accountId,
-              orgIdentifier,
-              projectIdentifier
-            })
-          }
-        />
-      </>
-    )
-  } else {
-    return <></>
-  }
+  return (
+    <>
+      <ChildAppMounter<AgentListProps>
+        ChildApp={ErrorTracking}
+        componentLocation={componentLocation}
+        toBaseRouteDefinition={() =>
+          routes.toCVCodeErrorsAgents({
+            accountId,
+            orgIdentifier,
+            projectIdentifier
+          })
+        }
+      />
+    </>
+  )
 }
