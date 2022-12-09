@@ -104,7 +104,7 @@ exports[`Sidenav render 1`] = `
           </a>
           <a
             class="link"
-            href="/account/dummy/cv/orgs/dummy/projects/dummy/CodeErrors"
+            href="/account/dummy/cv/orgs/dummy/projects/dummy/et/eventsummary"
           >
             <p
               class="StyledProps--font StyledProps--main text"
