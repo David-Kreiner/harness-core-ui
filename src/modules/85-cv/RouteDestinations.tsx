@@ -322,7 +322,6 @@ export default (
     </RouteWithLayout>
 
     <RouteWithLayout
-      exact
       sidebarProps={CVSideNavProps}
       path={routes.toCVCodeErrors({ ...accountPathProps, ...projectPathProps, ...cvModuleParams })}
     >

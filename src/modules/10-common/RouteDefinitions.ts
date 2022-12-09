@@ -1525,23 +1525,23 @@ const routes = {
   ),
 
   toCVCodeErrors: withAccountId(
-    ({ projectIdentifier, orgIdentifier, module = 'cv' }: Partial<ProjectPathProps & { module?: string }>) =>
-      `/${module}/orgs/${orgIdentifier}/projects/${projectIdentifier}/CodeErrors`
+    ({ projectIdentifier, orgIdentifier }: ProjectPathProps) =>
+      `/cv/orgs/${orgIdentifier}/projects/${projectIdentifier}/et/eventsummary`
   ),
 
   toCVCodeErrorsAgents: withAccountId(
     ({ projectIdentifier, orgIdentifier }: ProjectPathProps) =>
-      `/cv/orgs/${orgIdentifier}/projects/${projectIdentifier}/setup/codeerrors/agents`
+      `/cv/orgs/${orgIdentifier}/projects/${projectIdentifier}/setup/et/agents`
   ),
 
   toCVCodeErrorsAgentsTokens: withAccountId(
     ({ projectIdentifier, orgIdentifier }: ProjectPathProps) =>
-      `/cv/orgs/${orgIdentifier}/projects/${projectIdentifier}/setup/codeerrors/agents-tokens`
+      `/cv/orgs/${orgIdentifier}/projects/${projectIdentifier}/setup/et/tokens`
   ),
 
   toCVCodeErrorsAgentsControl: withAccountId(
     ({ projectIdentifier, orgIdentifier }: ProjectPathProps) =>
-      `/cv/orgs/${orgIdentifier}/projects/${projectIdentifier}/setup/codeerrors`
+      `/cv/orgs/${orgIdentifier}/projects/${projectIdentifier}/setup/et`
   ),
 
   toCVMonitoringServicesInputSets: withAccountId(

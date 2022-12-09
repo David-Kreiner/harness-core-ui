@@ -22,7 +22,7 @@ export default function ExecutionErrorTrackingView(): React.ReactElement | null 
   const pipelineExecutionDetail = context?.pipelineExecutionDetail
 
   const handleBackAction = (): void => {
-    return history.push(routes.toExecutionErrorTrackingView(params) + '/events')
+    return history.push(routes.toExecutionErrorTrackingView(params) + '/executionViewEvents')
   }
 
   if (
