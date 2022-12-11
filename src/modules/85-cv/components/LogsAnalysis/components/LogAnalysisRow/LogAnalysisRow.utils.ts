@@ -65,8 +65,15 @@ export const onClickErrorTrackingRow = (
     projectIdentifier: projectIdentifier,
     accountId: accountId
   })
-  const baseUrl = window.location.href.split('#')[0]
-  window.open(`${baseUrl}#${errorTrackingBaseUrl}/arc?event=${btoa(arcJson)}`)
+  let baseUrl = ''
+
+  if (window.browserRouterEnabled) {
+    baseUrl = '/ng'
+  } else {
+    baseUrl = window.location.href.split('#')[0] + '#'
+  }
+
+  window.open(`${baseUrl}${errorTrackingBaseUrl}/arc?event=${btoa(arcJson)}`)
 }
 
 export const isNoLogSelected = (selectedLog?: string | null): boolean =>
