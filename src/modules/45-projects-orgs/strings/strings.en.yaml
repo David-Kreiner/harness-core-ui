@@ -26,6 +26,7 @@ purposeList:
   cf: '{{$.common.purpose.cf.continuous}}'
   sto: '{{$.common.purpose.sto.continuous}}'
   chaos: '{{$.common.purpose.chaos.continuous}}'
+  cet: '{{$.common.purpose.cet.continuous}}'
   linkcv: 'Add New Monitoring Source'
   moduleSuccess: '{{$.common.purpose.moduleSuccess}}'
   name: 'Which Harness modules would you like to enable for this project?'
@@ -55,6 +56,7 @@ gotoCF: 'Go to Feature Flags'
 gotoCI: 'Go to Continuous Integration'
 gotoSTO: 'Go to Security Tests'
 gotoCHAOS: 'Go to Chaos Engineering'
+gotoCET: 'Go to Continuous Error Tracking'
 invite: 'Invite Collaborators'
 urlMessageProject: "Your Project is only accessible to people you've invited"
 urlMessageOrg: "Your organization is only accessible to people you've invited"

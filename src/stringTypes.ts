@@ -791,6 +791,8 @@ export interface StringsMap {
   'common.purpose.ce.optimizationCard.description': string
   'common.purpose.ce.subtitle': string
   'common.purpose.ce.visibilityCard.description': string
+  'common.purpose.cet.continuous': string
+  'common.purpose.cet.moduleSelectionSubHeading': string
   'common.purpose.cf.continuous': string
   'common.purpose.cf.description': string
   'common.purpose.cf.descriptionOnly': string
@@ -823,7 +825,6 @@ export interface StringsMap {
   'common.purpose.cv.serviceReliability': string
   'common.purpose.cv.subtitle': string
   'common.purpose.cv.verification': string
-  'common.purpose.errorTracking.longTitle': string
   'common.purpose.errorTracking.title': string
   'common.purpose.howToProceed': string
   'common.purpose.idp.fullName': string
@@ -3372,6 +3373,7 @@ export interface StringsMap {
   'projectsOrgs.goto': string
   'projectsOrgs.gotoBuilds': string
   'projectsOrgs.gotoCD': string
+  'projectsOrgs.gotoCET': string
   'projectsOrgs.gotoCF': string
   'projectsOrgs.gotoCHAOS': string
   'projectsOrgs.gotoCI': string
@@ -3430,6 +3432,7 @@ export interface StringsMap {
   'projectsOrgs.projectsInOrg': string
   'projectsOrgs.purposeList.cd': string
   'projectsOrgs.purposeList.ce': string
+  'projectsOrgs.purposeList.cet': string
   'projectsOrgs.purposeList.cf': string
   'projectsOrgs.purposeList.change': string
   'projectsOrgs.purposeList.chaos': string
@@ -8077,9 +8080,9 @@ export interface StringsMap {
   'ci.titleSettings': string
   'ci.usesLabel': string
   'ci.welcome': string
+  'et.continous': string
   'et.homepage.learnMore': string
   'et.homepage.slogan': string
-  'et.longTitle': string
   'et.nav.settings': string
   'et.title': string
   'idp.adminHome': string

@@ -78,7 +78,7 @@ export const RenderColumnOrganization: Renderer<CellProps<ProjectAggregateDTO>> 
 }
 
 const RenderColumnModules: Renderer<CellProps<ProjectAggregateDTO>> = ({ row }) => {
-  const { CVNG_ENABLED, CING_ENABLED, CENG_ENABLED, CFNG_ENABLED, CHAOS_ENABLED } = useFeatureFlags()
+  const { CVNG_ENABLED, CING_ENABLED, CENG_ENABLED, CFNG_ENABLED, CHAOS_ENABLED, CET_ENABLED } = useFeatureFlags()
   const { licenseInformation } = useLicenseStore()
   const data = row.original
   const shouldShowModules = data.projectResponse.project.modules?.length
@@ -113,6 +113,10 @@ const RenderColumnModules: Renderer<CellProps<ProjectAggregateDTO>> = ({ row }) 
 
     if (CHAOS_ENABLED && modules?.includes(ModuleName.CHAOS)) {
       icons.push(<Icon name={getModuleIcon(ModuleName.CHAOS)} size={20} key={ModuleName.CHAOS} />)
+    }
+
+    if (CET_ENABLED && modules?.includes(ModuleName.CET)) {
+      icons.push(<Icon name={getModuleIcon(ModuleName.CET)} size={20} key={ModuleName.CET} />)
     }
 
     return icons

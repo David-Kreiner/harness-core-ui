@@ -80,6 +80,8 @@ export const getModuleDescriptionsForModuleSelectionDialog = (module: ModuleName
       return 'common.purpose.sto.moduleSelectionSubHeading'
     case ModuleName.CHAOS:
       return 'common.purpose.chaos.moduleSelectionSubHeading'
+    case ModuleName.CET:
+      return 'common.purpose.cet.moduleSelectionSubHeading'
   }
 }
 export const getModuleDescription = (module: ModuleName): StringKeys => {
@@ -149,6 +151,8 @@ export const getModuleFullLengthTitle = (module: ModuleName): keyof StringsMap =
       return 'common.purpose.sto.continuous'
     case ModuleName.CHAOS:
       return 'common.purpose.chaos.continuous'
+    case ModuleName.CET:
+      return 'common.purpose.cet.continuous'
     default:
       return 'common.purpose.cd.continuous'
   }

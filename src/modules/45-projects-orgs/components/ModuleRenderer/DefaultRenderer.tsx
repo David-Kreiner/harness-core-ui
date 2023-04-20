@@ -17,7 +17,7 @@ import css from './ModuleRenderer.module.scss'
 
 const DefaultRenderer: React.FC = () => {
   const { getString } = useStrings()
-  const { CVNG_ENABLED, CING_ENABLED, CENG_ENABLED, CFNG_ENABLED, CHAOS_ENABLED } = useFeatureFlags()
+  const { CVNG_ENABLED, CING_ENABLED, CENG_ENABLED, CFNG_ENABLED, CHAOS_ENABLED, CET_ENABLED } = useFeatureFlags()
   const { licenseInformation } = useLicenseStore()
   const { shouldVisible } = useNavModuleInfo(ModuleName.CD)
   return (
@@ -33,6 +33,7 @@ const DefaultRenderer: React.FC = () => {
         {CVNG_ENABLED ? <Icon name="cv-main" size={20} /> : null}
         {CHAOS_ENABLED ? <Icon name="chaos-main" size={20} /> : null}
         {licenseInformation['STO']?.status === 'ACTIVE' ? <Icon name="sto-color-filled" size={20} /> : null}
+        {CET_ENABLED ? <Icon name="cet" size={20} /> : null}
       </Layout.Horizontal>
     </Layout.Vertical>
   )
