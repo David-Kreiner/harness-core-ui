@@ -124,7 +124,7 @@ const ProjectSetupMenu: React.FC<ProjectSetupMenuProps> = ({ module, defaultExpa
         {module === 'cd' && !isCDGetStartedVisible && (
           <SidebarLink label={getString('getStarted')} to={routes.toGetStartedWithCD({ ...params, module })} />
         )}
-        {SRM_ET_EXPERIMENTAL && module === 'cv' && !showGetStartedTabInMainMenu && (
+        {SRM_ET_EXPERIMENTAL && module === 'cv' && (
           <SidebarLink
             label={getString('common.codeErrorsSettings')}
             to={routes.toCVCodeErrorsSettings({ ...params })}
