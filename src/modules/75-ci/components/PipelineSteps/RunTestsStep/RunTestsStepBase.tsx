@@ -59,6 +59,7 @@ import { CIStep } from '../CIStep/CIStep'
 import { ConnectorRefWithImage } from '../CIStep/ConnectorRefWithImage'
 import { getCIStageInfraType } from '../../../utils/CIPipelineStudioUtils'
 import css from '@pipeline/components/PipelineSteps/Steps/Steps.module.scss'
+import { useLicenseStore } from 'framework/LicenseStore/LicenseStoreContext'
 
 interface FieldRenderProps {
   name: string
@@ -258,7 +259,9 @@ export const RunTestsStepBase = (
       selectionState: { selectedStageId }
     }
   } = usePipelineContext()
-  const { TI_DOTNET, CVNG_ENABLED, CI_PYTHON_TI } = useFeatureFlags()
+  const { TI_DOTNET, CI_PYTHON_TI } = useFeatureFlags()
+  const { licenseInformation } = useLicenseStore()
+  const isErrorTrackingEnabled = licenseInformation['CET']?.status === 'ACTIVE'
   // temporary enable in QA for docs
   const isQAEnvironment = window.location.origin === qaLocation
   const [mavenSetupQuestionAnswer, setMavenSetupQuestionAnswer] = React.useState('yes')
@@ -588,7 +591,7 @@ export const RunTestsStepBase = (
                 allowableTypes: [MultiTypeInputType.FIXED]
               })}
             </Container>
-            {CVNG_ENABLED && selectedLanguageValue === Language.Java && (
+            {isErrorTrackingEnabled && selectedLanguageValue === Language.Java && (
               <Container className={css.bottomMargin5}>
                 <Text
                   tooltipProps={{ dataTooltipId: 'runTestErrorTracking' }}
