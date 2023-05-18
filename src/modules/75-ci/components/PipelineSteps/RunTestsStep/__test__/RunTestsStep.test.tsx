@@ -17,6 +17,7 @@ import type { ResponseConnectorResponse } from 'services/cd-ng'
 import { factory, TestStepWidget } from '@pipeline/components/PipelineSteps/Steps/__tests__/StepTestUtil'
 import { CIBuildInfrastructureType } from '@pipeline/utils/constants'
 import { RunTestsStep } from '../RunTestsStep'
+import * as licenseStoreContextMock from 'framework/LicenseStore/LicenseStoreContext'
 
 jest.mock('@common/components/MonacoEditor/MonacoEditor')
 jest.mock('@common/components/YAMLBuilder/YamlBuilder')
@@ -107,6 +108,13 @@ describe('RunTests Step', () => {
         TI_DOTNET: true,
         CVNG_ENABLED: true
       })
+
+      jest.spyOn(licenseStoreContextMock, 'useLicenseStore').mockReturnValue({
+        licenseInformation: {
+          CET: { status: 'ACTIVE' }
+        }
+      } as any)
+
       const { container, getByText } = render(
         <TestStepWidget initialValues={{}} type={StepType.RunTests} stepViewType={StepViewType.Edit} />
       )
