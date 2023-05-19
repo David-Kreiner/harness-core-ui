@@ -2640,6 +2640,58 @@ exports[`RunTests Step Edit View renders runtime inputs 1`] = `
           </div>
         </div>
         <div
+          class="StyledProps--font StyledProps--main bottomMargin5"
+        >
+          <div
+            class="Text--withDocsTooltip"
+            data-tooltip-id="runTestErrorTracking"
+          >
+            <p
+              class="StyledProps--font StyledProps--main inpLabel StyledProps--color StyledProps--color-grey600 StyledProps--font-size-small StyledProps--font-weight-semi-bold"
+            >
+              ci.runTestsErrorTrackingSetupText
+            </p>
+          </div>
+          <div
+            class="StyledProps--main StyledProps--margin-bottom-small"
+          >
+            
+            <div
+              class="RadioButtonGroup--inline"
+            >
+              <label
+                class="RadioButton--radio StyledProps--main"
+              >
+                <input
+                  class="RadioButton--input"
+                  name="error-tracking-setup"
+                  type="radio"
+                  value="on"
+                />
+                <span
+                  class="RadioButton--radioIcon"
+                />
+                yes
+              </label>
+              <label
+                class="RadioButton--radio StyledProps--main"
+              >
+                <input
+                  checked=""
+                  class="RadioButton--input"
+                  name="error-tracking-setup"
+                  type="radio"
+                  value="off"
+                />
+                <span
+                  class="RadioButton--radioIcon"
+                />
+                no
+              </label>
+            </div>
+          </div>
+        </div>
+        <div
           class="StyledProps--font StyledProps--main formGroup lg bottomMargin5"
         >
           <div>
