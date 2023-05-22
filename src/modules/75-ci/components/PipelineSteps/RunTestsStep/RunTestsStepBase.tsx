@@ -38,6 +38,7 @@ import { useVariablesExpression } from '@pipeline/components/PipelineStudio/Pipl
 import { useStrings, UseStringsReturn } from 'framework/strings'
 import type { StringsMap } from 'stringTypes'
 import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
+import { useLicenseStore } from 'framework/LicenseStore/LicenseStoreContext'
 import { MultiTypeTextField } from '@common/components/MultiTypeText/MultiTypeText'
 import StepCommonFields from '@ci/components/PipelineSteps/StepCommonFields/StepCommonFields'
 import { validate } from '@pipeline/components/PipelineSteps/Steps/StepsValidateUtils'
@@ -59,7 +60,6 @@ import { CIStep } from '../CIStep/CIStep'
 import { ConnectorRefWithImage } from '../CIStep/ConnectorRefWithImage'
 import { getCIStageInfraType } from '../../../utils/CIPipelineStudioUtils'
 import css from '@pipeline/components/PipelineSteps/Steps/Steps.module.scss'
-import { useLicenseStore } from 'framework/LicenseStore/LicenseStoreContext'
 
 interface FieldRenderProps {
   name: string

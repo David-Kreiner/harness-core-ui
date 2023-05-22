@@ -11,13 +11,13 @@ import { RUNTIME_INPUT_VALUE } from '@harness/uicore'
 import { StepViewType, StepFormikRef } from '@pipeline/components/AbstractSteps/Step'
 import { InputTypes, fillAtForm } from '@common/utils/JestFormHelper'
 import * as FeatureFlag from '@common/hooks/useFeatureFlag'
+import * as licenseStoreContextMock from 'framework/LicenseStore/LicenseStoreContext'
 import { StepType } from '@pipeline/components/PipelineSteps/PipelineStepInterface'
 import { findPopoverContainer, UseGetReturnData } from '@common/utils/testUtils'
 import type { ResponseConnectorResponse } from 'services/cd-ng'
 import { factory, TestStepWidget } from '@pipeline/components/PipelineSteps/Steps/__tests__/StepTestUtil'
 import { CIBuildInfrastructureType } from '@pipeline/utils/constants'
 import { RunTestsStep } from '../RunTestsStep'
-import * as licenseStoreContextMock from 'framework/LicenseStore/LicenseStoreContext'
 
 jest.mock('@common/components/MonacoEditor/MonacoEditor')
 jest.mock('@common/components/YAMLBuilder/YamlBuilder')
