@@ -286,7 +286,7 @@ export default function ExecutionTabs(props: ExecutionTabsProps): React.ReactEle
           className={css.tabLink}
           activeClassName={css.activeLink}
         >
-          <Icon name="error-tracking" size={16} />
+          <Icon name="cet" size={16} />
           <span>{getString('common.purpose.errorTracking.title')}</span>
         </NavLink>
       )
