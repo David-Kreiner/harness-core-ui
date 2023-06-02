@@ -9,6 +9,7 @@
 declare const styles: {
   readonly colorbox: string
   readonly layout: string
+  readonly moduleListContainer: string
   readonly org: string
   readonly project: string
   readonly projectTextContainer: string

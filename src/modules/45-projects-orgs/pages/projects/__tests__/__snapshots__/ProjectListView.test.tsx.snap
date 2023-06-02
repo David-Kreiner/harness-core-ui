@@ -399,8 +399,7 @@ exports[`Project List render 1`] = `
             style="width: 15%;"
           >
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main"
-              style="overflow: hidden;"
+              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main moduleListContainer"
             >
               <span
                 class="bp3-icon StyledProps--main"
@@ -778,8 +777,7 @@ exports[`Project List render 1`] = `
             style="width: 15%;"
           >
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main"
-              style="overflow: hidden;"
+              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main moduleListContainer"
             >
               <span
                 class="bp3-icon StyledProps--main"
@@ -1199,8 +1197,7 @@ exports[`Project List render 1`] = `
             style="width: 15%;"
           >
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main"
-              style="overflow: hidden;"
+              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main moduleListContainer"
             >
               <span
                 class="bp3-icon StyledProps--main"
@@ -1507,8 +1504,7 @@ exports[`Project List render 1`] = `
             style="width: 15%;"
           >
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main"
-              style="overflow: hidden;"
+              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main moduleListContainer"
             >
               <p
                 class="StyledProps--font StyledProps--main StyledProps--color StyledProps--color-grey350 StyledProps--font-size-small"
@@ -1857,8 +1853,7 @@ exports[`Project List render 1`] = `
             style="width: 15%;"
           >
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main"
-              style="overflow: hidden;"
+              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main moduleListContainer"
             >
               <p
                 class="StyledProps--font StyledProps--main StyledProps--color StyledProps--color-grey350 StyledProps--font-size-small"
@@ -2207,8 +2202,7 @@ exports[`Project List render 1`] = `
             style="width: 15%;"
           >
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main"
-              style="overflow: hidden;"
+              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main moduleListContainer"
             >
               <span
                 class="bp3-icon StyledProps--main"
@@ -2737,8 +2731,7 @@ exports[`Project List render 1`] = `
             style="width: 15%;"
           >
             <div
-              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main"
-              style="overflow: hidden;"
+              class="Layout--horizontal Layout--layout-spacing-medium StyledProps--main moduleListContainer"
             >
               <span
                 class="bp3-icon StyledProps--main"

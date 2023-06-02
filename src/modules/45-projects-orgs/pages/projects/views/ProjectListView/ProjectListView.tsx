@@ -124,7 +124,7 @@ const RenderColumnModules: Renderer<CellProps<ProjectAggregateDTO>> = ({ row }) 
   }
 
   return (
-    <Layout.Horizontal spacing="medium" style={{ overflow: 'hidden' }}>
+    <Layout.Horizontal spacing="medium" className={css.moduleListContainer}>
       {shouldShowModules ? (
         getModuleIcons(data.projectResponse.project)
       ) : (
