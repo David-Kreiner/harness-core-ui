@@ -107,8 +107,87 @@ export const useGetLicenseUsage = <TData = Schemas.CETLicenseUsageDTO>(
   )
 }
 
-export type QueryOperation = {
-  path: '/api/usage'
-  operationId: 'getLicenseUsage'
-  variables: GetLicenseUsageVariables
+export type GetMonitoredServicesLiveProcessCountPathParams = {
+  accountId: string
+  organizationId: string
+  projectId: string
 }
+
+export type GetMonitoredServicesLiveProcessCountError = Fetcher.ErrorWrapper<
+  | {
+      status: 400
+      payload: Schemas.NotFound
+    }
+  | {
+      status: 401
+      payload: Schemas.NotFound
+    }
+  | {
+      status: 403
+      payload: Schemas.NotFound
+    }
+  | {
+      status: 404
+      payload: Schemas.NotFound
+    }
+  | {
+      status: 500
+      payload: Schemas.NotFound
+    }
+>
+
+export type GetMonitoredServicesLiveProcessCountVariables = {
+  pathParams: GetMonitoredServicesLiveProcessCountPathParams
+} & CetContext<QueryOperation>['fetcherOptions']
+
+export const fetchGetMonitoredServicesLiveProcessCount = (variables: GetMonitoredServicesLiveProcessCountVariables) =>
+  cetFetch<
+    undefined,
+    GetMonitoredServicesLiveProcessCountError,
+    undefined,
+    {},
+    {},
+    GetMonitoredServicesLiveProcessCountPathParams
+  >({
+    url: '/api/{accountId}/{organizationId}/{projectId}/status/grouped',
+    method: 'get',
+    ...variables
+  })
+
+export const useGetMonitoredServicesLiveProcessCount = <TData = undefined>(
+  variables: GetMonitoredServicesLiveProcessCountVariables,
+  options?: Omit<
+    reactQuery.UseQueryOptions<undefined, GetMonitoredServicesLiveProcessCountError, TData>,
+    'queryKey' | 'queryFn'
+  >
+) => {
+  const { fetcherOptions, queryOptions, queryKeyFn } = useCetContext(options)
+  return reactQuery.useQuery<undefined, GetMonitoredServicesLiveProcessCountError, TData>(
+    queryKeyFn({
+      path: '/api/{accountId}/{organizationId}/{projectId}/status/grouped',
+      operationId: 'getMonitoredServicesLiveProcessCount',
+      variables
+    }),
+    () =>
+      fetchGetMonitoredServicesLiveProcessCount({
+        ...fetcherOptions,
+        ...variables
+      }),
+    {
+      ...options,
+      ...queryOptions
+    }
+  )
+}
+
+export type QueryOperation =
+  | {
+      path: '/api/usage'
+      operationId: 'getLicenseUsage'
+      variables: GetLicenseUsageVariables
+    }
+  | {
+      path: '/api/{accountId}/{organizationId}/{projectId}/status/grouped'
+      operationId: 'getMonitoredServicesLiveProcessCount'
+      variables: GetMonitoredServicesLiveProcessCountVariables
+    }
