@@ -5,3 +5,5 @@ nav:
 homepage:
   slogan: Find and fix errors faster with full code level visibility and deep context in each stage of your software development.
   learnMore: Learn more about Continuous Error Tracking
+monitoredservice:
+  agentconfig: 'Error Tracking Agent'
