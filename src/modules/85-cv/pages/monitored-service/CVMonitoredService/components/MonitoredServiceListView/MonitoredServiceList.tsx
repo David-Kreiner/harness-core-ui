@@ -154,8 +154,8 @@ const MonitoredServiceList: React.FC<MonitoredServiceListProps> = ({
       refetchServiceCountData()
       refetchMonitoredServiceList({
         queryParams: queryParams
-      }),
-        refetchMonitoredServiceAgentConfig()
+      })
+      !cetMonitoredServiceAgentConfigData && refetchMonitoredServiceAgentConfig()
     }
   }, [page, search, selectedFilter, environmentIdentifier])
 

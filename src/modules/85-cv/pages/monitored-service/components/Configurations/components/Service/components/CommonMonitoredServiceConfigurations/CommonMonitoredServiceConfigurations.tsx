@@ -11,6 +11,7 @@ import { ResourceType } from '@rbac/interfaces/ResourceType'
 import { isUpdated } from '@cv/pages/monitored-service/components/Configurations/Configurations.utils'
 import { useStrings } from 'framework/strings'
 import {
+  getIsAgentConfigSectionHidden,
   getIsChangeSrcSectionHidden,
   getIsHealthSrcSectionHidden,
   getIsNotifcationsSectionHidden,
@@ -24,6 +25,11 @@ import type { MonitoredServiceForm } from '../../Service.types'
 import MonitoredServiceOverview from '../MonitoredServiceOverview/MonitoredServiceOverview'
 import MonitoredServiceNotificationsContainer from '../MonitoredServiceNotificationsContainer/MonitoredServiceNotificationsContainer'
 import css from './CommonMonitoredServiceConfigurations.module.scss'
+import { useLicenseStore } from 'framework/LicenseStore/LicenseStoreContext'
+import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
+import { LICENSE_STATE_VALUES } from 'framework/LicenseStore/licenseStoreUtil'
+import { CETAgentConfig } from '@cet/pages/CETAgentConfig'
+import { ModuleName } from 'framework/types/ModuleName'
 
 export interface CommonMonitoredServiceConfigurationsProps {
   config?: MonitoredServiceConfig
@@ -67,8 +73,12 @@ export default function CommonMonitoredServiceConfigurations(
     onDiscard
   } = props
   const formik = useFormikContext<MonitoredServiceForm>()
+  const { licenseInformation } = useLicenseStore()
+  const { CET_PLATFORM_MONITORED_SERVICE } = useFeatureFlags()
+  const isCETLicensePresentAndActive = licenseInformation[ModuleName.CET]?.status === LICENSE_STATE_VALUES.ACTIVE
   const isChangeSrcSectionHidden = getIsChangeSrcSectionHidden(config, identifier)
   const isHealthSrcSectionHidden = getIsHealthSrcSectionHidden(config, identifier)
+  const isAgentConfigSectionHidden = getIsAgentConfigSectionHidden(config, identifier, isCETLicensePresentAndActive)
   const { projectIdentifier } = useParams<ProjectPathProps & { identifier: string }>()
   const { getString } = useStrings()
   const isNotificationsSectionHidden = getIsNotifcationsSectionHidden(isTemplate, config, identifier)
@@ -167,6 +177,9 @@ export default function CommonMonitoredServiceConfigurations(
               />
             }
           />
+        )}
+        {isAgentConfigSectionHidden && !CET_PLATFORM_MONITORED_SERVICE ? null : (
+          <Tab id={'agentConfig'} title={getString('cet.monitoredservice.agentconfig')} panel={<CETAgentConfig />} />
         )}
         {isNotificationsSectionHidden ? null : (
           <Tab
