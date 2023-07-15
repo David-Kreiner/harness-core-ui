@@ -8,8 +8,8 @@
 import type React from 'react'
 import type { NotificationMethodsProps } from '@pipeline/components/Notifications/Steps/NotificationMethods'
 import type { OverviewProps } from '@pipeline/components/Notifications/Steps/Overview'
-import type { ChildAppProps } from './ErrorTrackingApp'
 import { MonitoredServiceActiveAgentsDTO } from 'services/cet/cetSchemas'
+import type { ChildAppProps } from './ErrorTrackingApp'
 
 export interface ETCustomMicroFrontendProps extends ChildAppProps {
   customComponents: {

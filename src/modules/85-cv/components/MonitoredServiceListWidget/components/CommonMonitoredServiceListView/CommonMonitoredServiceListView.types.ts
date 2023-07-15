@@ -7,8 +7,8 @@
 
 import type { FilterTypes } from '@cv/pages/monitored-service/CVMonitoredService/CVMonitoredService.types'
 import type { PageMonitoredServicePlatformResponse } from 'services/cv'
-import type { MonitoredServiceConfig } from '../../MonitoredServiceListWidget.types'
 import { MonitoredServiceActiveAgentsDTOArray } from '@cet/ErrorTracking.types'
+import type { MonitoredServiceConfig } from '../../MonitoredServiceListWidget.types'
 
 export interface CommonMonitoredServiceListViewProps {
   setPage: (n: number) => void

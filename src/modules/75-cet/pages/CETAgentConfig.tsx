@@ -6,15 +6,14 @@
  */
 
 import React from 'react'
-import { FormikContextType } from 'formik'
 import { ErrorTracking } from '@cet/ErrorTrackingApp'
 import ChildAppMounter from 'microfrontends/ChildAppMounter'
 import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
 import CardWithOuterTitle from '@common/components/CardWithOuterTitle/CardWithOuterTitle'
-import { MonitoredServiceForm } from '@cv/pages/monitored-service/components/Configurations/components/Service/Service.types'
 
 interface Props {
-  serviceFormFormik?: FormikContextType<MonitoredServiceForm>
+  serviceRef?: string
+  environmentRef?: string
 }
 
 export const CETAgentConfig: React.FC<Props> = props => {
@@ -27,8 +26,8 @@ export const CETAgentConfig: React.FC<Props> = props => {
           ChildApp={ErrorTracking}
           componentLocation={'agent-config'}
           monitoredService={{
-            serviceRef: props.serviceFormFormik?.values.serviceRef || undefined,
-            environmentRef: props.serviceFormFormik?.values.environmentRef || undefined
+            serviceRef: props.serviceRef,
+            environmentRef: props.environmentRef
           }}
         />
       </CardWithOuterTitle>

@@ -28,11 +28,11 @@ import CommonMonitoredServiceListView from '@cv/components/MonitoredServiceListW
 import { getIfModuleIsCD } from '@cv/components/MonitoredServiceListWidget/MonitoredServiceListWidget.utils'
 import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
 import { MonitoredServiceActiveAgentsDTO } from 'services/cet/cetSchemas'
+import { useGetMonitoredServicesLiveProcessCount } from 'services/cet/cetComponents'
+import { MonitoredServiceActiveAgentsDTOArray } from '@cet/ErrorTracking.types'
 import MonitoredServiceListView from './MonitoredServiceListView'
 import { FilterTypes, MonitoredServiceListProps } from '../../CVMonitoredService.types'
 import css from '../../CVMonitoredService.module.scss'
-import { useGetMonitoredServicesLiveProcessCount } from 'services/cet/cetComponents'
-import { MonitoredServiceActiveAgentsDTOArray } from '@cet/ErrorTracking.types'
 
 const MonitoredServiceList: React.FC<MonitoredServiceListProps> = ({
   page,

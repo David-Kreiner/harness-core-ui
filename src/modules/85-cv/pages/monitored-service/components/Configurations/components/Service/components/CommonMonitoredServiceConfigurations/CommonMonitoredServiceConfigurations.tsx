@@ -10,6 +10,11 @@ import type { ProjectPathProps } from '@common/interfaces/RouteInterfaces'
 import { ResourceType } from '@rbac/interfaces/ResourceType'
 import { isUpdated } from '@cv/pages/monitored-service/components/Configurations/Configurations.utils'
 import { useStrings } from 'framework/strings'
+import { useLicenseStore } from 'framework/LicenseStore/LicenseStoreContext'
+import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
+import { LICENSE_STATE_VALUES } from 'framework/LicenseStore/licenseStoreUtil'
+import { CETAgentConfig } from '@cet/pages/CETAgentConfig'
+import { ModuleName } from 'framework/types/ModuleName'
 import {
   getIsAgentConfigSectionHidden,
   getIsChangeSrcSectionHidden,
@@ -25,11 +30,6 @@ import type { MonitoredServiceForm } from '../../Service.types'
 import MonitoredServiceOverview from '../MonitoredServiceOverview/MonitoredServiceOverview'
 import MonitoredServiceNotificationsContainer from '../MonitoredServiceNotificationsContainer/MonitoredServiceNotificationsContainer'
 import css from './CommonMonitoredServiceConfigurations.module.scss'
-import { useLicenseStore } from 'framework/LicenseStore/LicenseStoreContext'
-import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
-import { LICENSE_STATE_VALUES } from 'framework/LicenseStore/licenseStoreUtil'
-import { CETAgentConfig } from '@cet/pages/CETAgentConfig'
-import { ModuleName } from 'framework/types/ModuleName'
 
 export interface CommonMonitoredServiceConfigurationsProps {
   config?: MonitoredServiceConfig
@@ -187,7 +187,9 @@ export default function CommonMonitoredServiceConfigurations(
           <Tab
             id={'agentConfig'}
             title={getString('cet.monitoredservice.agentconfig')}
-            panel={<CETAgentConfig serviceFormFormik={formik} />}
+            panel={
+              <CETAgentConfig serviceRef={formik.values?.serviceRef} environmentRef={formik.values?.environmentRef} />
+            }
           />
         )}
         {isNotificationsSectionHidden ? null : (
