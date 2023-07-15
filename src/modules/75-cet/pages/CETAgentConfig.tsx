@@ -6,12 +6,12 @@
  */
 
 import React from 'react'
+import { FormikContextType } from 'formik'
 import { ErrorTracking } from '@cet/ErrorTrackingApp'
 import ChildAppMounter from 'microfrontends/ChildAppMounter'
 import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
 import CardWithOuterTitle from '@common/components/CardWithOuterTitle/CardWithOuterTitle'
 import { MonitoredServiceForm } from '@cv/pages/monitored-service/components/Configurations/components/Service/Service.types'
-import { FormikContextType } from 'formik'
 
 interface Props {
   serviceFormFormik?: FormikContextType<MonitoredServiceForm>
