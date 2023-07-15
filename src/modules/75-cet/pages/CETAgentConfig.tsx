@@ -10,14 +10,27 @@ import { ErrorTracking } from '@cet/ErrorTrackingApp'
 import ChildAppMounter from 'microfrontends/ChildAppMounter'
 import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
 import CardWithOuterTitle from '@common/components/CardWithOuterTitle/CardWithOuterTitle'
+import { MonitoredServiceForm } from '@cv/pages/monitored-service/components/Configurations/components/Service/Service.types'
+import { FormikContextType } from 'formik'
 
-export const CETAgentConfig = (): JSX.Element => {
+interface Props {
+  serviceFormFormik?: FormikContextType<MonitoredServiceForm>
+}
+
+export const CETAgentConfig: React.FC<Props> = props => {
   const { CET_PLATFORM_MONITORED_SERVICE } = useFeatureFlags()
 
   if (CET_PLATFORM_MONITORED_SERVICE) {
     return (
       <CardWithOuterTitle>
-        <ChildAppMounter ChildApp={ErrorTracking} componentLocation={'agent-config'} />{' '}
+        <ChildAppMounter
+          ChildApp={ErrorTracking}
+          componentLocation={'agent-config'}
+          monitoredService={{
+            serviceRef: props.serviceFormFormik?.values.serviceRef || undefined,
+            environmentRef: props.serviceFormFormik?.values.environmentRef || undefined
+          }}
+        />
       </CardWithOuterTitle>
     )
   } else {

@@ -1,3 +1,4 @@
+import { MonitoredServiceActiveAgentsDTOArray } from '@cet/ErrorTracking.types'
 import type { PageMonitoredServicePlatformResponse } from 'services/cv'
 
 export const mockedMonitoredServiceListData = {
@@ -109,4 +110,4 @@ export const mockedMonitoredServiceListData = {
   ],
   pageIndex: 0,
   empty: false
-} as PageMonitoredServicePlatformResponse
+} as PageMonitoredServicePlatformResponse & MonitoredServiceActiveAgentsDTOArray

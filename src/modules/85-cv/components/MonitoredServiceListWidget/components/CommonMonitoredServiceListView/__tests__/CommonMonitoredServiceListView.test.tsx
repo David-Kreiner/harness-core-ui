@@ -75,7 +75,6 @@ describe('CommonMonitoredServiceListView', () => {
           config={PROJECT_MONITORED_SERVICE_CONFIG}
           appliedSearchAndFilter={false}
           createButton={createButton}
-          cetMonitoredServiceAgentConfigData={[]}
         />
       </MemoryRouter>
     )
@@ -95,7 +94,6 @@ describe('CommonMonitoredServiceListView', () => {
           config={PROJECT_MONITORED_SERVICE_CONFIG}
           appliedSearchAndFilter={false}
           createButton={createButton}
-          cetMonitoredServiceAgentConfigData={[]}
         />
       </MemoryRouter>
     )
@@ -115,7 +113,6 @@ describe('CommonMonitoredServiceListView', () => {
           config={PROJECT_MONITORED_SERVICE_CONFIG}
           appliedSearchAndFilter={false}
           createButton={createButton}
-          cetMonitoredServiceAgentConfigData={[]}
         />
       </MemoryRouter>
     )
@@ -134,7 +131,6 @@ describe('CommonMonitoredServiceListView', () => {
           config={PROJECT_MONITORED_SERVICE_CONFIG}
           appliedSearchAndFilter={true}
           createButton={createButton}
-          cetMonitoredServiceAgentConfigData={[]}
         />
       </MemoryRouter>
     )
@@ -153,7 +149,6 @@ describe('CommonMonitoredServiceListView', () => {
           config={PROJECT_MONITORED_SERVICE_CONFIG}
           appliedSearchAndFilter={false}
           createButton={createButton}
-          cetMonitoredServiceAgentConfigData={[]}
         />
       </MemoryRouter>
     )
@@ -181,7 +176,6 @@ describe('CommonMonitoredServiceListView', () => {
           config={PROJECT_MONITORED_SERVICE_CONFIG}
           appliedSearchAndFilter={false}
           createButton={createButton}
-          cetMonitoredServiceAgentConfigData={[]}
         />
       </MemoryRouter>
     )
@@ -203,7 +197,6 @@ describe('CommonMonitoredServiceListView', () => {
           config={CD_MONITORED_SERVICE_CONFIG}
           appliedSearchAndFilter={false}
           createButton={createButton}
-          cetMonitoredServiceAgentConfigData={[]}
         />
       </MemoryRouter>
     )
@@ -225,7 +218,6 @@ describe('CommonMonitoredServiceListView', () => {
           config={CD_MONITORED_SERVICE_CONFIG}
           appliedSearchAndFilter={false}
           createButton={createButton}
-          cetMonitoredServiceAgentConfigData={[]}
         />
       </MemoryRouter>
     )
@@ -247,7 +239,6 @@ describe('CommonMonitoredServiceListView', () => {
           config={CD_MONITORED_SERVICE_CONFIG}
           appliedSearchAndFilter={false}
           createButton={createButton}
-          cetMonitoredServiceAgentConfigData={[]}
         />
       </MemoryRouter>
     )

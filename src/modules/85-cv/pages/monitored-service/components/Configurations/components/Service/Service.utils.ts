@@ -140,11 +140,13 @@ export function getIsHealthSrcSectionHidden(config: MonitoredServiceConfig | und
 export function getIsAgentConfigSectionHidden(
   config: MonitoredServiceConfig | undefined,
   identifier: string,
-  isCETLicensePresentAndActive: boolean
+  isCETLicensePresentAndActive?: boolean,
+  CET_PLATFORM_MONITORED_SERVICE?: boolean
 ): boolean {
-  const isAgentConfigSectionHidden = config?.details.agentConfiguration && isCETLicensePresentAndActive
-  const isCreateModeForNonCDModules = !isAgentConfigSectionHidden && !identifier
-  return Boolean(config && (isAgentConfigSectionHidden || isCreateModeForNonCDModules))
+  const isAgentConfigSectionVisible =
+    config?.details.agentConfiguration && isCETLicensePresentAndActive && CET_PLATFORM_MONITORED_SERVICE
+
+  return Boolean(!(identifier && isAgentConfigSectionVisible))
 }
 
 export function getIsChangeSrcSectionHidden(config: MonitoredServiceConfig | undefined, identifier: string): boolean {

@@ -25,13 +25,12 @@ import routes from '@common/RouteDefinitions'
 import { ModuleName } from 'framework/types/ModuleName'
 import { useLicenseStore } from 'framework/LicenseStore/LicenseStoreContext'
 import { LICENSE_STATE_VALUES } from 'framework/LicenseStore/licenseStoreUtil'
+import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
 import type { CommonMonitoredServiceListViewProps } from './CommonMonitoredServiceListView.types'
 import ServiceName from './components/ServiceName/ServiceName'
 import ConfiguredLabel from './components/ConfiguredLabel/ConfiguredLabel'
 import { getIfModuleIsCD, getListingNoDataCardMessage } from '../../MonitoredServiceListWidget.utils'
 import css from '@cv/pages/monitored-service/CVMonitoredService/CVMonitoredService.module.scss'
-import { MonitoredServiceActiveAgentsDTO } from 'services/cet/cetSchemas'
-import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
 
 const CategoryProps: Renderer<CellProps<MonitoredServicePlatformResponse>> = ({ row }) => (
   <MonitoredServiceCategory type={row.original.type} abbrText verticalAlign />
@@ -55,11 +54,26 @@ const RenderServiceNameForCD: Renderer<CellProps<MonitoredServicePlatformRespons
   return <ServiceName row={row} module={'cd'} />
 }
 
-interface CETAgentConfigProps {
-  cetMonitoredServiceAgentConfigData: MonitoredServiceActiveAgentsDTO[]
+function getContextMenuPercentage(
+  isCDModule?: boolean,
+  isSRMLicensePresentAndActive?: boolean,
+  cetConditions?: boolean
+): string {
+  // Check if isCDModule is true or if isSRMLicense is not present and active
+  if (isCDModule || !isSRMLicensePresentAndActive) {
+    return '70.5%'
+  }
+
+  // Check if cetConditions is true
+  if (cetConditions) {
+    return '30%'
+  }
+
+  // Default percentage
+  return '43.5%'
 }
 
-const CommonMonitoredServiceListView: React.FC<CommonMonitoredServiceListViewProps & CETAgentConfigProps> = ({
+const CommonMonitoredServiceListView: React.FC<CommonMonitoredServiceListViewProps> = ({
   monitoredServiceListData,
   selectedFilter,
   onEditService,
@@ -67,8 +81,7 @@ const CommonMonitoredServiceListView: React.FC<CommonMonitoredServiceListViewPro
   setPage,
   config,
   appliedSearchAndFilter,
-  createButton,
-  cetMonitoredServiceAgentConfigData
+  createButton
 }) => {
   const { getString } = useStrings()
   const { content, pageSize = 0, pageIndex = 0, totalPages = 0, totalItems = 0 } = monitoredServiceListData || {}
@@ -85,7 +98,7 @@ const CommonMonitoredServiceListView: React.FC<CommonMonitoredServiceListViewPro
   const RenderActiveAgentsForProjects: Renderer<CellProps<MonitoredServicePlatformResponse>> = ({ row }) => {
     const monitoredService = row.original
     const agentsConfigigured =
-      cetMonitoredServiceAgentConfigData?.find(
+      monitoredServiceListData?.cetMonitoredServiceAgentConfigData?.find(
         i =>
           i.harnessServiceId === monitoredService.serviceRef &&
           i.harnessEnvironmentId &&
@@ -273,7 +286,7 @@ const CommonMonitoredServiceListView: React.FC<CommonMonitoredServiceListViewPro
                 : []),
               {
                 id: 'contextMenu',
-                width: isCDModule || !isSRMLicensePresentAndActive ? '70.5%' : cetConditions ? '30%' : '43.5%',
+                width: getContextMenuPercentage(isCDModule, isSRMLicensePresentAndActive, cetConditions),
                 Cell: RenderContextMenu
               }
             ]}

@@ -78,7 +78,12 @@ export default function CommonMonitoredServiceConfigurations(
   const isCETLicensePresentAndActive = licenseInformation[ModuleName.CET]?.status === LICENSE_STATE_VALUES.ACTIVE
   const isChangeSrcSectionHidden = getIsChangeSrcSectionHidden(config, identifier)
   const isHealthSrcSectionHidden = getIsHealthSrcSectionHidden(config, identifier)
-  const isAgentConfigSectionHidden = getIsAgentConfigSectionHidden(config, identifier, isCETLicensePresentAndActive)
+  const isAgentConfigSectionHidden = getIsAgentConfigSectionHidden(
+    config,
+    identifier,
+    isCETLicensePresentAndActive,
+    CET_PLATFORM_MONITORED_SERVICE
+  )
   const { projectIdentifier } = useParams<ProjectPathProps & { identifier: string }>()
   const { getString } = useStrings()
   const isNotificationsSectionHidden = getIsNotifcationsSectionHidden(isTemplate, config, identifier)
@@ -178,8 +183,12 @@ export default function CommonMonitoredServiceConfigurations(
             }
           />
         )}
-        {isAgentConfigSectionHidden && !CET_PLATFORM_MONITORED_SERVICE ? null : (
-          <Tab id={'agentConfig'} title={getString('cet.monitoredservice.agentconfig')} panel={<CETAgentConfig />} />
+        {isAgentConfigSectionHidden ? null : (
+          <Tab
+            id={'agentConfig'}
+            title={getString('cet.monitoredservice.agentconfig')}
+            panel={<CETAgentConfig serviceFormFormik={formik} />}
+          />
         )}
         {isNotificationsSectionHidden ? null : (
           <Tab
