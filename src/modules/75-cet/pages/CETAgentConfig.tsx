@@ -10,19 +10,16 @@ import { ErrorTracking } from '@cet/ErrorTrackingApp'
 import ChildAppMounter from 'microfrontends/ChildAppMounter'
 import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
 import CardWithOuterTitle from '@common/components/CardWithOuterTitle/CardWithOuterTitle'
+import { CETAgentConfigProps } from '@cet/ErrorTracking.types'
 
-interface Props {
-  serviceRef?: string
-  environmentRef?: string
-}
-
-export const CETAgentConfig: React.FC<Props> = props => {
+export const CETAgentConfig: React.FC<CETAgentConfigProps> = props => {
   const { CET_PLATFORM_MONITORED_SERVICE } = useFeatureFlags()
 
   if (CET_PLATFORM_MONITORED_SERVICE) {
     return (
       <CardWithOuterTitle>
         <ChildAppMounter
+          data-testid={'error-tracking-child-mounter'}
           ChildApp={ErrorTracking}
           componentLocation={'agent-config'}
           monitoredService={{

@@ -21,3 +21,8 @@ export interface ETCustomMicroFrontendProps extends ChildAppProps {
 export interface MonitoredServiceActiveAgentsDTOArray {
   cetMonitoredServiceAgentConfigData?: MonitoredServiceActiveAgentsDTO[]
 }
+
+export interface CETAgentConfigProps {
+  serviceRef?: string
+  environmentRef?: string
+}
