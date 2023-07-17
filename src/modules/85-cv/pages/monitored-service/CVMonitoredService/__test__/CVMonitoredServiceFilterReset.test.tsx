@@ -13,6 +13,7 @@ import { TestWrapper, TestWrapperProps } from '@common/utils/testUtils'
 import { accountPathProps, projectPathProps } from '@common/utils/routeUtils'
 import * as useLicenseStore from 'framework/LicenseStore/LicenseStoreContext'
 import * as cvServices from 'services/cv'
+import { useGetMonitoredServicesLiveProcessCount } from 'services/cet/cetComponents'
 import CVMonitoredService from '../CVMonitoredService'
 
 import {
@@ -22,7 +23,6 @@ import {
   graphData,
   licenseWithSRMActive
 } from './CVMonitoredService.mock'
-import { useGetMonitoredServicesLiveProcessCount } from 'services/cet/cetComponents'
 
 export const testWrapperProps: TestWrapperProps = {
   path: routes.toCVMonitoringServices({ ...accountPathProps, ...projectPathProps }),

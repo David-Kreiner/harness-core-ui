@@ -17,6 +17,7 @@ import * as cvServices from 'services/cv'
 import { RiskValues, getRiskLabelStringId, getCVMonitoringServicesSearchParam } from '@cv/utils/CommonUtils'
 import { MonitoredServiceEnum } from '@cv/pages/monitored-service/MonitoredServicePage.constants'
 import { PROJECT_MONITORED_SERVICE_CONFIG } from '@cv/components/MonitoredServiceListWidget/MonitoredServiceListWidget.constants'
+import { useGetMonitoredServicesLiveProcessCount } from 'services/cet/cetComponents'
 import CVMonitoredService from '../CVMonitoredService'
 import {
   serviceCountData,
@@ -30,7 +31,6 @@ import {
   licenseWithSRMActive,
   licenseWithSRMExpired
 } from './CVMonitoredService.mock'
-import { useGetMonitoredServicesLiveProcessCount } from 'services/cet/cetComponents'
 
 export const testWrapperProps: TestWrapperProps = {
   path: routes.toCVMonitoringServices({ ...accountPathProps, ...projectPathProps }),
