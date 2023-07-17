@@ -8,27 +8,28 @@
 import React, { useMemo } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ReactTimeago from 'react-timeago'
-import type { Column, Renderer, CellProps } from 'react-table'
-import { Text, Layout, TableV2, Icon } from '@harness/uicore'
+import type { Column } from 'react-table'
+import { Text, Layout, TableV2 } from '@harness/uicore'
 import { Color, FontVariation } from '@harness/design-system'
-import { capitalize, defaultTo, get } from 'lodash-es'
-import { Drawer } from '@blueprintjs/core'
+import { defaultTo, get } from 'lodash-es'
 import { useDefaultPaginationProps } from '@common/hooks/useDefaultPaginationProps'
 import { COMMON_DEFAULT_PAGE_SIZE } from '@common/constants/Pagination'
 import type { NGTriggerEventHistoryResponse, PageNGTriggerEventHistoryResponse } from 'services/pipeline-ng'
 import routes from '@common/RouteDefinitions'
 import type { PipelinePathProps, PipelineType } from '@common/interfaces/RouteInterfaces'
 import { useStrings } from 'framework/strings'
-import MonacoEditor from '@common/components/MonacoEditor/MonacoEditor'
-import ExecutionStatusLabel from '@pipeline/components/ExecutionStatusLabel/ExecutionStatusLabel'
-import type { ExecutionStatus } from '@pipeline/utils/statusHelpers'
+import {
+  CellType,
+  PayloadDrawer,
+  RenderColumnEventId,
+  RenderColumnPayload,
+  RenderColumnStatus
+} from '../../utils/TriggerActivityUtils'
 import css from './TriggerActivityHistoryPage.module.scss'
 
 interface TriggerActivityListProps {
   triggersListResponse?: PageNGTriggerEventHistoryResponse
 }
-
-type CellType = Renderer<CellProps<NGTriggerEventHistoryResponse>>
 
 const RenderColumnTime: CellType = ({ row }) => {
   const data = get(row.original, 'targetExecutionSummary')
@@ -40,30 +41,6 @@ const RenderColumnTime: CellType = ({ row }) => {
           <ReactTimeago date={get(data, 'startTs') as number} />
         </Text>
       </Layout.Horizontal>
-    </Layout.Vertical>
-  )
-}
-
-const RenderColumnEventId: CellType = ({ row }) => {
-  const data = row.original
-  return (
-    <Layout.Horizontal flex={{ align: 'center-center' }} style={{ justifyContent: 'flex-start' }} spacing="xsmall">
-      <Text>{get(data, 'eventCorrelationId')}</Text>
-    </Layout.Horizontal>
-  )
-}
-
-const RenderColumnStatus: CellType = ({ row }) => {
-  const data = row.original.triggerEventStatus
-  const { status, message } = defaultTo(data, {})
-  return (
-    <Layout.Vertical flex={{ alignItems: 'flex-start' }}>
-      <ExecutionStatusLabel status={capitalize(status) as ExecutionStatus} />
-      <div className={css.statusMessage}>
-        <Text font={{ variation: FontVariation.SMALL }} color={Color.GREY_500} lineClamp={1}>
-          {message}
-        </Text>
-      </div>
     </Layout.Vertical>
   )
 }
@@ -104,22 +81,6 @@ const RenderColumnExecutionId: CellType = ({ row }) => {
         {`${getString('pipeline.executionId')}: ${get(data, 'runSequence')}`}
       </Text>
     </Layout.Vertical>
-  )
-}
-
-const RenderColumnPayload: CellType = ({ row, column }) => {
-  return (
-    <Layout.Horizontal flex={{ align: 'center-center' }} style={{ justifyContent: 'flex-start' }}>
-      <Icon
-        name="main-notes"
-        size={20}
-        className={css.notesIcon}
-        onClick={() => {
-          ;(column as any).setShowPayload(true)
-          ;(column as any).setSelectedPayloadRow(get(row.original, 'payload'))
-        }}
-      />
-    </Layout.Horizontal>
   )
 }
 
@@ -174,18 +135,6 @@ const TriggerActivityList: React.FC<TriggerActivityListProps> = ({ triggersListR
     pageIndex: get(pageable, 'pageNumber', 0)
   })
 
-  const payloadValue = (): string => {
-    try {
-      const parsedValue = selectedPayloadRow ? JSON.parse(selectedPayloadRow) : ''
-      if (parsedValue) {
-        return JSON.stringify(parsedValue, null, 2)
-      }
-      return ''
-    } catch (e) {
-      return ''
-    }
-  }
-
   return (
     <>
       <TableV2<NGTriggerEventHistoryResponse>
@@ -196,38 +145,7 @@ const TriggerActivityList: React.FC<TriggerActivityListProps> = ({ triggersListR
         pagination={paginationProps}
       />
       {showPayload && selectedPayloadRow && (
-        <Drawer
-          className={css.drawer}
-          autoFocus={true}
-          canEscapeKeyClose={true}
-          canOutsideClickClose={true}
-          enforceFocus={true}
-          hasBackdrop={true}
-          usePortal={true}
-          isOpen={true}
-          size={790}
-          title={<Text font={{ variation: FontVariation.H4 }}>{getString('common.payload')}</Text>}
-          onClose={() => setShowPayload(false)}
-        >
-          <MonacoEditor
-            language="yaml"
-            value={payloadValue()}
-            data-testid="monaco-editor"
-            alwaysShowDarkTheme={true}
-            options={
-              {
-                readOnly: true,
-                wordBasedSuggestions: false,
-                minimap: {
-                  enabled: false
-                },
-                fontFamily: "'Roboto Mono', monospace",
-                fontSize: 13,
-                scrollBeyondLastLine: false
-              } as any
-            }
-          />
-        </Drawer>
+        <PayloadDrawer onClose={() => setShowPayload(false)} selectedPayloadRow={selectedPayloadRow} />
       )}
     </>
   )

@@ -155,3 +155,11 @@ activityHistory:
   triggerStatus: 'Trigger Status'
   executionDetails: 'Execution Details'
   emptyStateMessage: 'No trigger activity history'
+triggerExplorer:
+  tabName: Trigger Explorer
+  pageHeading: 'Trigger Matching Activity'
+  pageSubHeading: 'This page lists the matching Triggers and its status in the current scope based on the event identifier from the web hook.'
+  enterEventCorrelationId: 'Enter eventCorrelationId from the Webhook'
+  searchPlaceholder: 'Enter Event Correlation id'
+  emptyStateMessage: 'No matching trigger for this event correlation id'
+triggerListing: Trigger Listing

@@ -5668,6 +5668,13 @@ export interface StringsMap {
   'triggers.triggerCouldNotBeSavedContent': string
   'triggers.triggerCouldNotBeSavedGenericError': string
   'triggers.triggerCouldNotBeSavedTitle': string
+  'triggers.triggerExplorer.emptyStateMessage': string
+  'triggers.triggerExplorer.enterEventCorrelationId': string
+  'triggers.triggerExplorer.pageHeading': string
+  'triggers.triggerExplorer.pageSubHeading': string
+  'triggers.triggerExplorer.searchPlaceholder': string
+  'triggers.triggerExplorer.tabName': string
+  'triggers.triggerListing': string
   'triggers.triggerOverviewPanel.title': string
   'triggers.triggerSaveWithError': string
   'triggers.triggersSubLabel': string
