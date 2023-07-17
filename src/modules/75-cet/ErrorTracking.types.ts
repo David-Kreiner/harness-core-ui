@@ -8,6 +8,7 @@
 import type React from 'react'
 import type { NotificationMethodsProps } from '@pipeline/components/Notifications/Steps/NotificationMethods'
 import type { OverviewProps } from '@pipeline/components/Notifications/Steps/Overview'
+import { MonitoredServiceActiveAgentsDTO } from 'services/cet/cetSchemas'
 import type { ChildAppProps } from './ErrorTrackingApp'
 
 export interface ETCustomMicroFrontendProps extends ChildAppProps {
@@ -15,4 +16,13 @@ export interface ETCustomMicroFrontendProps extends ChildAppProps {
     NotificationWizardOverviewStep: React.ComponentType<OverviewProps>
     NotificationWizardMethodStep: React.ComponentType<NotificationMethodsProps>
   }
+}
+
+export interface MonitoredServiceActiveAgentsDTOArray {
+  cetMonitoredServiceAgentConfigData?: MonitoredServiceActiveAgentsDTO[]
+}
+
+export interface CETAgentConfigProps {
+  serviceRef?: string
+  environmentRef?: string
 }

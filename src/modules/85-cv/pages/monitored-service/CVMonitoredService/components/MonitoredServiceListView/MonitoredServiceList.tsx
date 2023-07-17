@@ -15,7 +15,8 @@ import {
   useSetHealthMonitoringFlag,
   useDeleteMonitoredService,
   useGetMonitoredServicePlatformList,
-  GetMonitoredServicePlatformListQueryParams
+  GetMonitoredServicePlatformListQueryParams,
+  PageMonitoredServicePlatformResponse
 } from 'services/cv'
 import type { Module, ProjectPathProps } from '@common/interfaces/RouteInterfaces'
 import { useDeepCompareEffect } from '@common/hooks'
@@ -25,6 +26,10 @@ import { getErrorMessage, getCVMonitoringServicesSearchParam } from '@cv/utils/C
 import { MonitoredServiceEnum } from '@cv/pages/monitored-service/MonitoredServicePage.constants'
 import CommonMonitoredServiceListView from '@cv/components/MonitoredServiceListWidget/components/CommonMonitoredServiceListView/CommonMonitoredServiceListView'
 import { getIfModuleIsCD } from '@cv/components/MonitoredServiceListWidget/MonitoredServiceListWidget.utils'
+import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
+import { MonitoredServiceActiveAgentsDTO } from 'services/cet/cetSchemas'
+import { useGetMonitoredServicesLiveProcessCount } from 'services/cet/cetComponents'
+import { MonitoredServiceActiveAgentsDTOArray } from '@cet/ErrorTracking.types'
 import MonitoredServiceListView from './MonitoredServiceListView'
 import { FilterTypes, MonitoredServiceListProps } from '../../CVMonitoredService.types'
 import css from '../../CVMonitoredService.module.scss'
@@ -49,6 +54,7 @@ const MonitoredServiceList: React.FC<MonitoredServiceListProps> = ({
   const { showSuccess, showError } = useToaster()
   const { accountId, orgIdentifier, projectIdentifier } = useParams<ProjectPathProps>()
   const isCDModule = getIfModuleIsCD(config)
+  const { CET_PLATFORM_MONITORED_SERVICE } = useFeatureFlags()
 
   const pathParams = useMemo(() => {
     return {
@@ -118,11 +124,44 @@ const MonitoredServiceList: React.FC<MonitoredServiceListProps> = ({
     }
   })
 
+  const {
+    data: cetMonitoredServiceAgentConfigData,
+    isLoading: monitoredServiceAgentConfigLoading,
+    error: cetMonitoredServiceAgentConfigError,
+    refetch: refetchMonitoredServiceAgentConfig
+  } = useGetMonitoredServicesLiveProcessCount<MonitoredServiceActiveAgentsDTO[]>(
+    {
+      pathParams: {
+        accountId: pathParams.accountId,
+        organizationId: pathParams.orgIdentifier,
+        projectId: pathParams.projectIdentifier
+      }
+    },
+    {
+      retry: false,
+      enabled: false
+    }
+  )
+
   const refetchMonitoredServiceList = config ? platformRefetchMonitoredServiceList : refetchSRMMonitoredServiceList
   const monitoredServiceListError = config ? platformMonitoredServiceListError : srmMonitoredServiceListError
   const monitoredServiceListLoading = config ? platformMonitoredServiceListLoading : srmMonitoredServiceListLoading
-  const monitoredServiceListData = config ? platformMonitoredServiceListData : srmMonitoredServiceListData
+  let monitoredServiceListData = config ? platformMonitoredServiceListData : srmMonitoredServiceListData
   const queryParams = config ? platformListMonitoredServicesQueryParams : srmListMonitoredServicesQueryParams
+
+  const cetConditions = CET_PLATFORM_MONITORED_SERVICE && config && config.details.agentConfiguration
+  const cetMonitoredServiceAgentConfigLoading = cetConditions ? monitoredServiceAgentConfigLoading : false
+
+  if (cetConditions) {
+    monitoredServiceListData = cetConditions &&
+      monitoredServiceListData && {
+        ...monitoredServiceListData,
+        data: {
+          ...(monitoredServiceListData.data || {}),
+          cetMonitoredServiceAgentConfigData: cetMonitoredServiceAgentConfigData
+        } as PageMonitoredServicePlatformResponse & MonitoredServiceActiveAgentsDTOArray
+      }
+  }
 
   useDeepCompareEffect(() => {
     // On mount call and filter update happens here
@@ -131,6 +170,7 @@ const MonitoredServiceList: React.FC<MonitoredServiceListProps> = ({
       refetchMonitoredServiceList({
         queryParams: queryParams
       })
+      cetConditions && refetchMonitoredServiceAgentConfig()
     }
   }, [page, search, selectedFilter, environmentIdentifier])
 
@@ -226,15 +266,23 @@ const MonitoredServiceList: React.FC<MonitoredServiceListProps> = ({
         serviceCountLoading ||
         monitoredServiceListLoading ||
         deleteMonitoredServiceLoading ||
-        healthMonitoringFlagLoading
+        healthMonitoringFlagLoading ||
+        cetMonitoredServiceAgentConfigLoading
       }
-      error={serviceCountErrorMessage || getErrorMessage(monitoredServiceListError)}
+      error={
+        serviceCountErrorMessage ||
+        getErrorMessage(monitoredServiceListError) ||
+        getErrorMessage(cetMonitoredServiceAgentConfigError)
+      }
       retryOnError={() => {
         if (serviceCountErrorMessage) {
           refetchServiceCountData()
         }
         if (monitoredServiceListError) {
           refetchMonitoredServiceList()
+        }
+        if (cetMonitoredServiceAgentConfigError) {
+          refetchMonitoredServiceAgentConfig()
         }
       }}
       noData={{
@@ -249,7 +297,10 @@ const MonitoredServiceList: React.FC<MonitoredServiceListProps> = ({
     >
       {config ? (
         <CommonMonitoredServiceListView
-          monitoredServiceListData={monitoredServiceListData?.data}
+          monitoredServiceListData={
+            monitoredServiceListData?.data as PageMonitoredServicePlatformResponse &
+              MonitoredServiceActiveAgentsDTOArray
+          }
           selectedFilter={selectedFilter}
           onEditService={onEditService}
           onDeleteService={onDeleteService}

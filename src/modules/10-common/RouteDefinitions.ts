@@ -2294,6 +2294,11 @@ const routes = {
     }
   ),
 
+  toCETMonitoredServicesEdit: withAccountId(
+    ({ projectIdentifier, orgIdentifier, identifier }: Partial<ProjectPathProps & { identifier: string }>) =>
+      `/cet/orgs/${orgIdentifier}/projects/${projectIdentifier}/etmonitoredservices/edit/${identifier}`
+  ),
+
   toCETAgents: withAccountId(
     ({ projectIdentifier, orgIdentifier }: ProjectPathProps) =>
       `/cet/orgs/${orgIdentifier}/projects/${projectIdentifier}/setup/agents`

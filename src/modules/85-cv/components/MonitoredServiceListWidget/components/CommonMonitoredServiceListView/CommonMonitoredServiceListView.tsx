@@ -25,6 +25,7 @@ import routes from '@common/RouteDefinitions'
 import { ModuleName } from 'framework/types/ModuleName'
 import { useLicenseStore } from 'framework/LicenseStore/LicenseStoreContext'
 import { LICENSE_STATE_VALUES } from 'framework/LicenseStore/licenseStoreUtil'
+import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
 import type { CommonMonitoredServiceListViewProps } from './CommonMonitoredServiceListView.types'
 import ServiceName from './components/ServiceName/ServiceName'
 import ConfiguredLabel from './components/ConfiguredLabel/ConfiguredLabel'
@@ -53,52 +54,23 @@ const RenderServiceNameForCD: Renderer<CellProps<MonitoredServicePlatformRespons
   return <ServiceName row={row} module={'cd'} />
 }
 
-const RenderGoToColumn: Renderer<CellProps<MonitoredServicePlatformResponse>> = ({ row }) => {
-  const history = useHistory()
-  const { identifier } = row?.original || {}
-  const { projectIdentifier, orgIdentifier, accountId } = useParams<ProjectPathProps>()
+function getContextMenuPercentage(
+  isCDModule?: boolean,
+  isSRMLicensePresentAndActive?: boolean,
+  cetConditions?: boolean
+): string {
+  // Check if isCDModule is true or if isSRMLicense is not present and active
+  if (isCDModule || !isSRMLicensePresentAndActive) {
+    return '70.5%'
+  }
 
-  return (
-    <Layout.Horizontal>
-      <Icon
-        name="cd-main"
-        size={20}
-        className={css.srmIcon}
-        padding={{ right: 'medium' }}
-        onClick={
-          /* istanbul ignore next */ () => {
-            history.push(
-              routes.toMonitoredServicesConfigurations({
-                accountId,
-                orgIdentifier,
-                projectIdentifier,
-                identifier,
-                module: 'cd'
-              })
-            )
-          }
-        }
-      />
-      <Icon
-        name="cv-main"
-        size={20}
-        className={css.srmIcon}
-        onClick={
-          /* istanbul ignore next */ () => {
-            history.push(
-              routes.toCVAddMonitoringServicesEdit({
-                accountId,
-                orgIdentifier,
-                projectIdentifier,
-                identifier,
-                module: 'cv'
-              })
-            )
-          }
-        }
-      />
-    </Layout.Horizontal>
-  )
+  // Check if cetConditions is true
+  if (cetConditions) {
+    return '30%'
+  }
+
+  // Default percentage
+  return '43.5%'
 }
 
 const CommonMonitoredServiceListView: React.FC<CommonMonitoredServiceListViewProps> = ({
@@ -115,10 +87,26 @@ const CommonMonitoredServiceListView: React.FC<CommonMonitoredServiceListViewPro
   const { content, pageSize = 0, pageIndex = 0, totalPages = 0, totalItems = 0 } = monitoredServiceListData || {}
   const { licenseInformation } = useLicenseStore()
   const isSRMLicensePresentAndActive = licenseInformation[ModuleName.CV]?.status === LICENSE_STATE_VALUES.ACTIVE
+  const isCETLicensePresentAndActive = licenseInformation[ModuleName.CET]?.status === LICENSE_STATE_VALUES.ACTIVE
   const isCDModule = getIfModuleIsCD(config)
   const {
-    listing: { changeSource, goto }
+    listing: { changeSource, goto, agentConfiguration }
   } = config || {}
+  const { CET_PLATFORM_MONITORED_SERVICE } = useFeatureFlags()
+  const cetConditions = agentConfiguration && isCETLicensePresentAndActive && CET_PLATFORM_MONITORED_SERVICE
+
+  const RenderActiveAgentsForProjects: Renderer<CellProps<MonitoredServicePlatformResponse>> = ({ row }) => {
+    const monitoredService = row.original
+    const agentsConfigigured =
+      monitoredServiceListData?.cetMonitoredServiceAgentConfigData?.find(
+        i =>
+          i.harnessServiceId === monitoredService.serviceRef &&
+          i.harnessEnvironmentId &&
+          monitoredService.environmentRefs?.includes(i.harnessEnvironmentId)
+      )?.numberOfAgents || 0
+
+    return <ConfiguredLabel count={agentsConfigigured} />
+  }
 
   const RenderContextMenu: Renderer<CellProps<MonitoredServicePlatformResponse>> = ({ row }) => {
     const monitoredService = row.original
@@ -165,6 +153,79 @@ const CommonMonitoredServiceListView: React.FC<CommonMonitoredServiceListViewPro
     )
   }
 
+  const RenderGoToColumn: Renderer<CellProps<MonitoredServicePlatformResponse>> = ({ row }) => {
+    const history = useHistory()
+    const { identifier } = row?.original || {}
+    const { projectIdentifier, orgIdentifier, accountId } = useParams<ProjectPathProps>()
+
+    return (
+      <Layout.Horizontal>
+        {isSRMLicensePresentAndActive && (
+          <>
+            <Icon
+              name="cd-main"
+              size={20}
+              className={css.srmIcon}
+              padding={{ right: 'medium' }}
+              onClick={
+                /* istanbul ignore next */ () => {
+                  history.push(
+                    routes.toMonitoredServicesConfigurations({
+                      accountId,
+                      orgIdentifier,
+                      projectIdentifier,
+                      identifier,
+                      module: 'cd'
+                    })
+                  )
+                }
+              }
+            />
+            <Icon
+              name="cv-main"
+              size={20}
+              className={css.srmIcon}
+              padding={{ right: 'medium' }}
+              onClick={
+                /* istanbul ignore next */ () => {
+                  history.push(
+                    routes.toCVAddMonitoringServicesEdit({
+                      accountId,
+                      orgIdentifier,
+                      projectIdentifier,
+                      identifier,
+                      module: 'cv'
+                    })
+                  )
+                }
+              }
+            />
+          </>
+        )}
+
+        {cetConditions && (
+          <Icon
+            name="cet"
+            size={20}
+            className={css.srmIcon}
+            onClick={
+              /* istanbul ignore next */ () => {
+                history.push(
+                  routes.toCETMonitoredServicesEdit({
+                    accountId,
+                    orgIdentifier,
+                    projectIdentifier,
+                    identifier
+                  })
+                )
+              }
+            }
+          />
+        )}
+      </Layout.Horizontal>
+    )
+  }
+
   return (
     <Container padding={{ top: 'medium', left: 'xlarge', right: 'xlarge' }} height="inherit">
       <HelpPanel referenceId="monitoredServiceDetails" type={HelpPanelType.FLOATING_CONTAINER} />
@@ -205,7 +266,16 @@ const CommonMonitoredServiceListView: React.FC<CommonMonitoredServiceListViewPro
                     }
                   ]
                 : []),
-              ...(goto && isSRMLicensePresentAndActive
+              ...(cetConditions
+                ? [
+                    {
+                      Header: getString('cet.monitoredservice.agentconfig').toLocaleUpperCase(),
+                      width: '13.5%',
+                      Cell: RenderActiveAgentsForProjects
+                    }
+                  ]
+                : []),
+              ...(goto && (isSRMLicensePresentAndActive || cetConditions)
                 ? [
                     {
                       Header: getString('cv.commonMonitoredServices.goTo').toLocaleUpperCase(),
@@ -216,7 +286,7 @@ const CommonMonitoredServiceListView: React.FC<CommonMonitoredServiceListViewPro
                 : []),
               {
                 id: 'contextMenu',
-                width: isCDModule || !isSRMLicensePresentAndActive ? '70.5%' : '43.5%',
+                width: getContextMenuPercentage(isCDModule, isSRMLicensePresentAndActive, cetConditions),
                 Cell: RenderContextMenu
               }
             ]}

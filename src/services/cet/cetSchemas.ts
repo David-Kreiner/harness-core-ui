@@ -41,6 +41,15 @@ export type UsageDataDTO = {
   references?: ReferenceDTO[]
 }
 
+export type MonitoredServiceActiveAgentsDTO = {
+  harnessServiceId?: string
+  harnessEnvironmentId?: string
+  /**
+   * @format int64
+   */
+  numberOfAgents?: number
+}
+
 /**
  * @example {"message":"Not Found","status":404}
  */

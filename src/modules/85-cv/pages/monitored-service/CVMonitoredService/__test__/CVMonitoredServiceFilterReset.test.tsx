@@ -13,7 +13,9 @@ import { TestWrapper, TestWrapperProps } from '@common/utils/testUtils'
 import { accountPathProps, projectPathProps } from '@common/utils/routeUtils'
 import * as useLicenseStore from 'framework/LicenseStore/LicenseStoreContext'
 import * as cvServices from 'services/cv'
+import { useGetMonitoredServicesLiveProcessCount } from 'services/cet/cetComponents'
 import CVMonitoredService from '../CVMonitoredService'
+
 import {
   serviceCountData,
   MSListData,
@@ -58,6 +60,17 @@ jest.mock('react-router-dom', () => ({
     push: mockHistoryPush
   }))
 }))
+
+jest.mock('services/cet/cetComponents')
+const useGetMonitoredServicesLiveProcessCountMock = useGetMonitoredServicesLiveProcessCount as jest.MockedFunction<any>
+useGetMonitoredServicesLiveProcessCountMock.mockImplementation(() => {
+  return {
+    data: {
+      data: [],
+      status: 'SUCCESS'
+    }
+  }
+})
 
 const refetchServiceCountData = jest.fn()
 const refetchListMonitoredService = jest.fn()

@@ -7,6 +7,7 @@
 
 import type { FilterTypes } from '@cv/pages/monitored-service/CVMonitoredService/CVMonitoredService.types'
 import type { PageMonitoredServicePlatformResponse } from 'services/cv'
+import { MonitoredServiceActiveAgentsDTOArray } from '@cet/ErrorTracking.types'
 import type { MonitoredServiceConfig } from '../../MonitoredServiceListWidget.types'
 
 export interface CommonMonitoredServiceListViewProps {
@@ -14,7 +15,7 @@ export interface CommonMonitoredServiceListViewProps {
   selectedFilter: FilterTypes
   onEditService: (identifier: string) => void
   onDeleteService: (identifier: string) => Promise<void>
-  monitoredServiceListData?: PageMonitoredServicePlatformResponse
+  monitoredServiceListData?: PageMonitoredServicePlatformResponse & MonitoredServiceActiveAgentsDTOArray
   config: MonitoredServiceConfig
   appliedSearchAndFilter: boolean
   createButton: JSX.Element
