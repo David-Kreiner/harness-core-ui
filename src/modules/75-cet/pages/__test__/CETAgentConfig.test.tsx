@@ -42,4 +42,11 @@ describe('Unit tests for CETMonitoredServices', () => {
     const container = render(<WrapperComponent />)
     expect(container).not.toBeNull()
   })
+
+  test('Verify CETAgentConfig renders correctly when CET_PLATFORM_MONITORED_SERVICE is false', async () => {
+    const useFeatureFlags = jest.spyOn(hooks, 'useFeatureFlag')
+    useFeatureFlags.mockReturnValue(false)
+    const container = render(<WrapperComponent />)
+    expect(container).toMatchSnapshot()
+  })
 })
