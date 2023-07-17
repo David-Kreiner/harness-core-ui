@@ -281,6 +281,9 @@ const MonitoredServiceList: React.FC<MonitoredServiceListProps> = ({
         if (monitoredServiceListError) {
           refetchMonitoredServiceList()
         }
+        if (cetMonitoredServiceAgentConfigError) {
+          refetchMonitoredServiceAgentConfig()
+        }
       }}
       noData={{
         when: () => !config && !serviceCountData?.allServicesCount && !appliedSearchAndFilter,

@@ -30,6 +30,7 @@ import {
   licenseWithSRMActive,
   licenseWithSRMExpired
 } from './CVMonitoredService.mock'
+import { useGetMonitoredServicesLiveProcessCount } from 'services/cet/cetComponents'
 
 export const testWrapperProps: TestWrapperProps = {
   path: routes.toCVMonitoringServices({ ...accountPathProps, ...projectPathProps }),
@@ -49,6 +50,17 @@ jest.mock('@cv/components/ContextMenuActions/ContextMenuActions', () => (props: 
       <div className="context-menu-mock-delete" onClick={props.onDelete} />
     </>
   )
+})
+
+jest.mock('services/cet/cetComponents')
+const useGetMonitoredServicesLiveProcessCountMock = useGetMonitoredServicesLiveProcessCount as jest.MockedFunction<any>
+useGetMonitoredServicesLiveProcessCountMock.mockImplementation(() => {
+  return {
+    data: {
+      data: [],
+      status: 'SUCCESS'
+    }
+  }
 })
 
 beforeEach(() => jest.clearAllMocks())
